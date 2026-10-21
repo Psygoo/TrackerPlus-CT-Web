@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Tracker+ Conditional Trigs — CT6 v0.1.0. An unofficial firmware mod for Polyend Tracker+. Your firmware never leaves your browser.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; worker-src 'self'; connect-src 'none'; img-src 'self'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Tracker+ Conditional Trigs — CT6 v0.1.0</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body data-state="waiting">
+  <header class="topbar">
+    <a class="wordmark" href="./" aria-label="Tracker+ Conditional Trigs home"><span class="mark" aria-hidden="true">CT</span> TRACKER+ CONDITIONAL TRIGS</a>
+    <nav aria-label="Resources"><a class="kofi" href="https://ko-fi.com/psygoo" target="_blank" rel="noopener noreferrer">Buy me a Ko-fi ☕</a><a href="./documentation.html">Documentation ↗</a><a href="https://github.com/Psygoo" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span> CT6 v0.1.0</div>
+      <h1 id="title">Tracker+<br><span>Conditional Trigs</span></h1>
+      <p class="tagline">A little more controlled variation.</p>
+      <p class="subtitle">An unofficial firmware mod for Polyend Tracker+.</p>
+      <div class="conditions" aria-label="The six supported conditions"><span>1:2</span><span>2:2</span><span>1:4</span><span>2:4</span><span>3:4</span><span>4:4</span></div>
+    </section>
+    <aside class="local-note" aria-label="Firmware privacy"><strong>100% local. No uploads.</strong><p>Your firmware is processed entirely in your browser and is never sent to any server.</p></aside>
+    <p class="risk-banner"><strong>USE AT YOUR OWN RISK</strong> · Unofficial experimental firmware. <a href="./documentation.html#disclaimer">Read before use ↗</a></p>
+    <section class="patch-card" aria-labelledby="patch-title">
+      <div class="card-heading"><h2 id="patch-title">Make it conditional.</h2><span class="local-badge">◉ RUNS LOCALLY</span></div>
+      <p class="card-intro">Start with your original <strong>Tracker+ 1.2.0</strong> firmware.<br>We’ll check it, apply CT6 and verify every output byte.</p>
+      <div id="drop" class="dropzone" aria-busy="false">
+        <div class="file-icon" aria-hidden="true">↓</div>
+        <h3>Drop your original .ptf here</h3>
+        <p>Polyend Tracker+ · Firmware 1.2.0 only</p>
+        <span class="or">or</span>
+        <button id="choose" class="choose" type="button" disabled>Choose firmware file</button>
+        <input id="firmware" type="file" accept=".ptf" hidden disabled aria-label="Choose original firmware">
+        <span class="privacy-note">Your firmware stays on this device. No uploads.</span>
+      </div>
+      <div class="progress-status" role="status" aria-live="polite" aria-atomic="true"><span class="status-dot" aria-hidden="true"></span><div><span id="step-label">01 / SELECT FIRMWARE</span><p id="status">Waiting for original firmware</p></div></div>
+      <div id="hash" class="hash" hidden>Verified output SHA-256<code id="output-hash"></code></div>
+      <button id="download" class="download" type="button" disabled>Download patched firmware <span aria-hidden="true">↓</span></button>
+      <p class="download-note">One patch. No settings. No installation performed.</p>
+      <noscript><p class="noscript">JavaScript is required for local patching. Download remains disabled.</p></noscript>
+    </section>
+    <aside class="warning" aria-labelledby="risk-title"><span class="warning-icon" aria-hidden="true">!</span><div><h2 id="risk-title">USE AT YOUR OWN RISK</h2><p>Unofficial experimental firmware. Not affiliated with, endorsed by or supported by Polyend. It may cause instability, data loss or failure to boot. Back up your entire SD card, including Workspace and projects, and read the <a href="./documentation.html#recovery">recovery guidance</a> before use. Recovery is not guaranteed.</p><p class="song-warning">Song Mode is NOT YET HARDWARE-VALIDATED.</p><a href="./documentation.html#disclaimer">Read the full disclaimer ↗</a></div></aside>
+    <section class="how" aria-label="How it works"><div><span>01</span><h3>Bring your original</h3><p>Supply your own unmodified Tracker+ 1.2.0 PTF.</p></div><div><span>02</span><h3>Let the checks run</h3><p>Only the exact supported stock file can be patched.</p></div><div><span>03</span><h3>Save the verified result</h3><p>A download appears only after the CT6 hash matches.</p></div></section>
+  </main>
+  <footer><p>Inspired by <a href="https://github.com/FatRodzianko/Modular-Trackular" target="_blank" rel="noopener noreferrer">Modular-Trackular</a> · <a href="./LICENSE">MIT source license</a></p><span>Independent firmware mod · CT6 v0.1.0</span></footer>
+</body>
+</html>
