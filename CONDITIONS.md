@@ -17,17 +17,34 @@ Ratios are ordered by denominator 2–8, then numerator 1–denominator.
 
 ## PRE history
 
-Percentage values 0–100 and ratio/FIRST values 101–137 produce PRE history.
-The event's combined condition acceptance is recorded after evaluation. PR,
-!PR, NE and !NE are PRE consumers: an event containing one of these does not
-replace PRE producer history, even if another Chance producer is also present.
-Plain notes and empty rows retain it. Both FX columns see the same previous
-history before the current event commits. PR always reads its own track.
-Reset clears the history to false, making PR reject and !PR pass until a producer.
+Percentage values 0–100 and ratio/FIRST values 101–137 retain their existing
+PRE producer behavior: final combined condition acceptance is recorded after
+evaluation. **NE/!NE now also produce PRE**, using the final logical conditional-
+note result: accepted conditions AND a valid note trigger. A rejected NE, or
+one evaluated without a valid note, records false. A later PR follows it and
+!PR inverts it. This corrects the H12 bug and is hardware-confirmed in H13.
+
+**PR/!PR never produce PRE.** Any event containing PR or !PR leaves PRE
+unchanged, including when another producer or NE is in the other column.
+An NE+NE or NE+base event without PR records its final combined logical note
+result once. Both columns see the same prior history before that commit;
+stock evaluates FX2 then FX1. PR on the same row as NE sees the previous PRE,
+not a partial current-row result.
+
+Plain notes, empty rows and skipped evaluations retain history. PR always reads
+its own track. Reset clears PRE to false, making PR reject and !PR pass until a
+producer. Base producers keep their previous handling of FX-only conditions;
+NE specifically uses logical note validity, as described below.
 
 Example: put a 50% Chance hit on row 01, PR on row 03 and !PR on row 05 of one
 track. The PR hit follows an accepted percentage event; !PR follows a rejected
 one. The consumer rows do not replace the percentage event's PRE history.
+
+Example after NE: track 1 row 01 has note + 1S. Track 2 has note + NE on row 03,
+PR on row 05, !PR on row 07. First pass: NE and PR play; !PR rejects. Later
+passes: NE and PR reject; !PR plays. Replace NE with !NE and the source outcome
+reverses while PR still follows the evaluated !NE result. Micro-move and ordinary
+notes between those rows do not change which PRE result the consumers read.
 
 ## Neighbour results, across rows
 

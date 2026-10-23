@@ -1,35 +1,25 @@
-# Browser patcher architecture and reproducibility
+# CT2 browser patcher and source reproducibility
 
-No runtime libraries, telemetry, upload endpoints, external fonts or service
-worker are used. Load the static files over HTTPS or localhost. File bytes go
-from File API to a local module Worker, through PTF verification/patching, then
-back to a verified Blob download. CSP sets `connect-src 'none'`; Web Crypto
-checks original, decoded image, hook windows, project template and final PTF.
-The UI independently checks the returned output hash before enabling download.
+The verified CT6/H12 local-worker infrastructure is reused. File API → module
+Worker → original SHA/layout/PTF checks → project recipe → full output SHA and
+PTF checks → independent UI hash check → local Blob download. There is no upload
+endpoint, runtime network API, analytics, external library/font or service worker.
+CSP sets `connect-src 'none'`. Use HTTPS or localhost, not direct file URLs.
 
-The source-generated template is 6,816 bytes, SHA-256
-`ae08816f415fa769e0b7adf1a0ea6c2095f66d70d24c8fe5302e844c9b175118`.
-It has 29 guarded prefix edits and three zero replay slots totaling 14 bytes.
-Those slots receive instructions exclusively from the original user input.
-The source compiler does not open any firmware file. Historical inactive
-project code, padding and incremental Intel HEX record boundaries are retained
-because the tested H12 file's exact identity includes them.
-
-Rebuild using Python 3 and Arm GNU Toolchain **15.2.Rel1**:
+The CT2 template contains 6,850 bytes of rebuilt MIT project code/padding,
+29 guarded original-prefix edits and three zero replay slots totaling 14 bytes.
+Original bytes enter those slots only from the verified user's firmware input.
+The new `src/ne_pre` component supplies H13's 34-byte PRE commit correction.
+Existing component addresses and intermediate PTF record boundaries are retained.
 
 `python3 tools/build-program.py --compiler /path/to/arm-gnu-toolchain/bin --check`
+uses Arm GNU 15.2.Rel1 and does not read firmware. Regenerate documentation
+using `python3 tools/render-docs.py`. Audit and seal the file list using
+`python3 tools/audit.py --write-manifest`, then `python3 tools/audit.py`.
 
-Regenerate readable documentation with `python3 tools/render-docs.py`.
-Before packaging, run `python3 tools/audit.py --write-manifest` and then
-`python3 tools/audit.py`; review `PUBLIC_FILES.json` and the tree diff.
-The audit checks the explicit file allowlist, UTF-8 assets, fingerprints,
-license/historical notice, local links, local paths and common credential forms.
-It is a bounded source/package check, not a general legal or security audit.
-
-Run the [README development commands](README.md) with private fixtures outside
-the public/served directory. Full validation must compare browser output to
-the actual H12 reference, not just an independently generated patch. The
-browser test blocks requests during processing, checks invalid/stale input,
-downloads twice through chooser/drop paths, and compares each output byte.
-
-No publication or deployment script is included. See [PUBLICATION.md](PUBLICATION.md).
+Tests in `tests/` accept private fixtures outside the served/source directory.
+The browser test disables requests after imports, checks chooser/drop downloads
+against the actual CT2 reference, verifies rejection/stale output/CSP and inspects
+responsive layout. Browser caches, binaries and evidence are never included.
+This is a bounded source/package audit, not a general legal/security certification.
+See [verification](VALIDATION.md), [NOTICE](NOTICE.md) and [publication plan](PUBLICATION.md).

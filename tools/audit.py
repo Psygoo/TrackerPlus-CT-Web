@@ -7,11 +7,11 @@ ROOT=Path(__file__).resolve().parents[1]
 TOP={'.gitignore','.nojekyll','LICENSE','NOTICE.md','README.md','BROWSER.md','CONDITIONS.md','INSTALL.md',
      'COMPATIBILITY.md','RECOVERY.md','DISCLAIMER.md','RELEASE_NOTES.md','PUBLICATION.md','VALIDATION.md',
      'package.json','package-lock.json','index.html','documentation.html','style.css','app.js','worker.js',
-     'session.js','patcher.js','h12-program.js','PUBLIC_FILES.json'}
+     'session.js','patcher.js','ct2-program.js','PUBLIC_FILES.json'}
 SOURCES={'ct1':{'condtrig.c','link.ld'},'history':{'hook.c','link.ld'},
          'pre':{'extension.c','gateways.S','link.ld'},'neighbor_labels':{'in_place.S','in_place.ld'},
          'neighbor':{'extension.c','gateway.S','link.ld'},'order':{'order.c','order.h','gateway.S','link.ld'},
-         'fill':{'extension.c','gateways.S','link.ld'}}
+         'fill':{'extension.c','gateways.S','link.ld'},'ne_pre':{'commit.S','link.ld'}}
 ALLOWED=TOP|{'src/stock-fingerprints.json'}|{f'src/{folder}/{n}' for folder,names in SOURCES.items() for n in names}|{
     'tools/build-program.py','tools/serve.mjs','tools/render-docs.py','tools/audit.py','tests/core.test.mjs','tests/browser.mjs'}
 def digest(data):return hashlib.sha256(data).hexdigest()
@@ -52,7 +52,7 @@ def audit():
                     assert link.scheme=='https',(name,href);continue
                 target=(ROOT/Path(name).parent/unquote(link.path)).resolve()
                 assert target.is_relative_to(ROOT) and target.is_file(),(name,href)
-        if name in {'app.js','worker.js','session.js','patcher.js','h12-program.js'}:
+        if name in {'app.js','worker.js','session.js','patcher.js','ct2-program.js'}:
             assert not re.search(r'\bfetch\s*\(|XMLHttpRequest|WebSocket|sendBeacon|importScripts|https?://',text),(name,'runtime network API')
     assert digest(files['LICENSE'].read_bytes())=='080a0c2c2f4481f060f9ee3486137d9e7512a78cfbabecb31300cc275b837f97','MIT notice changed'
     historical=files['NOTICE.md'].read_text().split('## Original CT6 NOTICE.md (verbatim historical record)\n\n',1)[1]

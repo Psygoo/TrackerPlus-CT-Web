@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { patchFirmware, parsePTF, encodePTF, sha256, STOCK_SHA256, OUTPUT_SHA256, MAX_FILE_SIZE } from '../patcher.js';
-import { buildProgram, recipe } from '../h12-program.js';
+import { buildProgram, recipe } from '../ct2-program.js';
 import { FirmwareSession } from '../session.js';
 
 test('project template and input-only replay slots', async () => {
@@ -46,24 +46,24 @@ test('UI fails closed on worker faults or unverified output and blocks concurren
   session.run = async () => { throw Error('worker failed'); };
   await session.select([file]); assert.equal(session.state, 'error');
 });
-test('private stock → patcher → exact hardware-validated H12, repeatability, rejection and stale output', { skip: !(process.env.STOCK_PTF && process.env.H12_PTF) }, async () => {
+test('private stock → patcher → exact CT2 reference from hardware-tested H13, repeatability, rejection and stale output', { skip: !(process.env.STOCK_PTF && process.env.CT2_PTF) }, async () => {
   const stock = new Uint8Array(await readFile(process.env.STOCK_PTF));
-  const h12 = new Uint8Array(await readFile(process.env.H12_PTF));
-  assert.equal(await sha256(stock), STOCK_SHA256); assert.equal(await sha256(h12), OUTPUT_SHA256);
+  const reference = new Uint8Array(await readFile(process.env.CT2_PTF));
+  assert.equal(await sha256(stock), STOCK_SHA256); assert.equal(await sha256(reference), OUTPUT_SHA256);
   const original = stock.slice(), states = [];
   const output = await patchFirmware(stock, state => states.push(state));
-  assert.deepEqual(output, h12); assert.deepEqual(stock, original);
+  assert.deepEqual(output, reference); assert.deepEqual(stock, original);
   assert.deepEqual(states, ['validating', 'patching']);
-  assert.deepEqual(await patchFirmware(stock.buffer), h12);
+  assert.deepEqual(await patchFirmware(stock.buffer), reference);
   const damaged = stock.slice(); damaged[0] ^= 1;
-  const bad = [damaged, stock.slice(0, -2), h12, new TextEncoder().encode(new TextDecoder().decode(stock).replaceAll('\r\n', '\n'))];
+  const bad = [damaged, stock.slice(0, -2), reference, new TextEncoder().encode(new TextDecoder().decode(stock).replaceAll('\r\n', '\n'))];
   for (const path of (process.env.UNSUPPORTED_PTFS ?? '').split(':').filter(Boolean)) bad.push(new Uint8Array(await readFile(path)));
   for (const bytes of bad) await assert.rejects(patchFirmware(bytes), /Unsupported firmware/);
   // Selection snapshot: caller mutation after invocation must not change the job.
   const mutable = stock.slice(), pending = patchFirmware(mutable); mutable.fill(0);
-  assert.deepEqual(await pending, h12);
+  assert.deepEqual(await pending, reference);
   const session = new FirmwareSession(patchFirmware, () => {});
   const file = bytes => ({ name: 'input.ptf', size: bytes.length, arrayBuffer: async () => bytes.slice().buffer });
-  await session.select([file(stock)]); assert.equal(session.state, 'success'); assert.deepEqual(session.output, h12);
+  await session.select([file(stock)]); assert.equal(session.state, 'success'); assert.deepEqual(session.output, reference);
   await session.select([file(damaged)]); assert.equal(session.state, 'error'); assert.equal(session.output, null);
 });

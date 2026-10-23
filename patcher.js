@@ -1,9 +1,9 @@
-// MIT. PTF reader/encoder reused from TrackerPlus-CT-Web CT6; H12 source recipe.
-import { buildProgram, recipe } from './h12-program.js';
+// MIT. PTF reader/encoder reused from TrackerPlus-CT-Web CT6; CT2 source recipe.
+import { buildProgram, recipe } from './ct2-program.js';
 export const STOCK_SHA256 = 'd4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd';
 export const IMAGE_SHA256 = '0d924ba9352ea0ce24672ee252b44b760bb949a8d8faf3bac2d39594962e1f3b';
-export const OUTPUT_SHA256 = '40079d13a100c8c73953496c9bdebec034c6b86a1e99c2706e717fc8e0b18c79';
-export const OUTPUT_NAME = 'TrackerPlus_H12.ptf';
+export const OUTPUT_SHA256 = 'baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20';
+export const OUTPUT_NAME = 'TrackerPlus_CT2.ptf';
 export const MAX_FILE_SIZE = 8 * 1024 * 1024;
 const encoder = new TextEncoder();
 export function require(condition, message) { if (!condition) throw new Error(message); }
@@ -76,7 +76,7 @@ export async function patchFirmware(input, onState = () => {}) {
   require(stock.base === recipe.base && stock.start === 0x60030319 && stock.base + stock.image.length === recipe.start, 'Unsupported stock layout.');
   require(await sha256(stock.image) === IMAGE_SHA256 && equal(encodePTF(stock), bytes), 'Stock application verification failed.');
   const program = buildProgram();
-  require(program.length === recipe.end - recipe.start && await sha256(program) === recipe.template_sha256, 'H12 project code verification failed.');
+  require(program.length === recipe.end - recipe.start && await sha256(program) === recipe.template_sha256, 'CT2 project code verification failed.');
   const plans = [];
   for (const p of recipe.plans) {
     const replacement = Uint8Array.from(p.hex.match(/../g), s => parseInt(s, 16));
@@ -102,7 +102,7 @@ export async function patchFirmware(input, onState = () => {}) {
   let upper = [...records].reverse().find(r => r.kind === 4).data;
   upper = upper[0] * 256 + upper[1];
   let at = recipe.start;
-  // The H12 candidate retains incremental record boundaries, including short
+  // The CT2 candidate retains incremental record boundaries, including short
   // records at earlier stage ends. They are part of its exact file identity.
   for (const end of recipe.record_ends) {
     require(end > at && end <= recipe.end, 'Invalid record boundary.');
@@ -117,8 +117,8 @@ export async function patchFirmware(input, onState = () => {}) {
   }
   require(at === recipe.end, 'Incomplete patch coverage.');
   const output = encodePTF({ ...stock, records: [...records, ...ending], image });
-  require(await sha256(output) === OUTPUT_SHA256, 'H12 output verification failed. No download is available.');
+  require(await sha256(output) === OUTPUT_SHA256, 'CT2 output verification failed. No download is available.');
   const check = parsePTF(output);
-  require(check.start === stock.start && check.base === stock.base && equal(check.image, image) && equal(encodePTF(check), output), 'H12 PTF integrity verification failed.');
+  require(check.start === stock.start && check.base === stock.base && equal(check.image, image) && equal(encodePTF(check), output), 'CT2 PTF integrity verification failed.');
   return output;
 }

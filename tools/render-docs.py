@@ -48,9 +48,9 @@ def markdown(text):
     flush();return '\n'.join(out)
 def render():
     index=(ROOT/'index.html').read_text()
-    head=index.split('<body')[0].replace('<script type="module" src="./app.js"></script>','').replace('<title>Tracker+ Conditional Trigs — H12 · v0.2.0-h12</title>','<title>H12 documentation — Tracker+ Conditional Trigs</title>')
+    head=index.split('<body')[0].replace('<script type="module" src="./app.js"></script>','').replace('<title>Tracker+ Conditional Trigs — CT2 · v0.2.1-CT2</title>','<title>CT2 documentation — Tracker+ Conditional Trigs</title>')
     nav='<nav aria-label="Documentation">'+''.join('<a href="#'+key+'">'+key.replace('-',' ').title()+'</a>' for _,key in DOCS)+'</nav>'
-    return head+'<body><main class="docs"><a href="./">← Local firmware patcher</a><h1>H12 documentation</h1>'+nav+'\n'+''.join('<section id="'+key+'">'+markdown((ROOT/name).read_text())+'</section>\n' for name,key in DOCS)+'</main></body></html>\n'
+    return head+'<body><main class="docs"><a href="./">← Local firmware patcher</a><h1>CT2 documentation</h1>'+nav+'\n'+''.join('<section id="'+key+'">'+markdown((ROOT/name).read_text())+'</section>\n' for name,key in DOCS)+'</main></body></html>\n'
 if __name__=='__main__':
     import sys
     result=render();target=ROOT/'documentation.html'

@@ -1,105 +1,104 @@
-# Verification — H12 release preparation
+# CT2 verification — 2026-10-23
 
-**2026-10-23: public browser distribution path PASS; publication pending explicit approval.**
-No firmware modification, device flashing, push, deployment or live Pages
-change was performed. The existing CT6 branch still points to
-`dfb5cd4bdfe3f8bd1c68c4c998c2d44365a596ad`.
+**PASS offline and local-browser distribution checks. Final CT2 hardware
+validation has been confirmed by the project owner; publication is authorized.**
 
-## Exact reference and source rebuild
+## Reference identity and exact differences
 
-The existing official-stock fixture has SHA-256
-`d4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd`.
-Browser output is **4,606,124 bytes**, compared byte-for-byte to the exact
-hardware-tested H12 reference and independently hashed:
+Hardware-tested parent H13 SHA-256:
+`076628c6cbec2a110ae1be1c5014a9f586dad9042b8a5725b671cf9ab361fd76`.
 
-`40079d13a100c8c73953496c9bdebec034c6b86a1e99c2706e717fc8e0b18c79`
+CT2 reference and required browser output SHA-256:
+`baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20`.
 
-The complete output and decoded image match, including Intel HEX checksums,
-entry address, record boundaries and serialization. There are no unexplained
-differences. Arm GNU 15.2.Rel1 independently rebuilds the public project
-source template without reading firmware; `--check` passes. The template is
-6,816 bytes; 29 fingerprinted prefix edits and 14 input-only replay bytes
-reproduce the preserved H12 placement. No firmware or original replay bytes
-are embedded in the public assets. See [BROWSER.md](BROWSER.md).
+Only three decoded bytes change: `0x601BC135: 68→43`, `0x601BC136: 31→54`,
+`0x601BC137: 33→32`, changing the same-size format suffix `h13` to `CT2`.
+One PTF data record/checksum changes. No other byte differs, no records move,
+and no code/RAM/stack/hook/ITCM/Fill/order/history layout changes. PTF remains
+4,606,231 bytes; decoded image 1,623,610 bytes; entry 0x60030319.
+Actual stock Config selector/formatter reports **1.2.0-CT2 / 1504** in both
+selector states.
 
-## Browser and rejection checks performed
+The compiler-only source export rebuilds with Arm GNU 15.2.Rel1, reading no
+firmware. Its 6,850-byte project template SHA-256 is
+`bd12857664cf6b7617aedf0a2911257a9557b7e42cae1042de22ca4a9ab88ee0`.
+There are 29 fingerprinted original-prefix edits and 14 zero replay bytes,
+supplied exclusively from the original user input. Template regeneration
+`--check` passes. No stock firmware/function dump is embedded in the source.
 
-| Check | Observed result |
+## Complete browser path
+
+| Check | Result |
 |---|---|
-| Chromium 156.0.8078.4, Linux headless | PASS: real chooser and drag/drop, module worker, Web Crypto, verified Blob download, twice byte-exact H12. |
-| Firefox 157.0, Linux headless | PASS: same complete path, twice byte-exact H12. |
-| Privacy | Zero requests while processing; tests abort all requests after worker ready. Only static GETs reach the local server. A deliberate POST/fetch probe is blocked by `connect-src 'none'` before transmission. Runtime source contains no network client API. |
-| Wrong input | Invalid type/extension, multiple files, empty/oversized, synthetic, damaged, truncated, line-ending-altered, H11 and already-patched H12 inputs reject; no download. |
-| UI lifecycle | Invalid input after success clears prior output; concurrent jobs blocked; unverified worker output/faults fail closed. |
-| Stability | Repeated Node and browser outputs match the reference. Original input stays unchanged; caller mutation after invocation does not affect the job snapshot. |
-| Layout and links | Home tested at 320/375/1280 px; documentation at 320/1280 px without horizontal overflow. Local links/anchors and both pages' CSP pass. |
-| WebKit / Safari | NOT VERIFIED: WebKit test engine downloaded but cannot launch because host GTK/GStreamer and other shared libraries are absent. No Safari/iOS support claim. |
+| Chromium 156.0.8078.4, Linux headless | PASS: stock file picker and drag/drop, actual module worker, hash gate and Blob download. Two outputs match the CT2 reference byte-for-byte and by SHA-256. |
+| Firefox 157.0, Linux headless | PASS: the same full flow, two exact downloads. |
+| Correct identity | Title/release v0.2.1-CT2, firmware 1.2.0-CT2 / Build 1504, visible/download filename TrackerPlus_CT2.ptf, PRE fix notice and contributor credits checked. |
+| No transmission | Zero requests during processing; all post-load requests blocked by the test. Deliberate synthetic POST is rejected by CSP before reaching the server. Runtime code has no network API, external assets or service worker. |
+| Input rejection | Invalid extension/type, empty, multiple, oversized, synthetic, modified, truncated, line-ending-altered, H12/H13 and already-patched CT2 files reject. Only the exact supported original stock SHA is accepted. |
+| Download controls | No download until worker and UI hashes pass. Bad input after success clears stale output; concurrent jobs blocked; worker faults and unverified output fail closed. |
+| Stability | Repeated Node/browser outputs match; input is unmodified; caller mutation after invocation cannot alter the snapshotted job. |
+| Layout/docs | Home at 320/375/1280 px, docs at 320/1280 px without horizontal overflow; local links/anchors, compatibility and PRE semantics checked. |
 
-The fixture-free unit checks and the private-file integration check all pass
-(six test groups). Private fixture files, screenshots, browser caches and
-raw test evidence remain outside the public tree.
+The six core/integration test groups pass. Original stock fixture SHA-256:
+`d4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd`.
+The preparation browser tests used localhost. Firmware test inputs, outputs,
+caches and screenshots stay outside the public tree. Publication additionally
+checks the actual live Pages site and output before claiming deployment success.
 
-## Focused ARM rechecks of the actual browser download
+## Focused firmware retests
 
-These checks execute the downloaded Firefox PTF with existing bounded ARM
-fixtures, using synthetic peripherals/MIDI and an in-memory filesystem:
+The **actual Chromium-generated CT2 download** executes in the established
+bounded ARM fixtures. Hardware H13 is the independent comparison baseline.
 
-- 2,480 Constant/From-To/Random generation cases, both columns, every constant,
-  percentage-only/condition-only/mixed ranges, reversed/equal bounds and row
-  eligibility. Full Random range observes all 142 stored values.
-- 224 stock/H11/H12 percentage generator comparisons preserve bytes, RNG state
-  and draw order. 172 other-FX generation and 492 other-FX editor checks match H11.
-- Twelve actual Fill confirmation/undo cases pass. All 142 generated IDs in
-  both columns save/reload through the stock writer/checksum/reader and produce
-  identical H11/H12 playback, including generated From-To/Random rows.
-- 610 ABI/stack/register/memory-guard cases pass. No new sequencer stack;
-  maximum adapter frames remain 0/16/8/24 bytes for max/From-To/Random/text.
-- H11 encoder mapping: 1,846 pure edits, 568 detents, 252 larger deltas,
-  564 continuous steps, 42 unassigned-ID checks and real dispatcher boundaries.
-- Different-row and same-row 1S → NE → !NE examples play tracks 1+2 first,
-  track 3 on later passes; a 16-track chain passes. 384 Micro-move/retention
-  events, PRE's 76-note/48-commit matrix, shared-column snapshots and eleven
-  reset/preview scenarios pass.
+- Eight parallel source/NE/FX-column pairs over three loops cover NE/!NE passing
+  and failing, replacement of old true/false PRE, PR/!PR inversion, ordinary and
+  empty retention, and Micro-move 0/50/97/100. H13 and CT2 match exactly in MIDI
+  events/ticks, PRE and NE state, commit sequence and RNG state.
+- Sixteen mixed Chance pairs retain PR-containing-event exclusion and shared
+  snapshots, including both column orders. Same/different-row and 16-track NE
+  chains, 384 Micro-move/retention events and invalid-note/mute cases pass.
+- Percentage/ratio/FIRST PRE, actual C0 draw-zero acceptance, 1,184 ct1 predicate
+  cases and 116 stock-percentage MIDI notes pass. Eleven reset/preview/count-in
+  cases, pattern changes, queued track copies and deferred reset snapshots pass.
+- H13 PRE adapter: 2,560 register/stack/bounds cases pass. No new frame/state.
+- Fill: 2,480 Constant/From-To/Random generator cases cover every constant,
+  condition/percentage/mixed ranges, reversed/equal endpoints and both columns.
+  Full Random observes all 142 values. Stock percentage generation matches in
+  224 cases, including RNG state/draw order. Other FX: 172 generation and
+  492 editor cases; twelve confirmation/undo cases pass.
+- Fill UI/ABI: 2,840 encoder cases, endpoint/pad boundaries, 410 labels,
+  533 bounded-text cases and all 610 existing adapter/stack cases pass.
+- All 142 generated IDs in both columns round-trip stock save/checksum/load.
+  A separately saved NE → PR/!PR chain loads unchanged in older/new firmware
+  and plays correctly for three loops under CT2.
+- All 142 rank/value mappings and twenty actual both-column encoder boundary
+  cases pass. Exact code identity preserves the remaining H13 navigation tests.
+- Independent strict contiguous Intel HEX decoding, all checksums, record layout,
+  complete binary diff and byte-exact re-encoding pass. Only version text differs.
 
-Earlier H12 offline evidence additionally covers 2,840 Fill editor navigation
-cases, 410 explicit field labels, raster/font bounds, all 37 older conditions,
-branch/relocation targets, ITCM stubs, RAM allocation and PTF integrity. Those
-are preserved earlier results, not a claim of additional hardware testing.
-Exact browser/reference identity preserves that tested firmware and its hooks.
-No unrelated extensive emulation suite was run for release preparation.
+## Hardware evidence, remaining limits and publication gate
 
-## Hardware evidence and limits
+The project owner reports successful **final CT2 hardware validation** on a
+physical Polyend Tracker+. H13 was previously hardware-confirmed, including
+NE/!NE → PRE. CT2 changes only H13's version label. No automatic device flashing
+is performed by the patcher or release tooling.
+No exhaustive Song/performance/external-clock/routing/interrupt-timing hardware
+matrix is claimed. Offline fixtures use synthetic peripherals/MIDI and an
+in-memory SD overlay; they do not prove installed flash/cache behavior.
 
-The user installed the exact H12 PTF on physical Polyend Tracker+ hardware and
-confirmed it works as intended. Earlier H10/H11 reports confirmed NE chains,
-Micro-move and encoder/label behavior. There is no exhaustive H12 physical test
-matrix. Offline checks do not certify every Song/performance/preview path,
-external-clock combination, audio routing, installed cache behavior or worst-case
-interrupt timing. No additional device installation was attempted here.
+Only the stated Linux Chromium/Firefox engines were tested. Safari/WebKit/iOS
+and other browser/platform combinations are not claimed verified. Users must
+obtain their own official supported firmware; a fresh authenticated official
+firmware download was not performed here.
 
-The official downloads page and manual are linked in [INSTALL.md](INSTALL.md).
-Automated direct access to the download page returned HTTP 403; a fresh account-
-authenticated firmware download was not performed. The exact locally held stock
-fixture was used and its full hash verified. Users must obtain their own input;
-a differing official file is rejected rather than silently accepted.
+Read-only remote checks found existing H12 at commit
+`ca853c107ef3ddfdfa3251ea967f89da60d7816d`, with v0.2.0-h12 and the CT6 archive
+preserved. CT2 supersedes H12 and becomes the default patcher; H12 remains
+available through its unchanged release/tag. CT6 projects still need manual ID
+conversion. No output-reproduction or firmware-integrity blocker remains.
+Publication is explicitly authorized; live deployment/output verification follows.
 
-## Export and recovery audit
-
-The source/static allowlist is [PUBLIC_FILES.json](PUBLIC_FILES.json), excluding
-itself from hash recursion. The export contains no PTFs, stock dumps, proprietary
-instruction windows, test firmware fixtures, node_modules, local paths or detected
-credential forms. The project patch template is rebuilt from the included MIT
-source with the three stock replay slots zeroed. Applicable MIT license text
-and historical CT6 NOTICE are preserved verbatim, with an explicit origins addendum.
-This is a bounded source/package review, not a general legal/security certification.
-
-All 26 pre-existing PTFs and 171 protected source/candidate artifacts remain
-hash-identical. From the earlier 306-file preservation manifest, only its stage
-README changed to record hardware validation; every other file is unchanged.
-The original private CT6 development tracked-file snapshot is also unchanged.
-Public CT6 remains recoverable by its pinned commit and a private exact source
-snapshot. [CT6 project-ID migration](COMPATIBILITY.md) is a documented limitation.
-
-Remaining release conditions: explicit owner publication approval; acceptance
-of the stated browser/hardware coverage limits. No output-reproduction blocker
-remains for the tested Chromium and Firefox paths.
+Public-source review checks the explicit file allowlist, source-only packaging,
+local links, path/credential patterns, MIT license and historical NOTICE. This
+is a bounded review, not a general legal/security certification. No original or
+modified Polyend PTF, stock dump, private fixture or development cache is included.

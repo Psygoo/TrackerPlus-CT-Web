@@ -5,8 +5,8 @@ import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { createServer } from '../tools/serve.mjs';
 import { OUTPUT_SHA256, OUTPUT_NAME } from '../patcher.js';
-assert(process.env.STOCK_PTF && process.env.H12_PTF, 'Set private STOCK_PTF and H12_PTF fixture paths');
-const stock = await readFile(process.env.STOCK_PTF), expected = await readFile(process.env.H12_PTF);
+assert(process.env.STOCK_PTF && process.env.CT2_PTF, 'Set private STOCK_PTF and CT2_PTF fixture paths');
+const stock = await readFile(process.env.STOCK_PTF), expected = await readFile(process.env.CT2_PTF);
 const moduleName = process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright';
 const playwright = await import(moduleName);
 const requests = [], server = createServer(req => requests.push(req));
@@ -27,7 +27,13 @@ try {
       await page.goto(url);
       await page.waitForFunction(() => !document.querySelector('#choose').disabled);
       assert.equal(await page.locator('#download').isDisabled(), true);
-      assert.match(await page.title(), /H12/);
+      assert.match(await page.title(), /CT2/);
+      assert.match(await page.title(), /v0\.2\.1-CT2/);
+      assert.match(await page.locator('.subtitle').textContent(), /1\.2\.0-CT2.*1504/);
+      assert.match(await page.locator('.download-note').textContent(), /TrackerPlus_CT2\.ptf/);
+      assert.match(await page.locator('.patch-card').textContent(), /Corrected PRE after NE/);
+      assert.match(await page.locator('footer').textContent(), /Psygoo/);
+      assert.match(await page.locator('footer').textContent(), /FatRodzianko/);
       const loaded = network.length;
       // Abort all subsequent network requests. Successful patching must need none.
       const unexpected = [];
@@ -47,7 +53,7 @@ try {
         assert(bytes.equals(expected));
         if (process.env.EVIDENCE_DIR) {
           await mkdir(process.env.EVIDENCE_DIR, { recursive: true });
-          await download.saveAs(`${process.env.EVIDENCE_DIR}/${engine}-generated-H12.ptf`);
+          await download.saveAs(`${process.env.EVIDENCE_DIR}/${engine}-generated-CT2.ptf`);
         }
       };
       // Normal file chooser, actual module worker, output hash gate and Blob save.
@@ -86,6 +92,8 @@ try {
       await page.goto(url + 'documentation.html');
       assert(await page.locator('#compatibility').count());
       assert(await page.locator('#credits').count());
+      assert.match(await page.locator('#conditions').textContent(), /NE\/!NE now also produce PRE/);
+      assert.match(await page.locator('#compatibility').textContent(), /superseded/);
       for (const width of [320, 1280]) {
         await page.setViewportSize({ width, height: 900 });
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `documentation overflow at ${width}`);

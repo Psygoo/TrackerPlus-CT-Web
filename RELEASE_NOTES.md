@@ -1,34 +1,44 @@
-# Proposed release: v0.2.0-h12
+# Tracker+ Conditional Trigs CT2 — v0.2.1-CT2
 
-**Prepared for review; not published.** Firmware identity: 1.2.0-h12, Build 1504.
+Corrected CT2 release, authorized for publication by the project owner.
+Firmware identity: **1.2.0-CT2 / Build 1504**. Output: **TrackerPlus_CT2.ptf**.
 
-H12 adds the full conditional Chance range to Constant, From-To and Random in
-both Fill FX columns, continuing Psygoo's original conditional trigger roadmap
-on FatRodzianko's Modular-Trackular implementation. Ratios 1:2 through 8:8,
-FIRST 1S/!1S, PRE PR/!PR and NEI NE/!NE share the encoder order:
+**Fix PRE after NE/!NE:** an evaluated NE/!NE now updates its track's PRE with
+the logical conditional-note result. If it plays, later PR plays and !PR rejects;
+if rejected, later PR rejects and !PR plays. Works across rows and with Micro-move.
+Neighbour-readable results and NE chains remain functional. PR/!PR do not produce
+PRE, and PR-containing mixed rows retain their previous PRE in either FX order.
 
-`0–100 → 1:2 … 8:8 → PR → !PR → NE → !NE → 1S → !1S`
+CT2 includes the exact hardware-validated H13 implementation. The only firmware
+change from H13 is the displayed version label, from 1.2.0-h13 to 1.2.0-CT2.
+Build 1504, saved condition IDs, labels, history/reset rules, encoder order and
+Fill FX1/FX2 Constant, From-To and Random remain unchanged.
 
-PRE keeps each track's last eligible Chance producer result. NE follows the
-immediately preceding track's last evaluated conditional-note result across
-rows, with chains and logical Micro-move handling. Fill endpoints use that same
-logical order, preserving stored IDs and stock percentage generation behavior.
+Encoder order: `0–100 → 1:2 … 8:8 → PR → !PR → NE → !NE → 1S → !1S`.
 
-Distribution contains MIT project source and a local browser patcher only.
-Bring your own official Tracker+ 1.2.0 PTF; no firmware is uploaded, supplied or
-installed by the website. Required output SHA-256:
-`40079d13a100c8c73953496c9bdebec034c6b86a1e99c2706e717fc8e0b18c79`.
+CT2 supersedes [v0.2.0-h12](https://github.com/Psygoo/TrackerPlus-CT-Web/releases/tag/v0.2.0-h12),
+which incorrectly excluded NE/!NE from PRE updates. H12's release/tag/history
+remain available; CT6 is preserved at
+[archive/ct6-before-h12](https://github.com/Psygoo/TrackerPlus-CT-Web/tree/archive/ct6-before-h12).
+H12/H13 saved IDs need no migration. CT6 projects need
+[manual condition-ID conversion](COMPATIBILITY.md).
 
-**Upgrade caution:** original CT6 condition IDs differ. Read
-[compatibility](COMPATIBILITY.md) and convert backed-up project copies manually.
-H10/H11 saved condition IDs are preserved. Retain official firmware and backups.
+Bring your own original official Tracker+ 1.2.0 PTF. The browser patcher processes
+it locally and enables download only for this verified CT2 SHA-256:
 
-Hardware: the user installed H12 and confirmed it works as intended.
-Offline/browser evidence and limits: [VALIDATION.md](VALIDATION.md).
-Not every playback mode or hardware scenario has been individually validated.
-Independent project; not affiliated with Polyend. Read [installation](INSTALL.md),
-[recovery](RECOVERY.md) and [disclaimer](DISCLAIMER.md).
+`baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20`
 
-Credits: Psygoo — original concept, roadmap and CT6 initial six conditions;
-FatRodzianko / Modular-Trackular — subsequent reimplementation, extensions and
-technical infrastructure. [License/provenance](NOTICE.md).
+No Polyend firmware binaries are supplied or uploaded. Distribution contains
+MIT project source and the static patcher only. Read [installation](INSTALL.md),
+[recovery](RECOVERY.md), [disclaimer](DISCLAIMER.md) and [verification](VALIDATION.md).
+
+Hardware: the project owner confirmed the final CT2 firmware works correctly
+on physical Tracker+ hardware. H13's PRE fix was also hardware-confirmed.
+Offline and Chromium/Firefox checks are reported separately; not every hardware
+mode or browser platform is claimed verified.
+
+Origins and credits: **Psygoo** — original concept, roadmap and CT6.
+**FatRodzianko / Modular-Trackular** — subsequent reimplementation, expansion
+and technical infrastructure. **CT2** continues Psygoo's original roadmap using
+and extending that implementation. Original MIT notices and historical
+[NOTICE](NOTICE.md) remain preserved; MIT grants no Polyend firmware rights.

@@ -1,87 +1,100 @@
-# Tracker+ Conditional Trigs — H12
+# Tracker+ Conditional Trigs — CT2
 
 An independent, unofficial modification for **Polyend Tracker+ (2024 plus model)**,
 using original firmware **1.2.0**. Not affiliated with, endorsed by or supported
 by Polyend. Not for Tracker Mini or the original Tracker.
 
-**Release preparation, 2026-10-23:** suggested source release **v0.2.0-h12**;
-firmware **1.2.0-h12, Build 1504**. The user installed H12 on physical Tracker+
-hardware and confirmed it works as intended. This is an overall hardware report,
-not a claim that every playback mode or hardware configuration was tested.
-See [verification and limitations](VALIDATION.md).
+Public firmware identifier: **1.2.0-CT2 / Build 1504**. Release: **v0.2.1-CT2**.
+Use the [public web patcher](https://psygoo.github.io/TrackerPlus-CT-Web/) to
+generate your firmware locally from the supported original input.
 
-This tree is staged for review. Publication requires explicit approval. The
-existing CT6 website remains unchanged until that approval and a reviewed update.
+CT2 uses the exact **hardware-validated H13** implementation, including the
+NE/!NE → PR/!PR correction. Only its displayed version label changes. The user
+confirmed H13 works on physical Tracker+ hardware, specifically including that
+fix. The project owner also installed and confirmed the final CT2 firmware
+works correctly on physical Tracker+ hardware. These reports do not establish
+that every hardware mode or configuration has been tested.
 
-## Make the firmware locally
+## Corrected PRE after NE
+
+**NE and !NE now update their own track's PRE history** with the evaluated
+logical conditional-note result, including both acceptance and rejection.
+A later PR follows that result; !PR inverts it. Micro-move changes dispatch
+timing without changing the recorded logical result. Neighbour chains continue
+to work, using the immediately preceding track's last conditional-note result.
+PR/!PR remain PRE non-producers. An event containing PR/!PR retains previous
+PRE even when NE is in the other FX column; both columns read before commit.
+[Full semantics and examples](CONDITIONS.md).
+
+CT2 is the corrected successor to the **superseded H12 public release**,
+[v0.2.0-h12](https://github.com/Psygoo/TrackerPlus-CT-Web/releases/tag/v0.2.0-h12).
+H12 did not update PRE after NE/!NE. Its release, source and tag remain
+available for reference/recovery; the default web patcher now targets CT2.
+CT6 is preserved at [archive/ct6-before-h12](https://github.com/Psygoo/TrackerPlus-CT-Web/tree/archive/ct6-before-h12).
+
+## Make firmware locally
 
 Supply your own unmodified PTF from the [official Tracker+ downloads](https://polyend.com/downloads/tracker-plus-downloads/).
-The patcher runs in your browser; firmware is never uploaded. It supplies no
-Polyend firmware and installs nothing on your device. Only an exactly verified
-result enables the download, named `TrackerPlus_H12.ptf`.
+The patcher runs in browser memory and never uploads firmware. It supplies no
+Polyend firmware and installs nothing. Only an exact verified output enables
+Download, named **TrackerPlus_CT2.ptf**.
 
 | File | SHA-256 |
 |---|---|
 | Supported original Tracker+ 1.2.0 PTF | `d4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd` |
-| Hardware-tested H12 / required output | `40079d13a100c8c73953496c9bdebec034c6b86a1e99c2706e717fc8e0b18c79` |
+| Required CT2 output/reference | `baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20` |
 
 Read [installation](INSTALL.md), [recovery](RECOVERY.md),
-[project compatibility](COMPATIBILITY.md) and the [disclaimer](DISCLAIMER.md)
-first. **CT6 projects need manual conversion: their condition IDs differ.**
-Use backed-up project copies. H10/H11 condition IDs remain compatible with H12.
+[compatibility](COMPATIBILITY.md), [verification](VALIDATION.md) and the
+[disclaimer](DISCLAIMER.md) before installing. **CT6 projects require manual
+condition-ID conversion.** H10–H13 saved IDs remain compatible with CT2;
+NE → PRE playback intentionally changes from H12's incorrect behavior.
 
-## Conditions
+## Chance and Fill
 
-Chance supports percentages **0–100**, every ratio from **1:2 through 8:8**,
-FIRST **1S / !1S**, PRE **PR / !PR**, and NEI **NE / !NE**.
-Both encoder directions use this exact logical order:
+Percentages **0–100**; ratios **1:2 through 8:8**; FIRST **1S / !1S**;
+PRE **PR / !PR**; NEI **NE / !NE**. Exact encoder order in both directions:
 
 `0–100 → 1:2, 2:2, 1:3, 2:3, 3:3 … 1:8 … 8:8 → PR → !PR → NE → !NE → 1S → !1S`
 
-Ratios run by denominator 2 through 8, then numerator 1 through that denominator.
-Stored IDs are preserved; this is a selection order, not an ID renumbering.
-Fill FX1 and FX2 retain **Constant, From-To and Random**, with all conditions
-available in each mode using this same order and the existing endpoint controls.
-
-For example, `1:4` makes a hit on the first of every four track passes. A `PR`
-fill follows a preceding accepted Chance event on its own track. An `NE` hit
-can follow another track's conditional result even several rows later.
-[Condition guide and musical examples](CONDITIONS.md).
+Ratios are ordered by denominator 2–8, then numerator 1–denominator. Existing
+stored IDs are unchanged. Fill FX1 and FX2 retain **Constant, From-To and Random**
+with all percentages and conditions, using the same logical order and endpoint
+controls. Try `1:4` for a four-pass phrase or Random `PR → !NE` to choose among
+PR, !PR, NE and !NE. [Condition guide](CONDITIONS.md).
 
 ## Origins and credits
 
-**Psygoo originated the Tracker+ conditional trigger concept and roadmap**,
-including ratios up to 8:8, FIRST, PRE and NEI. Psygoo's **TrackerPlus-CT-Web
-(CT6)** implemented the initial six conditions. **FatRodzianko's
-[Modular-Trackular](https://github.com/FatRodzianko/Modular-Trackular)** subsequently
-reimplemented and extended conditional triggers and developed the technical
-infrastructure used here. This project continues Psygoo's original roadmap
-while building on that implementation.
+**Psygoo originated the concept, full roadmap and CT6 implementation**, including
+the longer-term plan for ratios up to 8:8, FIRST, PRE and NEI. CT6 implemented the
+initial six conditions. **FatRodzianko / Modular-Trackular** subsequently
+reimplemented and expanded conditional triggers and developed the technical
+infrastructure. **CT2 continues Psygoo's original roadmap, using and extending
+the Modular-Trackular implementation.** The original concept did not originate
+in Modular-Trackular.
 
-The MIT copyright/license and historical provenance are preserved in
-[LICENSE](LICENSE) and [NOTICE.md](NOTICE.md). MIT covers project code, **not
-Polyend firmware or rights to redistribute it**. No original or modified PTFs,
-stock dumps or extracted proprietary code are included in this source release.
+Original MIT copyright and license text, CT6 NOTICE and H12 provenance are
+preserved in [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md). MIT covers project
+code, not Polyend firmware or rights to distribute it. No original/modified
+firmware binaries, dumps or extracted proprietary functions are included.
 
-## Local development and review
+## Development and issue reports
 
-Runtime assets need no dependencies or build service. Run `node tools/serve.mjs`
-and open its localhost URL; HTTPS is required when hosting remotely. A direct
-`file://` opening is unsupported because of module workers and Web Crypto.
+Serve locally with `node tools/serve.mjs`; use HTTPS for remote hosting.
+Direct file URLs are unsupported because module workers and Web Crypto need
+an appropriate origin. Website visitors need no runtime dependencies.
 
-`node --test tests/core.test.mjs` runs fixture-free unit checks. For complete
-release checks, set `STOCK_PTF` and `H12_PTF` to your private local files, then
-run the same command and `node tests/browser.mjs`. Browser checks require
-Playwright 1.64.1 (`npm ci`, then install the browsers in your development
-environment); no dependency is loaded by website visitors. `BROWSER_ENGINES`
-selects a comma-separated subset of `chromium,firefox,webkit`.
+`node --test tests/core.test.mjs` runs fixture-free checks. Full verification
+sets private `STOCK_PTF` and `CT2_PTF` paths, then runs that command and
+`node tests/browser.mjs`. Browser tests use Playwright 1.64.1 (`npm ci` and
+install the desired browsers in your development environment).
+`BROWSER_ENGINES=chromium,firefox` selects the verified test engines.
 
 `python3 tools/build-program.py --compiler /path/to/arm-gnu-toolchain/bin --check`
-recompiles the project code with **Arm GNU 15.2.Rel1** without reading firmware.
-See [source provenance](NOTICE.md), [release notes](RELEASE_NOTES.md),
-[publication manifest](PUBLICATION.md) and [verification](VALIDATION.md).
+rebuilds the MIT patch template with Arm GNU **15.2.Rel1**, reading no firmware.
+[Architecture](BROWSER.md), [release notes](RELEASE_NOTES.md),
+[publication plan and allowlist](PUBLICATION.md).
 
-Report issues at [TrackerPlus-CT-Web issues](https://github.com/Psygoo/TrackerPlus-CT-Web/issues)
-with firmware/version, model, playback mode, row/track/FX details, expected and
-observed behavior, and minimal reproduction steps. Do not attach firmware,
-stock dumps, private projects or credentials.
+[Report issues](https://github.com/Psygoo/TrackerPlus-CT-Web/issues) with model,
+firmware version, playback mode, tracks/rows/FX, expected/observed results and
+minimal steps. Do not attach firmware, dumps, private projects or credentials.

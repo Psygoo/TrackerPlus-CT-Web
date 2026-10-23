@@ -1,30 +1,32 @@
-# Publication plan — approval required
+# CT2 publication and recovery
 
-This staged tree is the proposed replacement source/static tree for
-[Psygoo/TrackerPlus-CT-Web](https://github.com/Psygoo/TrackerPlus-CT-Web).
-Nothing has been pushed, deployed, tagged or publicly released by this task.
-The existing CT6 website remains untouched.
+Target: [Psygoo/TrackerPlus-CT-Web](https://github.com/Psygoo/TrackerPlus-CT-Web).
+Release tag: **v0.2.1-CT2**. [Release notes](RELEASE_NOTES.md).
+The project owner explicitly authorized the source-only release and Pages
+update after confirming the final CT2 firmware on physical hardware. Firmware
+is never distributed or flashed by the release process.
 
-Suggested release tag: **v0.2.0-h12**. Suggested release body:
-[RELEASE_NOTES.md](RELEASE_NOTES.md). After explicit approval, retain the old CT6
-commit `dfb5cd4bdfe3f8bd1c68c4c998c2d44365a596ad` with a recoverable archival
-reference before updating the existing gh-pages branch. Review the final diff,
-including deletion of the obsolete CT6 program module, rather than overlaying
-files blindly. Do not use the private development repository or its history as
-the public source tree.
+Read-only remote checks found `gh-pages` at
+`ca853c107ef3ddfdfa3251ea967f89da60d7816d`, with the published H12 tag/release
+`v0.2.0-h12`. CT6 is archived at `archive/ct6-before-h12`, commit
+`dfb5cd4bdfe3f8bd1c68c4c998c2d44365a596ad`. Preserve both references, history and
+availability. Re-fetch the remote and stop/review unexpected changes before a
+fast-forward update; never force-push or rewrite history.
 
-`PUBLIC_FILES.json` is the exact relative file allowlist and SHA-256 manifest
-for publication, excluding itself to avoid recursion. It includes source,
-tests, docs and static assets only. Development dependencies and browser caches
-are not included. Static runtime files are `.nojekyll`, `index.html`,
-`documentation.html`, `style.css`, `app.js`, `worker.js`, `session.js`,
-`patcher.js` and `h12-program.js`. Serve these over HTTPS without analytics,
-upload endpoints, external script injection or a service worker.
+`PUBLIC_FILES.json` is the exact file allowlist and SHA-256 manifest (excluding
+itself from recursion). Publish only that reviewed source tree or its source
+archive, never the surrounding private development repository or evidence.
+Runtime assets: `.nojekyll`, `index.html`, `documentation.html`, `style.css`,
+`app.js`, `worker.js`, `session.js`, `patcher.js` and `ct2-program.js`.
+Host over HTTPS; preserve `connect-src 'none'` and the local-only worker flow.
 
-Do not publish any PTF (original or generated), firmware dump, proprietary
-instruction window, private test fixture, vendor toolchain, browser binary,
-SD/project content, local checkpoint or credential. Only zero-filled replay
-slots and original-input fingerprints are in the public patch program.
+No PTF, dump, extracted proprietary function, stock instruction window, private
+fixture, local evidence, SD content, toolchain, dependency cache or credential
+belongs in publication. The generated template contains project code and zero
+slots for 14 stock replay bytes, supplied only from a verified original input.
+Preserve the original MIT license and the complete historical NOTICE.
 
-The owner must explicitly approve publication of this concrete tree and release
-notes before any push, deployment, GitHub release or live Pages update.
+CT2 reference/output identity, local Chromium/Firefox checks, firmware checks
+and final owner-reported CT2 hardware validation are complete. After deployment,
+verify the actual public site and generated hash before claiming success.
+Do not alter, withdraw or overwrite the old H12 release.

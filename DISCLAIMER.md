@@ -6,11 +6,12 @@ instability, data loss or failure to boot and may affect support or warranty.
 Make independent SD card, Workspace and project backups. Recovery is not
 guaranteed. Do not distribute original or generated Polyend firmware here.
 
-H12 was installed and reported working as intended on physical Tracker+
-hardware by the user. The report is not a detailed hardware test matrix.
-Offline checks cover specific conditions, Fill paths and reset scenarios;
-they do not certify every Song/performance/selection mode, external-clock setup,
-audio/MIDI routing combination or worst-case interrupt timing.
+H13 was installed and confirmed working on physical Tracker+ hardware,
+specifically including NE/!NE → PRE. CT2 changes only H13's displayed version
+label. The project owner has also installed and confirmed the final CT2 firmware
+works correctly on physical hardware.
+Neither report nor offline checks certify every Song/performance/selection mode,
+external-clock setup, routing configuration or worst-case interrupt timing.
 
 Neighbour conditions record sequencer logical conditional-note acceptance,
 not audible output. See [condition semantics](CONDITIONS.md). CT6 project IDs
