@@ -24,3 +24,6 @@ footer{padding-inline:24px;font-size:11px}
 footer a{text-decoration:underline}
 @media(max-width:700px){.topbar{align-items:flex-start;flex-direction:column;gap:18px}nav{width:100%;justify-content:space-between}.wordmark{flex-shrink:0}nav{gap:10px 14px}nav .kofi{flex-basis:100%;text-align:center}.local-note{padding:15px}.subtitle{font-size:14px}.privacy-note,.download-note{font-size:11px}}
 @media(max-width:380px){.topbar{flex-direction:column;gap:16px}nav{width:100%;justify-content:space-between}nav .kofi{flex-basis:auto}.conditions{gap:6px}.conditions span{min-width:0;padding:10px 9px;font-size:14px}h1{font-size:35px}}
+
+.docs section{margin:36px 0}.docs h2{margin:24px 0 16px}.docs h3{margin-top:24px}.docs p,.docs li{color:var(--muted)}.docs code{overflow-wrap:anywhere}.docs pre{white-space:pre-wrap;overflow-wrap:anywhere}.docs table{border-collapse:collapse;width:100%;font-size:13px}.docs th,.docs td{padding:9px;border:1px solid var(--line);text-align:left;overflow-wrap:anywhere}.docs nav{justify-content:flex-start}.docs{padding-bottom:40px}
+.docs{overflow-wrap:anywhere;min-width:0}.docs table{table-layout:fixed}.docs nav a{overflow-wrap:anywhere}

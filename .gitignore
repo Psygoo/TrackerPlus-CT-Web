@@ -1,0 +1,6 @@
+node_modules/
+*.ptf
+*.bin
+*.elf
+*.o
+test-results/

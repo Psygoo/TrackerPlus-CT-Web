@@ -1,12 +1,9 @@
-// MIT. Fixed CT6 port of tools/ptf.py, compile_inline and the verified CLI.
-import { buildProgram, symbols, windows } from './ct6-program.js';
-
+// MIT. PTF reader/encoder reused from TrackerPlus-CT-Web CT6; H12 source recipe.
+import { buildProgram, recipe } from './h12-program.js';
 export const STOCK_SHA256 = 'd4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd';
 export const IMAGE_SHA256 = '0d924ba9352ea0ce24672ee252b44b760bb949a8d8faf3bac2d39594962e1f3b';
-export const OUTPUT_SHA256 = 'dc7fe730fdac0dda92401ef623463e83b30624f886895129e882a045f61ed24e';
-export const PROGRAM_SHA256 = '54f5c8cdec14a0293a58caac6a2ea6ec30cdc7be3a9910b2e27540f11d99e97f';
-export const BASE = 0x60030000, CODE = 0x601bab80, PHASE = 0x20205000;
-export const OUTPUT_NAME = 'TrackerPlus_1.2.0_CT.ptf';
+export const OUTPUT_SHA256 = '40079d13a100c8c73953496c9bdebec034c6b86a1e99c2706e717fc8e0b18c79';
+export const OUTPUT_NAME = 'TrackerPlus_H12.ptf';
 export const MAX_FILE_SIZE = 8 * 1024 * 1024;
 const encoder = new TextEncoder();
 export function require(condition, message) { if (!condition) throw new Error(message); }
@@ -69,147 +66,59 @@ function line(kind, at, data) {
 export function encodePTF(ptf) {
   return encoder.encode(ptf.records.map(r => line(r.kind, r.at, r.kind === 0 ? ptf.image.subarray(r.at - ptf.base, r.at - ptf.base + r.data.length) : r.data)).join('\r\n') + '\r\n');
 }
-export function copiesFor(image, base) {
-  const at = offset(image, base, 0x600302a0, 48), copies = [], v = view(image);
-  for (let i = at; i < at + 48; i += 12) {
-    const load = v.getUint32(i, true), exe = v.getUint32(i + 4, true), size = v.getUint32(i + 8, true);
-    if (size && exe < 0x20000) {
-      require(((load | exe | size) & 3) === 0 && exe + size <= 0x20000, 'Invalid ITCM copy descriptor');
-      offset(image, base, load, size);
-      for (const c of copies) require(!(exe < c.exe + c.size && c.exe < exe + size) && !(load < c.load + c.size && c.load < load + size), 'Ambiguous ITCM copy descriptors');
-      copies.push({ load, exe, size });
-    }
-  }
-  require(copies.length > 0, 'No stock ITCM copy descriptor');
-  return copies;
-}
-function mapExecution(image, base, exe, size, copies) {
-  if (exe < 0x20000) {
-    const hits = copies.filter(c => c.exe <= exe && exe + size <= c.exe + c.size);
-    require(hits.length === 1, 'Execution window is not wholly stock-copied ITCM');
-    return [hits[0].load + exe - hits[0].exe, hits[0].exe];
-  }
-  offset(image, base, exe, size);
-  require(!copies.some(c => exe < c.load + c.size && c.load < exe + size), 'Copy-source alias must use its ITCM execution address');
-  return [exe, base];
-}
-function thumbWidth(data, at) {
-  require(at >= 0 && at + 2 <= data.length, 'Partial Thumb halfword');
-  const prefix = view(data).getUint16(at, true) & 0xf800;
-  const width = [0xe800, 0xf000, 0xf800].includes(prefix) ? 4 : 2;
-  require(at + width <= data.length, 'Window cuts a 32-bit Thumb instruction');
-  return width;
-}
-function itCount(hw) {
-  let mask = hw & 15;
-  if ((hw & 0xff00) !== 0xbf00 || mask === 0) return 0;
-  require(((hw >> 4) & 15) < 14, 'Unsupported IT condition');
-  let trailing = 0;
-  while (!(mask & 1)) { trailing++; mask >>= 1; }
-  return 4 - trailing;
-}
-export function validateThumbWindow(data) {
-  let remaining = 0;
-  for (let at = 0; at < data.length;) {
-    const width = thumbWidth(data, at), count = width === 2 ? itCount(view(data).getUint16(at, true)) : 0;
-    if (count) { require(!remaining, 'Nested IT block'); remaining = count; }
-    else if (remaining) remaining--;
-    at += width;
-  }
-  require(!remaining, 'Window cuts the original IT block');
-}
-function rejectITEntry(image, base, exe, regionStart, copies) {
-  for (let candidate = Math.max(regionStart, exe - 18); candidate < exe; candidate += 2) {
-    const [at] = mapExecution(image, base, candidate, 2, copies);
-    const count = itCount(view(image).getUint16(at - base, true));
-    let cursor = candidate + 2;
-    for (let i = 0; i < count; i++) {
-      const [write] = mapExecution(image, base, cursor, 2, copies), width = thumbWidth(image, write - base);
-      require(!(cursor <= exe && exe < cursor + width), 'Inline entry may be inside an original IT block');
-      cursor += width;
-      if (cursor > exe) break;
-    }
-  }
-}
-export function thumbBW(at, target) {
-  address(at); address(target);
-  require(!(at & 1) && (target & 1), 'B.W needs an even site and Thumb target');
-  const off = (target - 1) - (at + 4);
-  require(off >= -(2 ** 24) && off < 2 ** 24, 'B.W target out of range');
-  const s = (off >> 24) & 1, i1 = (off >> 23) & 1, i2 = (off >> 22) & 1;
-  const data = new Uint8Array(4), v = view(data);
-  v.setUint16(0, 0xf000 | (s << 10) | ((off >> 12) & 1023), true);
-  v.setUint16(2, 0x9000 | (((~(i1 ^ s)) & 1) << 13) | (((~(i2 ^ s)) & 1) << 11) | ((off >> 1) & 2047), true);
-  return data;
-}
-export async function compileHook(image, base, hook, program, syms, copies) {
-  const { write_at: at, exec_at: exe, resume_at: resume, length, mode, target: name } = hook;
-  [at, exe, resume].forEach(address);
-  require(Number.isInteger(length) && length >= 4 && !(length & 1) && !((at | exe | resume) & 1), 'Invalid inline length or alignment');
-  require(exe + length === resume && resume <= 0xffffffff, 'Invalid resume address');
-  require(mode === 'thumb_bw' || (mode === 'thumb_abs8' && !(exe & 3) && [8, 10].includes(length)), 'Unsupported inline mode or length');
-  const off = offset(image, base, at, length), original = image.subarray(off, off + length);
-  require(await sha256(original) === hook.expected_sha256, 'Stock hook fingerprint mismatch: ' + name);
-  const [mapped, regionStart] = mapExecution(image, base, exe, length, copies);
-  require(mapped === at, 'Write address does not match stock execution mapping');
-  mapExecution(image, base, resume, 2, copies);
-  validateThumbWindow(original);
-  rejectITEntry(image, base, exe, regionStart, copies);
-  require(Object.hasOwn(syms, name), 'Missing inline target symbol');
-  const target = address(syms[name]);
-  require((target & 1) && CODE <= target - 1 && target - 1 <= CODE + program.length - 2, 'Inline target outside placed patch code');
-  const data = new Uint8Array(length);
-  for (let i = 0; i < length; i += 2) view(data).setUint16(i, 0xbf00, true);
-  if (mode === 'thumb_abs8') {
-    view(data).setUint16(0, 0xf8df, true); view(data).setUint16(2, 0xf000, true); view(data).setUint32(4, target, true);
-  } else data.set(thumbBW(exe, target));
-  return { at, data };
-}
-
 export async function patchFirmware(input, onState = () => {}) {
   onState('validating');
-  // Take a private snapshot so callers cannot mutate bytes during async hashing.
+  require(input instanceof Uint8Array || input instanceof ArrayBuffer, 'Select an original PTF file.');
+  require(input.byteLength > 0 && input.byteLength <= MAX_FILE_SIZE, 'Unsupported firmware file size.');
   const bytes = new Uint8Array(input).slice();
-  require(bytes.length > 0 && bytes.length <= MAX_FILE_SIZE, 'Unsupported firmware file size');
   require(await sha256(bytes) === STOCK_SHA256, 'Unsupported firmware. Select the exact original Tracker+ 1.2.0 PTF.');
   const stock = parsePTF(bytes);
-  require(stock.base === BASE && await sha256(stock.image) === IMAGE_SHA256, 'Unsupported stock application image');
-  require(equal(encodePTF(stock), bytes), 'Stock PTF round trip mismatch');
+  require(stock.base === recipe.base && stock.start === 0x60030319 && stock.base + stock.image.length === recipe.start, 'Unsupported stock layout.');
+  require(await sha256(stock.image) === IMAGE_SHA256 && equal(encodePTF(stock), bytes), 'Stock application verification failed.');
   const program = buildProgram();
-  require(program.length === 1100 && await sha256(program) === PROGRAM_SHA256, 'CT6 patch program verification failed');
-  require(BASE + stock.image.length === CODE - 8 && CODE % 16 === 0, 'Fixed CT6 placement changed');
-  // The original allocator selects the first 16-aligned four-byte startup block
-  // in ocram_tail (0x20205000..0x20208000); no relocation is possible here.
-  require(PHASE === 0x20205000 && PHASE % 16 === 0 && PHASE + 4 <= 0x20208000, 'CT6 RAM placement changed');
-  const copies = copiesFor(stock.image, BASE), plans = [];
-  require(windows.length === 21, 'CT6 hook count changed');
-  for (const hook of windows) {
-    const plan = await compileHook(stock.image, BASE, hook, program, symbols, copies);
-    require(!plans.some(p => p.at < plan.at + plan.data.length && plan.at < p.at + p.data.length), 'Overlapping hook windows');
-    plans.push(plan);
+  require(program.length === recipe.end - recipe.start && await sha256(program) === recipe.template_sha256, 'H12 project code verification failed.');
+  const plans = [];
+  for (const p of recipe.plans) {
+    const replacement = Uint8Array.from(p.hex.match(/../g), s => parseInt(s, 16));
+    const i = offset(stock.image, stock.base, p.at, replacement.length);
+    require(await sha256(stock.image.subarray(i, i + replacement.length)) === p.sha256, 'Stock hook verification failed.');
+    require(!plans.some(old => old.at < p.at + replacement.length && p.at < old.at + old.data.length), 'Overlapping patch windows.');
+    plans.push({ at: p.at, data: replacement });
+  }
+  for (const c of recipe.copies) {
+    const i = offset(stock.image, stock.base, c.from, c.length);
+    require(c.to >= recipe.start && c.to + c.length <= recipe.end, 'Replay destination outside patch code.');
+    require(program.subarray(c.to - recipe.start, c.to - recipe.start + c.length).every(n => n === 0), 'Replay slot is not empty.');
+    require(await sha256(stock.image.subarray(i, i + c.length)) === c.sha256, 'Input replay verification failed.');
   }
   onState('patching');
-  const image = new Uint8Array(stock.image.length + 8 + program.length);
-  image.set(stock.image);
-  for (const p of plans) image.set(p.data, p.at - BASE);
-  image.fill(0xff, stock.image.length, stock.image.length + 8);
-  image.set(program, CODE - BASE);
-  const ending = stock.records.filter(r => r.kind === 5 || r.kind === 1);
-  const records = stock.records.filter(r => r.kind !== 5 && r.kind !== 1);
-  let upper = null;
-  for (const r of records) if (r.kind === 4) upper = r.data[0] * 256 + r.data[1];
-  // Python appends 16-byte records starting at stock_end, including the FF gap.
-  for (let off = stock.image.length; off < image.length; off += 16) {
-    const at = BASE + off, nextUpper = Math.floor(at / 65536);
-    if (nextUpper !== upper) {
-      upper = nextUpper;
-      records.push({ kind: 4, at: 0, data: Uint8Array.of(upper >> 8, upper & 255) });
+  const image = new Uint8Array(recipe.end - stock.base);
+  image.set(stock.image); image.set(program, recipe.start - stock.base);
+  // Original instruction bytes come only from the private, verified input.
+  for (const c of recipe.copies) image.set(stock.image.subarray(c.from - stock.base, c.from - stock.base + c.length), c.to - stock.base);
+  for (const p of plans) image.set(p.data, p.at - stock.base);
+  const records = stock.records.filter(r => r.kind !== 1 && r.kind !== 5);
+  const ending = stock.records.filter(r => r.kind === 1 || r.kind === 5);
+  let upper = [...records].reverse().find(r => r.kind === 4).data;
+  upper = upper[0] * 256 + upper[1];
+  let at = recipe.start;
+  // The H12 candidate retains incremental record boundaries, including short
+  // records at earlier stage ends. They are part of its exact file identity.
+  for (const end of recipe.record_ends) {
+    require(end > at && end <= recipe.end, 'Invalid record boundary.');
+    while (at < end) {
+      const nextUpper = Math.floor(at / 65536);
+      if (nextUpper !== upper) {
+        upper = nextUpper; records.push({ kind: 4, at: 0, data: Uint8Array.of(upper >> 8, upper & 255) });
+      }
+      const n = Math.min(16 - ((at - recipe.start) % 16), end - at, 65536 - (at & 65535));
+      records.push({ kind: 0, at, data: image.slice(at - stock.base, at - stock.base + n) }); at += n;
     }
-    records.push({ kind: 0, at, data: image.slice(off, off + 16) });
   }
+  require(at === recipe.end, 'Incomplete patch coverage.');
   const output = encodePTF({ ...stock, records: [...records, ...ending], image });
-  require(await sha256(output) === OUTPUT_SHA256, 'CT6 output verification failed. No download is available.');
+  require(await sha256(output) === OUTPUT_SHA256, 'H12 output verification failed. No download is available.');
   const check = parsePTF(output);
-  require(check.base === BASE && check.start === stock.start && equal(check.image, image) && equal(encodePTF(check), output), 'CT6 output structure verification failed');
+  require(check.start === stock.start && check.base === stock.base && equal(check.image, image) && equal(encodePTF(check), output), 'H12 PTF integrity verification failed.');
   return output;
 }

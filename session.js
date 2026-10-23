@@ -20,12 +20,12 @@ export class FirmwareSession {
       require(file.size > 0 && file.size <= MAX_FILE_SIZE, 'Unsupported firmware file size.');
       const output = await this.run(await file.arrayBuffer(), state => {
         require(['validating', 'patching'].includes(state), 'Unexpected patcher state');
-        this.emit(state, state === 'patching' ? 'Applying CT6 and verifying the result…' : 'Validating stock firmware and safety checks…');
+        this.emit(state, state === 'patching' ? 'Applying H12 and verifying the result…' : 'Validating stock firmware and safety checks…');
       });
       // Independently verify worker output before the UI can create a download.
       require(output instanceof Uint8Array && await sha256(output) === OUTPUT_SHA256, 'Output verification failed. No download is available.');
       this.output = output;
-      this.emit('success', 'CT6 is ready. Output SHA-256 verified.');
+      this.emit('success', 'H12 is ready. Output SHA-256 verified.');
     } catch (error) {
       this.output = null;
       this.emit('error', error instanceof Error ? error.message : 'Firmware processing failed. No download is available.');
