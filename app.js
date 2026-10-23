@@ -17,7 +17,15 @@ function update({ state, message, canDownload }) {
   clearDownload();
   document.body.dataset.state = state;
   status.textContent = message;
-  stepLabel.textContent = { waiting: '01 / SELECT FIRMWARE', validating: '02 / VALIDATING', patching: '03 / PATCHING', success: '04 / VERIFIED', error: 'CHECK YOUR FILE' }[state];
+  const stage = { waiting: 1, validating: 2, patching: 3, success: 4, error: 2 }[state] ?? 1;
+  stepLabel.textContent = { waiting: '01 / SELECT FIRMWARE', validating: '02 / VERIFY INPUT', patching: '03 / PATCH AND VERIFY OUTPUT', success: '04 / DOWNLOAD VERIFIED FILE', error: 'CHECK YOUR FILE' }[state];
+  for (const item of document.querySelectorAll('#workflow li')) {
+    const number = Number(item.dataset.step);
+    item.classList.toggle('done', number < stage || (state === 'success' && number < 4));
+    item.classList.toggle('current', number === stage);
+    if (number === stage) item.setAttribute('aria-current', 'step');
+    else item.removeAttribute('aria-current');
+  }
   const busy = state === 'validating' || state === 'patching';
   choose.disabled = !ready || busy;
   input.disabled = !ready || busy;

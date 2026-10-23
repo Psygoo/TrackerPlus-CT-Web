@@ -4,52 +4,92 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Tracker+ Conditional Trigs — CT2 · v0.2.1-CT2. An unofficial firmware mod for Polyend Tracker+. Your firmware never leaves your browser.">
+  <meta name="description" content="Tracker+ Conditional Trigs — CT2. An unofficial firmware mod for Polyend Tracker+. Local browser patching; firmware is not uploaded.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; worker-src 'self'; connect-src 'none'; img-src 'self'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <title>Tracker+ Conditional Trigs — CT2 · v0.2.1-CT2</title>
+  <title>Tracker+ Conditional Trigs — CT2</title>
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.js"></script>
 </head>
 <body data-state="waiting">
   <header class="topbar">
-    <a class="wordmark" href="./" aria-label="Tracker+ Conditional Trigs home"><span class="mark" aria-hidden="true">CT</span> TRACKER+ CONDITIONAL TRIGS</a>
-    <nav aria-label="Resources"><a class="kofi" href="https://ko-fi.com/psygoo" target="_blank" rel="noopener noreferrer">Buy me a Ko-fi ☕</a><a href="./documentation.html">Documentation ↗</a><a href="https://github.com/Psygoo/TrackerPlus-CT-Web" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+    <a class="wordmark" href="./" aria-label="Tracker+ Conditional Trigs home">Tracker+ Conditional Trigs</a>
+    <nav aria-label="Main navigation">
+      <a href="https://github.com/Psygoo/TrackerPlus-CT-Web" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="./documentation.html">Docs</a>
+      <a href="https://ko-fi.com/psygoo" target="_blank" rel="noopener noreferrer">Ko-fi</a>
+    </nav>
   </header>
+
   <main>
-    <section class="intro" aria-labelledby="title">
-      <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span> CT2 · v0.2.1-CT2</div>
-      <h1 id="title">Tracker+<br><span>Conditional Trigs</span></h1>
-      <p class="tagline">A little more controlled variation.</p>
-      <p class="subtitle">An unofficial firmware mod for Polyend Tracker+.<br>Firmware 1.2.0-CT2 · Build 1504</p>
-      <div class="conditions" aria-label="Supported Chance conditions"><span>1:2 … 8:8</span><span>1S / !1S</span><span>PR / !PR</span><span>NE / !NE</span><span>Full Fill FX</span></div>
-    </section>
-    <p class="card-intro">Encoder order: <strong>0–100 → 1:2 … 8:8 → PR → !PR → NE → !NE → 1S → !1S</strong>. Both Fill columns support Constant, From-To and Random across this range.</p>
-    <aside class="local-note" aria-label="Firmware privacy"><strong>100% local. No uploads.</strong><p>Your firmware is processed entirely in your browser and is never sent to any server.</p></aside>
-    <p class="risk-banner"><strong>USE AT YOUR OWN RISK</strong> · Unofficial experimental firmware. <a href="./documentation.html#disclaimer">Read before use ↗</a></p>
-    <section class="patch-card" aria-labelledby="patch-title">
-      <div class="card-heading"><h2 id="patch-title">Make it conditional.</h2><span class="local-badge">◉ RUNS LOCALLY</span></div>
-      <p class="card-intro">Start with your original <strong>Tracker+ 1.2.0</strong> firmware.<br>We’ll check it, apply CT2 and verify every output byte.</p>
-      <p class="card-intro"><strong>Corrected PRE after NE/!NE.</strong> CT2 includes the hardware-confirmed H13 fix: later PR follows the NE result. <a href="./documentation.html#conditions">Read the condition guide</a>.</p>
-      <p class="card-intro"><strong>Coming from CT6?</strong> Stored condition IDs changed. Use project copies and <a href="./documentation.html#compatibility">review the compatibility guide</a> before playback.</p>
-      <div id="drop" class="dropzone" aria-busy="false">
-        <div class="file-icon" aria-hidden="true">↓</div>
-        <h3>Drop your original .ptf here</h3>
-        <p>Polyend Tracker+ · Firmware 1.2.0 only</p>
-        <span class="or">or</span>
-        <button id="choose" class="choose" type="button" disabled>Choose firmware file</button>
-        <input id="firmware" type="file" accept=".ptf" hidden disabled aria-label="Choose original firmware">
-        <span class="privacy-note">Your firmware stays on this device. No uploads.</span>
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">Tracker+ Conditional Trigs</h1>
+      <p class="tagline">More controlled variation for Polyend Tracker+.</p>
+      <p class="firmware-line">Unofficial firmware · 1.2.0-CT2 · Build 1504</p>
+      <div class="conditions" aria-label="Supported features">
+        <span class="label-ratio">1:2 … 8:8</span><span class="label-pre">PR / !PR</span>
+        <span class="label-ne">NE / !NE</span><span class="label-first">1S / !1S</span>
+        <span class="label-fill">Fill FX</span>
       </div>
-      <div class="progress-status" role="status" aria-live="polite" aria-atomic="true"><span class="status-dot" aria-hidden="true"></span><div><span id="step-label">01 / SELECT FIRMWARE</span><p id="status">Waiting for original firmware</p></div></div>
-      <div id="hash" class="hash" hidden>Verified output SHA-256<code id="output-hash"></code></div>
+      <details class="condition-help">
+        <summary>What do these conditions mean?</summary>
+        <dl>
+          <dt>1:2–8:8</dt><dd>Play on a specific pass of a repeating cycle.</dd>
+          <dt>PR / !PR</dt><dd>Follow or invert the previous relevant condition on the same track.</dd>
+          <dt>NE / !NE</dt><dd>Follow or invert the last conditional trigger on the neighbouring track to the left.</dd>
+          <dt>1S / !1S</dt><dd>Play only on the first pass, or on all later passes.</dd>
+        </dl>
+        <a href="./documentation.html#conditions">Full condition guide ↗</a>
+      </details>
+      <p class="privacy-line">100% local <span aria-hidden="true">·</span> No uploads <span aria-hidden="true">·</span> Your firmware stays on your computer</p>
+    </section>
+
+    <section class="patch-card" aria-labelledby="patch-title">
+      <div class="card-heading"><h2 id="patch-title">Create your CT2 firmware</h2><span class="version">v0.2.1-CT2</span></div>
+      <p class="intro-copy">Select the supported original firmware file to generate a verified CT2 copy in your browser.</p>
+
+      <div id="drop" class="dropzone" aria-busy="false" aria-describedby="file-help file-warning">
+        <h3>Select your original Polyend Tracker+ 1.2.0 firmware file (.ptf)</h3>
+        <button id="choose" class="choose" type="button" disabled>Choose firmware file</button>
+        <input id="firmware" type="file" accept=".ptf" hidden disabled aria-label="Choose original Polyend Tracker+ 1.2.0 firmware file">
+        <p id="file-help" class="drop-help">or drag and drop your .ptf file here</p>
+        <p id="file-warning" class="file-warning">We do not provide or distribute Polyend firmware.</p>
+      </div>
+
+      <ol id="workflow" class="workflow" aria-label="Patching progress">
+        <li data-step="1" class="current" aria-current="step"><span>1</span>Select</li>
+        <li data-step="2"><span>2</span>Verify</li>
+        <li data-step="3"><span>3</span>Patch</li>
+        <li data-step="4"><span>4</span>Download</li>
+      </ol>
+      <div class="progress-status" role="status" aria-live="polite" aria-atomic="true"><span class="status-icon" aria-hidden="true">•</span><div><span id="step-label">01 / SELECT FIRMWARE</span><p id="status">Waiting for original firmware</p></div></div>
+      <details id="hash" class="hash"><summary>Verification details</summary><span>Verified output SHA-256</span><code id="output-hash"></code></details>
       <button id="download" class="download" type="button" disabled>Download patched firmware <span aria-hidden="true">↓</span></button>
-      <p class="download-note">Download: TrackerPlus_CT2.ptf · manual installation.</p>
+      <p class="download-note">Filename: TrackerPlus_CT2.ptf</p>
       <noscript><p class="noscript">JavaScript is required for local patching. Download remains disabled.</p></noscript>
     </section>
-    <aside class="warning" aria-labelledby="risk-title"><span class="warning-icon" aria-hidden="true">!</span><div><h2 id="risk-title">USE AT YOUR OWN RISK</h2><p>Unofficial experimental firmware. Not affiliated with, endorsed by or supported by Polyend. It may cause instability, data loss or failure to boot. Back up your entire SD card, including Workspace and projects, and read the <a href="./documentation.html#recovery">recovery guidance</a> before use. Recovery is not guaranteed.</p><p class="song-warning">The project owner confirmed CT2 works on physical Tracker+ hardware, including the NE → PRE correction. Not every hardware mode or browser platform has been verified.</p><a href="./documentation.html#disclaimer">Read the full disclaimer ↗</a></div></aside>
-    <section class="how" aria-label="How it works"><div><span>01</span><h3>Bring your original</h3><p>Supply your own unmodified Tracker+ 1.2.0 PTF.</p></div><div><span>02</span><h3>Let the checks run</h3><p>Only the exact supported stock file can be patched.</p></div><div><span>03</span><h3>Save the verified result</h3><p>A download appears only after the CT2 hash matches.</p></div></section>
+
+    <aside class="compatibility" aria-labelledby="compat-title">
+      <span class="compat-mark" aria-hidden="true">i</span><div><h2 id="compat-title">Coming from CT6?</h2><p>Stored condition IDs changed. Use project copies and <a href="https://psygoo.github.io/TrackerPlus-CT-Web/documentation.html#compatibility">review the compatibility guide</a> before playback.</p></div>
+    </aside>
+
+    <aside class="warning" aria-labelledby="risk-title">
+      <span class="warning-icon" aria-hidden="true">!</span><div>
+        <h2 id="risk-title">USE AT YOUR OWN RISK</h2>
+        <p>Unofficial experimental firmware. Not affiliated with, endorsed by or supported by Polyend. It may cause instability, data loss or failure to boot. Back up your entire SD card, including Workspace and projects, and read the <a href="https://psygoo.github.io/TrackerPlus-CT-Web/documentation.html#recovery">recovery guidance</a> before use. Recovery is not guaranteed.</p>
+        <p class="hardware-note">The project owner confirmed CT2 works on physical Tracker+ hardware, including the NE → PRE correction. Not every hardware mode or browser platform has been verified.</p>
+        <a class="full-disclaimer" href="https://psygoo.github.io/TrackerPlus-CT-Web/documentation.html#disclaimer">Read the full disclaimer ↗</a>
+      </div>
+    </aside>
+
+    <section class="support" aria-labelledby="support-title">
+      <div><h2 id="support-title">Enjoying Conditional Trigs?</h2><p>If you find this project useful, consider buying me a coffee. Your support helps cover the costs of the AI tools used to develop it.</p></div>
+      <a class="support-link" href="https://ko-fi.com/psygoo" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">☕</span> Ko-fi ↗</a>
+    </section>
   </main>
-  <footer><p>Original concept: <a href="https://github.com/Psygoo/TrackerPlus-CT-Web">Psygoo</a> · Implementation foundation: FatRodzianko’s <a href="https://github.com/FatRodzianko/Modular-Trackular" target="_blank" rel="noopener noreferrer">Modular-Trackular</a> · <a href="./LICENSE">MIT source license</a></p><span>Independent firmware mod · CT2 · v0.2.1-CT2</span></footer>
+
+  <footer>
+    <span><a href="https://github.com/Psygoo/TrackerPlus-CT-Web">Psygoo</a> · Independent firmware mod · 1.2.0-CT2 · Build 1504</span>
+  </footer>
 </body>
 </html>

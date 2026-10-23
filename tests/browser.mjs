@@ -28,12 +28,32 @@ try {
       await page.waitForFunction(() => !document.querySelector('#choose').disabled);
       assert.equal(await page.locator('#download').isDisabled(), true);
       assert.match(await page.title(), /CT2/);
-      assert.match(await page.title(), /v0\.2\.1-CT2/);
-      assert.match(await page.locator('.subtitle').textContent(), /1\.2\.0-CT2.*1504/);
+      assert.match(await page.locator('.version').textContent(), /v0\.2\.1-CT2/);
+      assert.match(await page.locator('.firmware-line').textContent(), /1\.2\.0-CT2.*1504/);
       assert.match(await page.locator('.download-note').textContent(), /TrackerPlus_CT2\.ptf/);
-      assert.match(await page.locator('.patch-card').textContent(), /Corrected PRE after NE/);
-      assert.match(await page.locator('footer').textContent(), /Psygoo/);
-      assert.match(await page.locator('footer').textContent(), /FatRodzianko/);
+      assert.match(await page.locator('.warning').textContent(), /NE → PRE correction/);
+      assert.match((await page.locator('#workflow').innerText()).replace(/\s+/g, ' '), /Select.*Verify.*Patch.*Download/);
+      assert.match(await page.locator('.privacy-line').textContent(), /100% local.*No uploads/);
+      assert.equal(await page.locator('.workflow [aria-current="step"]').getAttribute('data-step'), '1');
+      assert.equal(await page.locator('.condition-help').evaluate(el => el.open), false);
+      await page.locator('.condition-help summary').focus();
+      assert(await page.evaluate(() => parseFloat(getComputedStyle(document.activeElement).outlineWidth) >= 2), 'disclosure keyboard focus outline is visible');
+      await page.keyboard.press('Enter');
+      assert.equal(await page.locator('.condition-help').evaluate(el => el.open), true);
+      const conditionHelp = await page.locator('.condition-help').innerText();
+      for (const phrase of ['1:2–8:8', 'PR / !PR', 'NE / !NE', '1S / !1S', 'repeating cycle', 'same track', 'neighbouring track to the left', 'first pass', 'all later passes']) assert(conditionHelp.includes(phrase), `missing condition description: ${phrase}`);
+      assert.equal(await page.locator('.condition-help a').getAttribute('href'), './documentation.html#conditions');
+      await page.keyboard.press('Enter');
+      assert.equal(await page.locator('.condition-help').evaluate(el => el.open), false);
+      assert.equal((await page.locator('footer').innerText()).trim(), 'Psygoo · Independent firmware mod · 1.2.0-CT2 · Build 1504');
+      assert.equal(await page.locator('footer a').getAttribute('href'), 'https://github.com/Psygoo/TrackerPlus-CT-Web');
+      for (let i = 0; i < 8; i++) {
+        await page.keyboard.press('Tab');
+        if (await page.evaluate(() => document.activeElement?.id === 'choose')) break;
+      }
+      assert.equal(await page.evaluate(() => document.activeElement?.id), 'choose');
+      assert(await page.evaluate(() => parseFloat(getComputedStyle(document.activeElement).outlineWidth) >= 2), 'keyboard focus outline is visible');
+      await page.keyboard.press('Tab');
       const loaded = network.length;
       // Abort all subsequent network requests. Successful patching must need none.
       const unexpected = [];
@@ -58,6 +78,9 @@ try {
       };
       // Normal file chooser, actual module worker, output hash gate and Blob save.
       await page.locator('#firmware').setInputFiles({ name: 'TrackerPlus_1.2.0.ptf', mimeType: 'application/octet-stream', buffer: stock });
+      await page.waitForFunction(() => document.body.dataset.state === 'success', { }, { timeout: 90000 });
+      assert.equal(await page.locator('.workflow [aria-current="step"]').getAttribute('data-step'), '4');
+      assert.equal(await page.locator('#download').isDisabled(), false);
       await verifyDownload();
       // A bad selection after success must revoke stale output.
       await page.locator('#firmware').setInputFiles({ name: 'wrong.ptf', mimeType: 'application/octet-stream', buffer: bad });
@@ -81,7 +104,7 @@ try {
       assert((await page.evaluate(() => window.cspViolations)).includes('connect-src'));
       violations.push('deliberate connect-src probe blocked');
       await context.unroute('**/*');
-      for (const width of [320, 375, 1280]) {
+      for (const width of [320, 375, 768, 1280]) {
         await page.setViewportSize({ width, height: 900 });
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `horizontal overflow at ${width}`);
         if (process.env.EVIDENCE_DIR) {
@@ -92,6 +115,9 @@ try {
       await page.goto(url + 'documentation.html');
       assert(await page.locator('#compatibility').count());
       assert(await page.locator('#credits').count());
+      assert.match(await page.locator('#credits').textContent(), /Psygoo/);
+      assert.match(await page.locator('#credits').textContent(), /FatRodzianko/);
+      assert.match(await page.locator('#credits').textContent(), /MIT/);
       assert.match(await page.locator('#conditions').textContent(), /NE\/!NE now also produce PRE/);
       assert.match(await page.locator('#compatibility').textContent(), /superseded/);
       for (const width of [320, 1280]) {
@@ -101,7 +127,7 @@ try {
       assert.deepEqual(errors, []);
       assert(consoleErrors.every(s => /connect-src|Content Security Policy|Content-Security-Policy|NetworkError|Load failed|Fetch API|Failed to fetch/i.test(s)), consoleErrors.join('\n'));
       assert(network.every(req => req.url.startsWith(url) && req.method === 'GET' && req.body === null));
-      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 1280], errors });
+      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 768, 1280], keyboard_focus: 'visible', errors });
     } finally { await browser.close(); }
   }
   assert(requests.every(req => ['GET', 'HEAD'].includes(req.method) && req.contentLength === '0'));
