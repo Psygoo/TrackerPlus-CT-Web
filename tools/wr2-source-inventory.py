@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'WR2_SOURCE_INVENTORY.json'
 PAYLOAD_SOURCE = ROOT / 'wr2/payload-src'
 FILES = [
-    'LICENSE', 'NOTICE.md', 'README.md', 'COMPATIBILITY.md', 'WR2.md', 'WR2_QUICK_START.md', 'WR2_USER_GUIDE.md', 'documentation.html',
+    'LICENSE', 'NOTICE.md', 'README.md', 'COMPATIBILITY.md', 'WR2.md', 'WR2_QUICK_START.md', 'WR2_USER_GUIDE.md', 'quick-start.html', 'documentation.html',
     'index.html', 'style.css', 'app.js', 'worker.js', 'worker-core.js', 'session.js',
     'patcher.js', 'ct2-program.js', 'wr2-patcher.js',
     'tools/export-wr2-payloads.py', 'tools/wr2-source-inventory.py', 'tools/render-docs.py',
@@ -33,8 +33,8 @@ INVENTORY = {
         'repository': 'Psygoo/TrackerPlus-CT-Web',
         'branch': 'codex/ct2-wr2-integration',
         'base_commit': TARGET_BASE,
-        'source_commit': 'b88d72ab6d7d668e5db1e0749e9a263380f8b7ee',
-        'snapshot_status': 'local S13D integration candidate derived from the recovered committed Psygoo source; not yet committed or deployed',
+        'source_commit': '9f3323bb24953a69d1d43ccb415eadd5bed86b1f',
+        'snapshot_status': 'local documentation-structure candidate based on the published S13D source; firmware code and payloads are unchanged',
         'anchor': 'PUBLIC_FILES.json hashes this inventory; the containing Psygoo repository commit anchors the reviewed release snapshot.',
     },
     'authorship_and_licensing': {

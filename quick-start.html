@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Tracker+ Conditional Trigs + Slice Weighted Random. Less repetition. More natural variation. Create more organic, evolving performances.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; worker-src 'self'; connect-src 'none'; img-src 'self'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>CT2 + WR2 Quick Start</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body><main class="docs"><nav aria-label="Page navigation"><a href="./">← Web Patcher</a> <a href="./documentation.html">Full Documentation</a></nav><h1>CT2 + WR2 Quick Start</h1>
+<h2 id="ct2-quick-start">CT2 — Chance</h2>
+<p>In FX1 or FX2, select <strong>Chance (C)</strong> and turn the jog encoder to choose a percentage or condition.</p>
+<table><thead><tr><th>Setting</th><th>Function</th></tr></thead><tbody>
+<tr><td><strong>0–100</strong></td><td>Playback probability</td></tr>
+<tr><td><strong>1:2–8:8</strong></td><td>Play on pass A of a B-pass cycle</td></tr>
+<tr><td><strong>PR / !PR</strong></td><td>Follow / invert the previous eligible Chance result on the same track</td></tr>
+<tr><td><strong>NE / !NE</strong></td><td>Follow / invert the last conditional-note result on the previous track</td></tr>
+<tr><td><strong>1S / !1S</strong></td><td>First pass only / subsequent passes</td></tr>
+</tbody></table>
+<h2 id="wr2-quick-start">WR2 — Slice Weighted Random</h2>
+<ol>
+<li><strong>Open:</strong> Sample Playback → Beat Slice → MORE → Page 3.</li>
+<li><strong>Create:</strong> Select an unassigned slice → <strong>Trig</strong> (becomes master).</li>
+<li><strong>Add:</strong> Select another unassigned slice → <strong>Add</strong>.</li>
+<li><strong>Weight:</strong> Select a member → <strong>Weight</strong> → jog encoder.</li>
+<li><strong>Finish:</strong> Press <strong>Trig</strong>.</li>
+<li><strong>Edit:</strong> Select a master or member → <strong>Trig</strong>.</li>
+<li><strong>Remove:</strong> Select a member → <strong>Remove</strong>. Removing the master deletes the group.</li>
+<li><strong>Play:</strong> Trigger the master for weighted random playback (not round-robin).</li>
+<li><strong>Save:</strong> Save the project to preserve the groups.</li>
+</ol>
+<h3>Pad LEDs</h3>
+<table><thead><tr><th>Brightness</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Maximum</strong></td><td>Group master</td></tr>
+<tr><td><strong>Medium-high</strong></td><td>Active group members</td></tr>
+<tr><td><strong>Medium-low</strong></td><td>Other groups</td></tr>
+<tr><td><strong>Low</strong></td><td>Unassigned slices</td></tr>
+<tr><td><strong>Off</strong></td><td>No corresponding slice</td></tr>
+</tbody></table>
+<p>Brightness depends on the global LED brightness setting. Red/orange on-screen markers represent the same slice/group relationships using colours instead of brightness.</p></main></body></html>

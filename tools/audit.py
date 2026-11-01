@@ -6,7 +6,7 @@ import hashlib,json,re,sys
 ROOT=Path(__file__).resolve().parents[1]
 TOP={'.gitignore','.nojekyll','LICENSE','NOTICE.md','README.md','BROWSER.md','CONDITIONS.md','INSTALL.md',
      'COMPATIBILITY.md','WR2.md','WR2_QUICK_START.md','WR2_USER_GUIDE.md','RECOVERY.md','DISCLAIMER.md','RELEASE_NOTES.md','PUBLICATION.md','VALIDATION.md',
-     'package.json','package-lock.json','index.html','documentation.html','style.css','app.js','worker.js','WR2_SOURCE_INVENTORY.json',
+     'package.json','package-lock.json','index.html','documentation.html','quick-start.html','style.css','app.js','worker.js','WR2_SOURCE_INVENTORY.json',
      'session.js','patcher.js','ct2-program.js','wr2-patcher.js','worker-core.js','PUBLIC_FILES.json'}
 SOURCES={'ct1':{'condtrig.c','link.ld'},'history':{'hook.c','link.ld'},
          'pre':{'extension.c','gateways.S','link.ld'},'neighbor_labels':{'in_place.S','in_place.ld'},

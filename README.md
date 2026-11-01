@@ -18,11 +18,9 @@ displayed Polyend build marker **1504** is inherited from original firmware
 Use the [public web patcher](https://psygoo.github.io/TrackerPlus-CT-Web/) to
 generate your firmware locally from the supported original input.
 
-**[WR2 Quick Start Guide](WR2_QUICK_START.md)** — create groups, set weights,
-read the white pad LEDs, save projects, and protect your data.
+**[CT2 + WR2 Quick Start](https://psygoo.github.io/TrackerPlus-CT-Web/quick-start.html)** — a concise guide to Chance controls and WR2 groups.
 
-**[Full WR2 User Guide](WR2_USER_GUIDE.md)** — detailed instructions for group
-editing, playback, visual indicators, project persistence, and compatibility.
+**[Full Documentation](https://psygoo.github.io/TrackerPlus-CT-Web/documentation.html)** — detailed CT2, WR2, installation, compatibility, recovery, and project-data information.
 
 CT2 uses the exact **hardware-validated H13** implementation, including the
 NE/!NE → PR/!PR correction. Only its displayed version label changes. The user
@@ -50,7 +48,7 @@ CT6 is preserved at [archive/ct6-before-h12](https://github.com/Psygoo/TrackerPl
 
 ## Slice Weighted Random (WR2)
 
-Slice Weighted Random (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. The Web Patcher keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or exact S13D-based CT2+WR2 output locally in the browser. The exact firmware outputs are checked against complete local references. Chromium 156 and Firefox 157 passed the browser suites, including actual downloads, WR2 selection and responsive checks. See [verification](VALIDATION.md) for full coverage and evidence limits. See the [WR2 Quick Start Guide](WR2_QUICK_START.md) or [detailed WR2 instructions](WR2.md).
+Slice Weighted Random (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. The Web Patcher keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or exact S13D-based CT2+WR2 output locally in the browser. The exact firmware outputs are checked against complete local references. Chromium 156 and Firefox 157 passed the browser suites, including actual downloads, WR2 selection and responsive checks. See [verification](VALIDATION.md) for full coverage and evidence limits. Start with the [CT2 + WR2 Quick Start](https://psygoo.github.io/TrackerPlus-CT-Web/quick-start.html), or read the [Full Documentation](https://psygoo.github.io/TrackerPlus-CT-Web/documentation.html).
 
 ## Make firmware locally
 

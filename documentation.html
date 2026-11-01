@@ -7,24 +7,25 @@
   <meta name="description" content="Tracker+ Conditional Trigs + Slice Weighted Random. Less repetition. More natural variation. Create more organic, evolving performances.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; worker-src 'self'; connect-src 'none'; img-src 'self'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <title>Tracker+ Conditional Trigs + Slice Weighted Random — Documentation</title>
+  <title>Tracker+ CT2 + WR2 — Full Documentation</title>
   <link rel="stylesheet" href="./style.css">
-  
+
 </head>
-<body><main class="docs"><a href="./">← Local firmware patcher</a><h1>CT2 documentation</h1><nav aria-label="Documentation"><a href="#overview">Overview</a><a href="#conditions">Conditions</a><a href="#install">Install</a><a href="#compatibility">Compatibility</a><a href="#wr2">Wr2</a><a href="#wr2-quick-start">Wr2 Quick Start</a><a href="#wr2-user-guide">Wr2 User Guide</a><a href="#recovery">Recovery</a><a href="#disclaimer">Disclaimer</a><a href="#credits">Credits</a><a href="#validation">Validation</a><a href="#release-notes">Release Notes</a><a href="#publication">Publication</a></nav>
+<body><main class="docs"><a href="./">← Web Patcher</a><h1>Full Documentation</h1><nav aria-label="Documentation"><a href="#overview">Overview</a><a href="#conditions">Conditions</a><a href="#install">Install</a><a href="#compatibility">Compatibility</a><a href="#wr2">WR2 details</a><a href="#recovery">Recovery</a><a href="#disclaimer">Disclaimer</a><a href="#credits">Credits</a><a href="#validation">Validation</a><a href="#release-notes">Release Notes</a><a href="#publication">Publication</a></nav>
+<section class="legacy-links" aria-label="Older documentation links"><p id="ct2-quick-start">The Quick Start is now a standalone page: <a href="./quick-start.html#ct2-quick-start">CT2 + WR2 Quick Start</a>.</p><p id="wr2-quick-start">For WR2 controls, open the <a href="./quick-start.html#wr2-quick-start">WR2 Quick Start section</a>.</p><p id="wr2-user-guide">Detailed WR2 instructions are in <a href="#wr2-details">Full Documentation — WR2 details</a>.</p></section>
 <section id="overview"><h2>Tracker+ Conditional Trigs + Slice Weighted Random</h2>
 <p><strong>Less repetition. More natural variation.</strong></p>
 <p>Bring your patterns to life by varying which notes are played and which sample slices are heard. Create more organic, evolving performances. CT2 varies which notes and events play; WR2 varies which sample slices play. Together they offer variation-based musical humanization through performance choices.</p>
 <p>An independent, unofficial modification for <strong>Polyend Tracker+ (2024 plus model)</strong>, using original firmware <strong>1.2.0</strong>. Not affiliated with, endorsed by or supported by Polyend. Not for Tracker Mini or the original Tracker.</p>
 <p>The modified firmware keeps the existing displayed identity <strong>1.2.0-CT2</strong>. The displayed Polyend build marker <strong>1504</strong> is inherited from original firmware 1.2.0 and is not a Psygoo build number. The CT2 release identifier remains <strong>v0.2.1-CT2</strong>. Use the <a href="https://psygoo.github.io/TrackerPlus-CT-Web/">public web patcher</a> to generate your firmware locally from the supported original input.</p>
-<p><strong><a href="#wr2-quick-start">WR2 Quick Start Guide</a></strong> — create groups, set weights, read the white pad LEDs, save projects, and protect your data.</p>
-<p><strong><a href="#wr2-user-guide">Full WR2 User Guide</a></strong> — detailed instructions for group editing, playback, visual indicators, project persistence, and compatibility.</p>
+<p><strong><a href="https://psygoo.github.io/TrackerPlus-CT-Web/quick-start.html">CT2 + WR2 Quick Start</a></strong> — a concise guide to Chance controls and WR2 groups.</p>
+<p><strong><a href="https://psygoo.github.io/TrackerPlus-CT-Web/documentation.html">Full Documentation</a></strong> — detailed CT2, WR2, installation, compatibility, recovery, and project-data information.</p>
 <p>CT2 uses the exact <strong>hardware-validated H13</strong> implementation, including the NE/!NE → PR/!PR correction. Only its displayed version label changes. The user confirmed H13 works on physical Tracker+ hardware, specifically including that fix. The project owner also installed and confirmed the final CT2 firmware works correctly on physical Tracker+ hardware. These reports do not establish that every hardware mode or configuration has been tested.</p>
 <h3>Corrected PRE after NE</h3>
 <p><strong>NE and !NE now update their own track&#x27;s PRE history</strong> with the evaluated logical conditional-note result, including both acceptance and rejection. A later PR follows that result; !PR inverts it. Micro-move changes dispatch timing without changing the recorded logical result. Neighbour chains continue to work, using the immediately preceding track&#x27;s last conditional-note result. PR/!PR remain PRE non-producers. An event containing PR/!PR retains previous PRE even when NE is in the other FX column; both columns read before commit. <a href="#conditions">Full semantics and examples</a>.</p>
 <p>CT2 is the corrected successor to the <strong>superseded H12 public release</strong>, <a href="https://github.com/Psygoo/TrackerPlus-CT-Web/releases/tag/v0.2.0-h12">v0.2.0-h12</a>. H12 did not update PRE after NE/!NE. Its release, source and tag remain available for reference/recovery; the default web patcher now targets CT2. CT6 is preserved at <a href="https://github.com/Psygoo/TrackerPlus-CT-Web/tree/archive/ct6-before-h12">archive/ct6-before-h12</a>.</p>
 <h3>Slice Weighted Random (WR2)</h3>
-<p>Slice Weighted Random (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. The Web Patcher keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or exact S13D-based CT2+WR2 output locally in the browser. The exact firmware outputs are checked against complete local references. Chromium 156 and Firefox 157 passed the browser suites, including actual downloads, WR2 selection and responsive checks. See <a href="#validation">verification</a> for full coverage and evidence limits. See the <a href="#wr2-quick-start">WR2 Quick Start Guide</a> or <a href="#wr2">detailed WR2 instructions</a>.</p>
+<p>Slice Weighted Random (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. The Web Patcher keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or exact S13D-based CT2+WR2 output locally in the browser. The exact firmware outputs are checked against complete local references. Chromium 156 and Firefox 157 passed the browser suites, including actual downloads, WR2 selection and responsive checks. See <a href="#validation">verification</a> for full coverage and evidence limits. Start with the <a href="https://psygoo.github.io/TrackerPlus-CT-Web/quick-start.html">CT2 + WR2 Quick Start</a>, or read the <a href="https://psygoo.github.io/TrackerPlus-CT-Web/documentation.html">Full Documentation</a>.</p>
 <h3>Make firmware locally</h3>
 <p>Supply your own unmodified PTF from the <a href="https://polyend.com/downloads/tracker-plus-downloads/">official Tracker+ downloads</a>. The patcher runs in browser memory and never uploads firmware. It supplies no Polyend firmware and installs nothing. Only an exact verified output enables Download. With WR2 unchecked, the output is <strong>TrackerPlus_CT2.ptf</strong>; with WR2 checked, it is <strong>TrackerPlus_CT2_WR2.ptf</strong>.</p>
 <table><thead><tr><th>File</th><th>SHA-256</th></tr></thead><tbody>
@@ -76,14 +77,14 @@
 <p>Other FX and the stock Random-FX-type option keep their previous behavior. There is no new Fill mode. Stored IDs: percentages 0–100; 1S/!1S 101/102; ratios 103–137; PR/!PR 138/139; NE/!NE 140/141.</p></section>
 <section id="install"><h2>Installation</h2>
 <p>This independent project is not affiliated with Polyend. Read the <a href="#disclaimer">disclaimer</a>, <a href="#compatibility">compatibility guide</a> and <a href="#recovery">recovery procedure</a> before making changes.</p>
-<ul>
+<ol>
 <li>Obtain the official <strong>Polyend Tracker+ 1.2.0</strong> PTF from <a href="https://polyend.com/downloads/tracker-plus-downloads/">Polyend&#x27;s Tracker+ downloads</a>. Extract the PTF if delivered in an archive. Use the plus model, not Mini, original Tracker, a beta, previously patched image or another version. Supported PTF SHA-256: <code>d4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd</code>. If the official download differs, stop: do not bypass the check.</li>
 <li>Back up the <strong>entire SD card</strong>, including Workspace, projects, samples and settings, to a separate device. Keep untouched project copies, the original official firmware and a known working recovery image. Review CT6 migration before playing older conditional projects.</li>
 <li>Open the reviewed web patcher on HTTPS, or serve this source locally with <code>node tools/serve.mjs</code>. Select/drop your own original PTF. Processing stays in browser memory; no upload occurs. Wait for successful verification.</li>
 <li>Save the output matching your selection. CT2 is <code>TrackerPlus_CT2.ptf</code> with SHA-256 <code>baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20</code>. CT2+WR2 is <code>TrackerPlus_CT2_WR2.ptf</code> with SHA-256 <code>0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a</code>. A hash mismatch or error means do not install. For an independent check, use <code>sha256sum &lt;filename&gt;</code> on Linux, <code>shasum -a 256 &lt;filename&gt;</code> on macOS or <code>Get-FileHash &lt;filename&gt; -Algorithm SHA256</code> in PowerShell.</li>
 <li>Follow the official manual&#x27;s firmware update procedure: copy the generated PTF into the SD card&#x27;s Firmware folder, safely eject, insert in Tracker+, then select the file under <strong>Config → Firmware</strong> and follow device prompts. Use reliable power and do not interrupt the update. The website never flashes a device or edits your SD card.</li>
 <li>Confirm Config shows <strong>1.2.0-CT2</strong> (or the combined <strong>1.2.0-CT2+WR2</strong> label), then test a copied project. The displayed build marker <strong>1504</strong> is inherited from original Polyend firmware 1.2.0; it is not a Psygoo build number. Check the conditions and Fill modes you use before committing important work.</li>
-</ul>
+</ol>
 <p>Manual reference: <a href="https://polyend-website.fra1.digitaloceanspaces.com/wp-content/uploads/2024/05/08111709/Polyend-TrackerPlus-Manual-1v1v0c.pdf#page=318">Polyend Tracker+ manual, firmware update/recovery</a>. To return to official firmware, use its normal update procedure when available, or read <a href="#recovery">recovery</a>. Restoring firmware does not migrate projects.</p>
 <h3>Final CT2 hardware smoke check (manual)</h3>
 <p>Keep backups and a working recovery image. After manually installing CT2, confirm Config shows <strong>1.2.0-CT2</strong> and the inherited Polyend build marker 1504, normal boot, Record note entry and Play/Stop. Track 1 row 01: note + 1S. Track 2: note + NE on row 03, PR on row 05, !PR on row 07. First pass NE/PR play; later passes !PR plays. Swap NE for !NE and confirm PR follows that inverted result. Repeat with Micro-move and either FX column, then a short NE chain, save/reload and one Fill operation per mode in both FX columns. This is a smoke check of the label-only variant; it does not replace the stated hardware coverage limits.</p></section>
@@ -103,64 +104,37 @@
 <p>CT6&#x27;s reserved value 101 becomes 1S in CT2; review any unsupported stored values manually. The public patcher takes official stock firmware only; it does not patch CT6 firmware, convert projects or read your SD card.</p>
 <p>Returning to stock or CT6 does not preserve CT2 condition meanings. Keep separate project copies for each firmware. Preserve CT6 source at repository commit <code>dfb5cd4bdfe3f8bd1c68c4c998c2d44365a596ad</code>; its original website must remain recoverable. The default website targets CT2; older source snapshots stay available.</p>
 <h3>Weighted Random 2</h3>
-<p>WR2 is an optional output in the public patcher. The combined output is the owner-confirmed, hardware-tested S13D firmware; stock and CT2-only firmware do not implement WR2 playback. WR2 group and companion sidecars require compatible WR2 firmware; back up the full project and Workspace. See the <a href="#wr2-quick-start">WR2 Quick Start Guide</a> and <a href="#wr2">detailed WR2 instructions</a>.</p></section>
+<p>WR2 is an optional output in the public patcher. The combined output is the owner-confirmed, hardware-tested S13D firmware; stock and CT2-only firmware do not implement WR2 playback. WR2 group and companion sidecars require compatible WR2 firmware; back up the full project and Workspace. Start with the <a href="./quick-start.html#ct2-quick-start">CT2 + WR2 Quick Start</a> or consult the full documentation.</p></section>
 <section id="wr2"><h2>Slice Weighted Random (WR2)</h2>
-<p>WR2 adds weighted selection for groups of Beat Slice samples. Each master-slice trigger makes a weighted probability draw across its group; this is not round-robin playback and does not guarantee a fixed sequence. The Web Patcher keeps CT2 mandatory and checked and makes WR2 optional and unchecked. With WR2 selected, it generates the owner-confirmed, hardware-tested S13D CT2+WR2 image directly from your original firmware 1.2.0. Start with the <a href="#wr2-quick-start">WR2 Quick Start Guide</a>.</p>
-<h3>Groups and playback</h3>
-<p>A group has a master slice and one or more member slices. Triggering the master note makes a weighted random choice among that group&#x27;s slices. Triggering a member directly plays that slice. Unassigned slices continue to use stock Beat Slice playback. Weights are chances across repeated triggers, not a guaranteed short sequence.</p>
-<p>In Beat Slice mode, use <strong>MORE</strong> to open Page 3. Select an unassigned slice and press <strong>Trig</strong> to create or enter a group. Select another unassigned slice and press <strong>Add</strong> to make it a member. Press <strong>Trig</strong> again to exit editing. Selecting another slice does not change which group is being edited. Leaving Page 3, changing instrument or leaving Beat Slice ends editing without deleting groups. The <a href="#wr2-quick-start">quick-start guide</a> explains the on-screen markers and white physical pad LEDs.</p>
-<p>While editing, select a group slice, press <strong>Weight</strong>, and turn the jog encoder. The display shows its percentage; the other members are adjusted so the group totals 100%. Add assigns the new member 10% and redistributes the rest. Press <strong>Remove</strong> on a member to remove it and redistribute; removing the master deletes that group.</p>
-<p>Example: assign three drum slices weights 60%, 30%, and 10%. Trigger the master note for weighted variation. Trigger an individual member note when a specific slice is needed.</p>
-<h3>Saving, Copy and Import</h3>
-<p>Normal project Save and Save As persist groups in <code>&lt;project&gt;/wr2_groups.wr2</code>. WR2 also creates optional files under <code>&lt;project&gt;/wr2_companions/</code> for cross-project Instrument Import. Back up the full project directory and Workspace, including these files. They are not backups of unsaved changes.</p>
-<p>Instrument Copy transfers a source instrument&#x27;s groups independently. A source without WR2 groups replaces the destination&#x27;s eligibility. Cross-project Instrument Import can carry groups when the source was saved with compatible WR2 firmware and its metadata is available; missing or invalid metadata leaves native Import working without inferred groups. Save the destination afterward. Import Sample retains existing WR2 groups under behavior verified in S12C and inherited by S13D.</p>
-<h3>Compatibility and recovery</h3>
-<p>CT2 supplies conditional triggers; WR2 supplies weighted slice playback. CT2-only and stock firmware do not implement WR2. Do not expect WR2 metadata edits to be preserved after saving with stock or CT2-only firmware. Slice-count changes can make groups ineligible. Direct-slice FX S2 bypasses weighted selection; invalid groups fall back to direct playback. Physical pad LEDs are white; the screen&#x27;s red/orange waveform markers show the same master/member relationships separately. See the <a href="#wr2-quick-start">WR2 Quick Start Guide</a>.</p>
-<p>Keep an official recovery file and a complete SD/project backup. WR2 sidecar publication is not an atomic transaction over every project file. An interrupted Save can leave the previous group authority unavailable. Recovery is not guaranteed; follow <a href="#recovery">the recovery guide</a>.</p>
+<p>WR2 adds weighted selection by grouping slices within a Beat Slice sample. The Web Patcher keeps CT2 mandatory and checked and makes WR2 optional and unchecked. With WR2 selected, it generates the owner-confirmed, hardware-tested S13D CT2+WR2 image directly from your original firmware 1.2.0. Start with the <a href="./quick-start.html#ct2-quick-start">CT2 + WR2 Quick Start</a>.</p>
+<h3>Runtime notes</h3>
+<p>Direct-slice FX S2 bypasses weighted selection, and invalid groups fall back to direct playback. Changing a sample&#x27;s slice count can make its groups ineligible.</p>
+<h3>Project-data safety</h3>
+<p>WR2 metadata is not preserved by stock or CT2-only firmware. Group sidecar writes are not atomic with every native project operation; an interrupted Save can leave the previous group data unavailable. Keep a complete SD-card backup and an official recovery file. Recovery is not guaranteed; follow <a href="#recovery">the recovery guide</a>.</p>
 <p>In the Web Patcher, leave Slice Weighted Random (WR2) unchecked to generate CT2, or check it to generate CT2+WR2. Then choose your verified original firmware 1.2.0 file. The output name and verification hash match the selected combination.</p>
-<p>Combined output identity: <code>TrackerPlus_CT2_WR2.ptf</code>, SHA-256 <code>0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a</code>. The exact S12C recovery image remains locally preserved at SHA-256 <code>06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445</code>.</p></section>
-<section id="wr2-quick-start"><h2>WR2 Quick Start Guide</h2>
-<h3>Make a slice group</h3>
-<ul>
-<li>Open <strong>Sample Playback</strong>, choose <strong>Beat Slice</strong> mode, then press <strong>MORE</strong> until Page 3 appears.</li>
-<li>Select an unassigned slice and press <strong>Trig</strong> to create a group. That slice is the group master.</li>
-<li>Select another slice and press <strong>Add</strong> to add it to the group. Repeat for more slices.</li>
-<li>To change a member&#x27;s chance, select it, press <strong>Weight</strong>, and turn the jog encoder. The group weights are adjusted to total 100%.</li>
-<li>Press <strong>Trig</strong> again to leave group editing.</li>
-<li>To remove a member, select it and press <strong>Remove</strong>. Removing the master deletes the whole group.</li>
-</ul>
-<h3>Play and see groups</h3>
-<p>Triggering a group&#x27;s master makes a weighted random choice among that group&#x27;s slices. The weights describe chances over repeated triggers; playback is not round-robin and does not promise a fixed order. Triggering a member directly plays that slice.</p>
-<p>Physical pad LEDs are <strong>white only</strong>. At maximum brightness the group master is brightest; active-group members are medium-high, slices in other groups are medium-low while editing, and unassigned slices are low. Pads without a slice are off. The perceived brightness also depends on the device&#x27;s global pad-brightness setting.</p>
-<p>Red/orange markers on the screen&#x27;s waveform and the white pad LEDs show the same note-to-slice and group relationships in different ways. Red/orange describes the on-screen markers only; physical pad LEDs remain white.</p>
-<h3>Save and protect your work</h3>
-<p>Normal project Save and Save As store group data in <code>project/wr2_groups.wr2</code>. Instrument Copy transfers groups when the source has WR2 data. Cross-project Instrument Import can carry groups when the source project has compatible WR2 metadata; without valid metadata, native Import continues without inferred groups. Import Sample into an existing instrument retains its WR2 groups.</p>
-<p>Use compatible CT2+WR2 firmware to edit and preserve WR2 data. Stock or CT2-only firmware does not support WR2 playback or group editing. Before updating firmware or moving projects, keep an official recovery file and back up the <strong>entire SD card</strong>, including projects and Workspace. Recovery after a failed save or update is not guaranteed.</p></section>
-<section id="wr2-user-guide"><h2>Slice Weighted Random (WR2)</h2>
-<h3>User Guide — Polyend Tracker+</h3>
-<h3>1. Introduction</h3>
+<p>Combined output identity: <code>TrackerPlus_CT2_WR2.ptf</code>, SHA-256 <code>0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a</code>. The exact S12C recovery image remains locally preserved at SHA-256 <code>06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445</code>.</p><h2 id="wr2-details">Group operation and project data</h2><h3>1. Introduction</h3>
 <p>Slice Weighted Random (WR2) lets you group several slices within one Beat Slice sample and give each slice its own playback probability. Trigger the group&#x27;s master slice and WR2 chooses one slice from that group using the assigned weights.</p>
 <p>This is <strong>weighted probability, not round-robin playback</strong>. A 60% slice is more likely to play over many triggers, but WR2 does not play a fixed repeating sequence or promise a particular short-term order.</p>
 <h3>2. Accessing WR2</h3>
-<ul>
+<ol>
 <li>Open <strong>Sample Playback</strong>.</li>
 <li>Choose <strong>Beat Slice</strong> mode.</li>
 <li>Press <strong>MORE</strong> until you reach <strong>Page 3</strong>. This is the WR2 group page.</li>
-</ul>
+</ol>
 <h3>3. Creating and Editing Groups</h3>
-<ul>
+<ol>
 <li>On Page 3, select an unassigned slice and press <strong>Trig</strong>. This creates a group and makes the selected slice its <strong>master</strong>.</li>
 <li>To enter an existing group for editing, select its master or any member slice and press <strong>Trig</strong>.</li>
 <li>Select another unassigned slice and press <strong>Add</strong> to make it a member of the group. Repeat for each slice you want to add.</li>
 <li>Press <strong>Trig</strong> again to finish editing the group.</li>
-</ul>
+</ol>
 <p>While editing, the selected group remains the group being edited even if you select another slice. Leaving Page 3, changing instruments, or leaving Beat Slice mode also ends group editing; it does not delete the saved group.</p>
 <h3>4. Adjusting Probabilities</h3>
-<ul>
+<ol>
 <li>Enter the group by selecting its master or any member slice and pressing <strong>Trig</strong>.</li>
 <li>Select a member slice, press <strong>Weight</strong>, and turn the jog encoder to change its displayed percentage.</li>
 <li>WR2 adjusts the other members so the group&#x27;s weights continue to total 100%.</li>
-</ul>
+</ol>
 <p>A newly added member starts with a 10% weight, and WR2 adjusts the other members to keep the group total at 100%.</p>
 <h3>5. Removing Slices and Groups</h3>
 <ul>
@@ -297,7 +271,7 @@
 <p>Hardware: the project owner confirmed the final CT2 firmware works correctly on physical Tracker+ hardware. H13&#x27;s PRE fix was also hardware-confirmed. Offline and Chromium/Firefox checks are reported separately; not every hardware mode or browser platform is claimed verified.</p>
 <p>Origins and credits: <strong>Psygoo</strong> — original concept, roadmap and CT6. <strong>FatRodzianko / Modular-Trackular</strong> — subsequent reimplementation, expansion and technical infrastructure. <strong>CT2</strong> continues Psygoo&#x27;s original roadmap using and extending that implementation. Original MIT notices and historical <a href="#credits">NOTICE</a> remain preserved; MIT grants no Polyend firmware rights.</p>
 <h3>Optional CT2+WR2 output</h3>
-<p>The Web Patcher&#x27;s optional WR2 selection generates the exact owner-confirmed, hardware-tested S13D image from the user&#x27;s original official Tracker+ 1.2.0 PTF. CT2-only generation remains byte-identical to its existing reference. S12C is preserved as the recovery reference. See the <a href="#wr2-quick-start">WR2 Quick Start Guide</a> for controls, white pad LED feedback, project saving, and backup guidance.</p></section>
+<p>The Web Patcher&#x27;s optional WR2 selection generates the exact owner-confirmed, hardware-tested S13D image from the user&#x27;s original official Tracker+ 1.2.0 PTF. CT2-only generation remains byte-identical to its existing reference. S12C is preserved as the recovery reference. See the <a href="./quick-start.html#ct2-quick-start">CT2 + WR2 Quick Start</a> for controls, white pad LED feedback, project saving, and backup guidance.</p></section>
 <section id="publication"><h2>CT2 publication and recovery</h2>
 <p>Target: <a href="https://github.com/Psygoo/TrackerPlus-CT-Web">Psygoo/TrackerPlus-CT-Web</a>. Release tag: <strong>v0.2.1-CT2</strong>. <a href="#release-notes">Release notes</a>. The project owner explicitly authorized the source-only release and Pages update after confirming the final CT2 firmware on physical hardware. Firmware is never distributed or flashed by the release process.</p>
 <p>Read-only remote checks found <code>gh-pages</code> at <code>ca853c107ef3ddfdfa3251ea967f89da60d7816d</code>, with the published H12 tag/release <code>v0.2.0-h12</code>. CT6 is archived at <code>archive/ct6-before-h12</code>, commit <code>dfb5cd4bdfe3f8bd1c68c4c998c2d44365a596ad</code>. Preserve both references, history and availability. Re-fetch the remote and stop/review unexpected changes before a fast-forward update; never force-push or rewrite history.</p>
