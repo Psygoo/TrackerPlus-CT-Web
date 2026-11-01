@@ -147,8 +147,8 @@
     },
     {
       "path": "app.js",
-      "bytes": 5289,
-      "sha256": "fe2507ef37ce739edf274d3ef46a301bede13ed43ad55fcb385b847e68aebd9f",
+      "bytes": 5232,
+      "sha256": "ce5099d7b8e5c9ff7a955c1e899ebf3149081b1d9a2460924083f63e5b6ca49e",
       "component": "generated or integration support"
     },
     {
@@ -195,8 +195,8 @@
     },
     {
       "path": "tests/browser.mjs",
-      "bytes": 13302,
-      "sha256": "f48338c7c76e395bf765de89c62287c0a21c0c8f4024ed7a35458a8e5f39c2a3",
+      "bytes": 14330,
+      "sha256": "f4da220fb695946155d9cac6225011ac3709d239c7dc517f19400bb3510a1fcd",
       "component": "generated or integration support"
     },
     {

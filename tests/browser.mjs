@@ -89,7 +89,10 @@ try {
       };
       // Normal file chooser, actual module worker, output hash gate and Blob save.
       await page.locator('#firmware').setInputFiles({ name: 'TrackerPlus_1.2.0.ptf', mimeType: 'application/octet-stream', buffer: stock });
+      await page.waitForFunction(() => document.body.dataset.state === 'patching');
+      assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2\.ptf/, 'CT2 filename remains correct during processing');
       await page.waitForFunction(() => document.body.dataset.state === 'success', { }, { timeout: 90000 });
+      assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2\.ptf/, 'CT2 filename remains correct after generation');
       assert.equal(await page.locator('.workflow [aria-current="step"]').getAttribute('data-step'), '4');
       assert.equal(await page.locator('#download').isDisabled(), false);
       await verifyDownload();
@@ -144,10 +147,13 @@ try {
         await page.waitForFunction(() => !document.querySelector('#choose').disabled);
         assert.equal(await page.locator('#feature-wr2').isDisabled(), false, 'WR2 stays selectable without a development flag');
         await page.locator('#feature-wr2').check();
-        assert.match(await page.locator('.download-note').textContent(), /TrackerPlus_CT2_WR2\.ptf/);
+        assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2_WR2\.ptf/, 'WR2 filename updates before firmware selection');
         const combinedLoaded = network.length;
         await page.locator('#firmware').setInputFiles({ name: 'TrackerPlus_1.2.0.ptf', mimeType: 'application/octet-stream', buffer: stock });
+        await page.waitForFunction(() => document.body.dataset.state === 'patching');
+        assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2_WR2\.ptf/, 'WR2 filename remains correct during processing');
         await page.waitForFunction(() => document.body.dataset.state === 'success', { }, { timeout: 90000 });
+        assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2_WR2\.ptf/, 'WR2 filename remains correct after generation');
         assert.equal(network.length, combinedLoaded, 'combined generation made no network requests');
         assert.equal(await page.locator('#output-hash').textContent(), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
         const event = page.waitForEvent('download'); await page.locator('#download').click();
@@ -156,6 +162,7 @@ try {
         assert.equal(createHash('sha256').update(bytes).digest('hex'), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
         assert(bytes.equals(combinedExpected));
         await page.locator('#feature-wr2').uncheck();
+        assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2\.ptf/, 'unchecking WR2 immediately restores the CT2 filename');
         assert.equal(await page.locator('#download').isDisabled(), true, 'selection change invalidates a previous result');
         assert.equal(await page.locator('#hash').isHidden(), true);
         combined = 'exact production-candidate output and selection invalidation pass';
