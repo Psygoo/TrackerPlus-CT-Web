@@ -48,7 +48,8 @@ def markdown(text):
     flush();return '\n'.join(out)
 def render():
     index=(ROOT/'index.html').read_text()
-    head=index.split('<body')[0].replace('<script type="module" src="./app.js"></script>','').replace('<title>Tracker+ Conditional Trigs — CT2 · v0.2.1-CT2</title>','<title>CT2 documentation — Tracker+ Conditional Trigs</title>')
+    head=index.split('<body')[0].replace('<script type="module" src="./app.js"></script>','')
+    head=re.sub(r'<title>.*?</title>','<title>Tracker+ Conditional Trigs + Slice Weighted Random — Documentation</title>',head,count=1)
     nav='<nav aria-label="Documentation">'+''.join('<a href="#'+key+'">'+key.replace('-',' ').title()+'</a>' for _,key in DOCS)+'</nav>'
     return head+'<body><main class="docs"><a href="./">← Local firmware patcher</a><h1>CT2 documentation</h1>'+nav+'\n'+''.join('<section id="'+key+'">'+markdown((ROOT/name).read_text())+'</section>\n' for name,key in DOCS)+'</main></body></html>\n'
 if __name__=='__main__':

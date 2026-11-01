@@ -1,7 +1,9 @@
 # Tracker+ Conditional Trigs CT2 — v0.2.1-CT2
 
 Corrected CT2 release, authorized for publication by the project owner.
-Firmware identity: **1.2.0-CT2 / Build 1504**. Output: **TrackerPlus_CT2.ptf**.
+Modified firmware label: **1.2.0-CT2**. The displayed Polyend build marker
+**1504** is inherited from original firmware 1.2.0, not a Psygoo build number.
+Output: **TrackerPlus_CT2.ptf**.
 
 **Fix PRE after NE/!NE:** an evaluated NE/!NE now updates its track's PRE with
 the logical conditional-note result. If it plays, later PR plays and !PR rejects;
@@ -11,7 +13,7 @@ PRE, and PR-containing mixed rows retain their previous PRE in either FX order.
 
 CT2 includes the exact hardware-validated H13 implementation. The only firmware
 change from H13 is the displayed version label, from 1.2.0-h13 to 1.2.0-CT2.
-Build 1504, saved condition IDs, labels, history/reset rules, encoder order and
+The inherited Build 1504 marker, saved condition IDs, labels, history/reset rules, encoder order and
 Fill FX1/FX2 Constant, From-To and Random remain unchanged.
 
 Encoder order: `0–100 → 1:2 … 8:8 → PR → !PR → NE → !NE → 1S → !1S`.

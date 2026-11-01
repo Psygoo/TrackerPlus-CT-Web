@@ -32,7 +32,7 @@ supplied exclusively from the original user input. Template regeneration
 |---|---|
 | Chromium 156.0.8078.4, Linux headless | PASS: stock file picker and drag/drop, actual module worker, hash gate and Blob download. Two outputs match the CT2 reference byte-for-byte and by SHA-256. |
 | Firefox 157.0, Linux headless | PASS: the same full flow, two exact downloads. |
-| Correct identity | Title/release v0.2.1-CT2, firmware 1.2.0-CT2 / Build 1504, visible/download filename TrackerPlus_CT2.ptf, PRE fix notice and contributor credits checked. |
+| Correct identity | Title/release v0.2.1-CT2, modified firmware label 1.2.0-CT2, inherited original Polyend Build 1504 marker, visible/download filename TrackerPlus_CT2.ptf, PRE fix notice and contributor credits checked. |
 | No transmission | Zero requests during processing; all post-load requests blocked by the test. Deliberate synthetic POST is rejected by CSP before reaching the server. Runtime code has no network API, external assets or service worker. |
 | Input rejection | Invalid extension/type, empty, multiple, oversized, synthetic, modified, truncated, line-ending-altered, H12/H13 and already-patched CT2 files reject. Only the exact supported original stock SHA is accepted. |
 | Download controls | No download until worker and UI hashes pass. Bad input after success clears stale output; concurrent jobs blocked; worker faults and unverified output fail closed. |
