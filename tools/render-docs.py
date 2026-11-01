@@ -3,7 +3,8 @@ from pathlib import Path
 import html,re
 ROOT=Path(__file__).resolve().parents[1]
 DOCS=[('README.md','overview'),('CONDITIONS.md','conditions'),('INSTALL.md','install'),
-      ('COMPATIBILITY.md','compatibility'),('WR2.md','wr2'),('RECOVERY.md','recovery'),
+      ('COMPATIBILITY.md','compatibility'),('WR2.md','wr2'),('WR2_QUICK_START.md','wr2-quick-start'),
+      ('WR2_USER_GUIDE.md','wr2-user-guide'),('RECOVERY.md','recovery'),
       ('DISCLAIMER.md','disclaimer'),('NOTICE.md','credits'),('VALIDATION.md','validation'),
       ('RELEASE_NOTES.md','release-notes'),('PUBLICATION.md','publication')]
 LINKS=dict(DOCS)

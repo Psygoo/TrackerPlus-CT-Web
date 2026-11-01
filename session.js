@@ -4,7 +4,7 @@ export const CT2 = 'ct2';
 export const WR2 = 'wr2';
 export function outputFor(selection) {
   require(selection?.ct2 === true, 'Conditional Trigs (CT2) is required.');
-  return selection.wr2 ? { name: 'TrackerPlus_CT2_WR2.ptf', sha256: '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445' }
+  return selection.wr2 ? { name: 'TrackerPlus_CT2_WR2.ptf', sha256: '0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a' }
     : { name: 'TrackerPlus_CT2.ptf', sha256: OUTPUT_SHA256 };
 }
 const same = (a,b) => a?.ct2 === b?.ct2 && a?.wr2 === b?.wr2;

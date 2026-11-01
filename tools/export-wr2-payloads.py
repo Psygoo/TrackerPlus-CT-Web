@@ -14,7 +14,7 @@ def main():
   'ui':(['ui_page.S','group_add.c','weight.c','playback.c','playback_gateway.S'],'link.ld','ui',[],['ui_page.S','playback_gateway.S'],True),
   'address':(['patch.S'],'patch.ld','address',[],['patch.S'],False),
  }
- for n in ['s11b','s12a','s12b','s12c']:
+ for n in ['s11b','s12a','s12b','s12c','s13d']:
   cfg=json.loads((SRC/n/'settings.json').read_text());specs[n]=(cfg['SOURCES'],'payload.ld',n,[],[],False)
  out={}
  def run(tool,*args):return subprocess.check_output([str(a.compiler/('arm-none-eabi-'+tool)),*map(str,args)],stderr=subprocess.STDOUT)
@@ -28,6 +28,7 @@ def main():
     else:
      opts=flags or ['-mcpu=cortex-m7','-mthumb','-Os','-ffreestanding','-fno-builtin','-fstack-usage','-fno-unwind-tables','-fno-asynchronous-unwind-tables','-fno-stack-protector','-fno-pic']
      if name in ('s11b','s12a','s12b','s12c') and f.endswith('.c'):opts+=['-std=c11','-Wall','-Wextra','-Werror','-Wno-misleading-indentation']
+     if name=='s13d' and f.endswith('.c'):opts+=['-std=c11','-Wall','-Wextra','-Werror']
      run('gcc',*opts,'-c',source,'-o',obj)
    elf=b/'payload.elf';run('ld',*(['--emit-relocs'] if relocs else ['--no-undefined']),'-T',SRC/folder/ld,*objects,'-o',elf)
    raw=b/'payload.bin';run('objcopy','-O','binary','-j','.text',elf,raw);data=raw.read_bytes()

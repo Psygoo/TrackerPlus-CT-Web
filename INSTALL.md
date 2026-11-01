@@ -18,11 +18,13 @@ This independent project is not affiliated with Polyend. Read the
 3. Open the reviewed web patcher on HTTPS, or serve this source locally with
    `node tools/serve.mjs`. Select/drop your own original PTF. Processing stays
    in browser memory; no upload occurs. Wait for successful verification.
-4. Save `TrackerPlus_CT2.ptf`. Its required SHA-256 is
-   `baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20`.
+4. Save the output matching your selection. CT2 is `TrackerPlus_CT2.ptf` with
+   SHA-256 `baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20`.
+   CT2+WR2 is `TrackerPlus_CT2_WR2.ptf` with SHA-256
+   `0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a`.
    A hash mismatch or error means do not install. For an independent check,
-   use `sha256sum TrackerPlus_CT2.ptf` on Linux, `shasum -a 256` on macOS or
-   `Get-FileHash TrackerPlus_CT2.ptf -Algorithm SHA256` in PowerShell.
+   use `sha256sum <filename>` on Linux, `shasum -a 256 <filename>` on macOS or
+   `Get-FileHash <filename> -Algorithm SHA256` in PowerShell.
 5. Follow the official manual's firmware update procedure: copy the generated
    PTF into the SD card's Firmware folder, safely eject, insert in Tracker+,
    then select the file under **Config → Firmware** and follow device prompts.

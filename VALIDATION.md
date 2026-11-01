@@ -102,3 +102,70 @@ Public-source review checks the explicit file allowlist, source-only packaging,
 local links, path/credential patterns, MIT license and historical NOTICE. This
 is a bounded review, not a general legal/security certification. No original or
 modified Polyend PTF, stock dump, private fixture or development cache is included.
+
+## S13D-based CT2+WR2 integration candidate — 2026-11-01
+
+The owner confirmed successful physical S13D testing on October 29, 2026.
+S13D encoded SHA-256 is
+`0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a`; decoded
+image SHA-256 is
+`854363d8ecb0c04fb2f7ed7017a6fb8e1a6d97e86ea683c4c94c90fbd92160b1`.
+The browser composition builds S12C from the original stock input, verifies the
+exact S12C recovery identity, compiles the inventoried S13D overlay sources,
+checks their payload identity and hook bytes, then appends the overlay and
+requires the complete encoded and decoded S13D image to match. The generated
+payload is project code; no PTF or native firmware bytes are distributed.
+
+| Selection | Exact output SHA-256 |
+|---|---|
+| CT2 | `baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20` |
+| CT2+WR2 (S13D) | `0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a` |
+| Preserved S12C recovery reference | `06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445` |
+
+Integration checks are recorded in the local `REPORT.md` and `HANDOFF.md`.
+This candidate has not been deployed to `gh-pages`; publication awaits review.
+
+
+### Current candidate browser status — 2026-11-01
+
+The Node exact-output/integration suite passes for both complete PTF references.
+The S13D payload compiler check, CT2 source-template rebuild check, generated
+documentation check, inventory check and isolated allowlist export audit pass.
+The standard socket-backed browser suite cannot bind `127.0.0.1` here (`listen
+EPERM`), and sandbox escalation was denied by the runtime policy. An opt-in
+Playwright virtual HTTP route avoids a TCP listener while preserving a real
+loopback HTTP origin and serving the same local files to the browser. With that
+mode, Firefox 157 passes the complete suite, including actual CT2 and S13D Blob
+downloads matched byte-for-byte and by SHA-256, WR2 selection/filename preview,
+guide navigation into rendered HTML, CSP/offline processing, keyboard focus,
+and mobile widths. Chromium still cannot launch: its headless process aborts in
+`sandbox_host_linux.cc` with `Operation not permitted`, including with
+`--no-sandbox`, `--disable-seccomp-filter-sandbox` and `--disable-setuid-sandbox`.
+Earlier Chromium/Firefox results above describe their dated S12C-era candidate
+and do not establish Chromium coverage for this S13D update. Run Chromium in an
+unrestricted WSL terminal before deployment.
+
+The public `gh-pages` branch has not been changed for this candidate. The
+owner-confirmed S13D identity above overrides the contradictory Stage 14S
+statement for release-baseline purposes; retain that Stage 14S statement as a
+historical discrepancy.
+
+
+### Unrestricted WSL browser validation — 2026-11-01
+
+The owner reports the standard command `BROWSER_ENGINES=chromium,firefox npm run test:browser` passed in unrestricted WSL after the sandbox-limited attempts above. Chromium 156.0.8078.4 and Firefox 157.0 both passed. This result supersedes the earlier current-candidate browser blocker above; those earlier attempts remain in the record as environment diagnostics.
+
+The complete CT2 browser download matched its reference at SHA-256
+`baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20`. The
+combined production candidate passed its exact PTF comparison against S13D at
+`0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a`. Selection
+invalidation, repeated downloads, WR2 filename preview, invalid input/stale
+output handling, zero requests during processing, CSP upload blocking, mobile
+widths 320/375/480/600/768/1280, visible keyboard focus and zero browser errors
+passed. The guide link was also verified to open the rendered documentation
+section rather than raw Markdown.
+
+S12C remains preserved as recovery reference, SHA-256
+`06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445`. No new
+physical hardware test was performed or needed for this validation. No commit,
+push or deployment occurred.

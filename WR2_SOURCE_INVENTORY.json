@@ -4,14 +4,14 @@
     "repository": "Psygoo/TrackerPlus-CT-Web",
     "branch": "codex/ct2-wr2-integration",
     "base_commit": "ecf53fc0aef676de9557688076ae3e71baa898d9",
-    "source_commit": "5ca2a7790b20de69883ae52df85a8ccafae5926b",
-    "snapshot_status": "approved public release source snapshot derived from the committed Psygoo baseline",
+    "source_commit": "b88d72ab6d7d668e5db1e0749e9a263380f8b7ee",
+    "snapshot_status": "local S13D integration candidate derived from the recovered committed Psygoo source; not yet committed or deployed",
     "anchor": "PUBLIC_FILES.json hashes this inventory; the containing Psygoo repository commit anchors the reviewed release snapshot."
   },
   "authorship_and_licensing": {
     "conditional_trigs": "Psygoo originated the Conditional Trigs concept, roadmap and CT6 implementation. Existing external MIT browser/patcher reuse remains attributed in NOTICE.md and LICENSE.",
-    "wr2": "Original Psygoo WR2 project work across WR01, Stage 9, S11B, S12A, S12B and S12C, per project-owner attribution. The local Modular-Trackular workspace is a technical-reference/evidence location; its path and untracked state do not establish external authorship.",
-    "generated_payloads": "Compilation output of the inventoried WR2 project sources plus symbol/settings metadata. Not a complete firmware image and contains no copied stock/native bytes.",
+    "wr2": "Original Psygoo WR2 project work across WR01, Stage 9, S11B, S12A, S12B, S12C and the S13D pad LED calibration, per project-owner attribution. The local Modular-Trackular workspace is a technical-reference/evidence location; its path and untracked state do not establish external authorship.",
+    "generated_payloads": "Compilation output of the inventoried WR2 and S13D project sources plus symbol/settings metadata. Not a complete firmware image and contains no copied stock/native bytes.",
     "redistribution_review": "The repository MIT license is retained. No conflicting license notice or imported third-party source file was found in the inventoried WR2 sources. Polyend reference sources used during research are not included.",
     "unresolved_files": []
   },
@@ -52,6 +52,11 @@
       "attribution": "Psygoo WR2 project work"
     },
     {
+      "component": "S13D hardware-calibrated white pad LED brightness overlay",
+      "path_prefix": "wr2/payload-src/s13d/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
       "component": "browser generator and build tooling",
       "paths": [
         "wr2-patcher.js",
@@ -73,8 +78,10 @@
     "stock_input_sha256": "d4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd",
     "ct2_encoded_sha256": "baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20",
     "ct2_decoded_image_sha256": "e7fdba8c3bdbb26f1a9500fabfc556b71c818bad0f027fb0b84e27c5718788be",
-    "ct2_wr2_encoded_sha256": "06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445",
-    "ct2_wr2_decoded_image_sha256": "931acd25fe374c678456e590346447311047678d6d934055cd49d5e1d6df8659"
+    "ct2_wr2_s13d_encoded_sha256": "0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a",
+    "ct2_wr2_s13d_decoded_image_sha256": "854363d8ecb0c04fb2f7ed7017a6fb8e1a6d97e86ea683c4c94c90fbd92160b1",
+    "s12c_recovery_encoded_sha256": "06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445",
+    "s12c_recovery_decoded_image_sha256": "931acd25fe374c678456e590346447311047678d6d934055cd49d5e1d6df8659"
   },
   "reference_evidence": [
     {
@@ -108,6 +115,18 @@
       "role": "Records owner-reported success of all eight S12C physical acceptance scenarios and their evidence limits."
     },
     {
+      "artifact": "S13D LED calibration report",
+      "path": "Modular-Trackular experiment STAGE13D_LED_BRIGHTNESS_CALIBRATION/REPORT.md",
+      "sha256": "8c90fd2122d9fb67ac457b0737a4246fd2ba090064d9c5600343543f18b193da",
+      "role": "Defines the calibrated brightness roles and identifies the S12C recovery baseline; owner hardware confirmation is recorded in PROJECT_CONTEXT v1.7."
+    },
+    {
+      "artifact": "S13D build map",
+      "path": "Modular-Trackular experiment STAGE13D_LED_BRIGHTNESS_CALIBRATION/TrackerPlus_WR2S13D.map.json",
+      "sha256": "65b9461e8b9629631cc82ae02d418c4d8db9c191db0eafcb6587f8a34d43e92e",
+      "role": "Pins the 1,040-byte source-built LED overlay and exact hook sites used by the browser composition."
+    },
+    {
       "artifact": "MIT license comparison",
       "path": "LICENSE in target and external reference workspace",
       "sha256": "080a0c2c2f4481f060f9ee3486137d9e7512a78cfbabecb31300cc275b837f97",
@@ -117,8 +136,8 @@
   "files": [
     {
       "path": "COMPATIBILITY.md",
-      "bytes": 2320,
-      "sha256": "416bc012cd5510d6e59244cbea205e1f1abf3602bac1b3e8ea994565385fc3c9",
+      "bytes": 2463,
+      "sha256": "6c8031300599c48f2da09a008a74a47ddcfe120f79b5cacd2cf12211f7cd9fb3",
       "component": "generated or integration support"
     },
     {
@@ -129,20 +148,32 @@
     },
     {
       "path": "NOTICE.md",
-      "bytes": 8376,
-      "sha256": "2bd27536d013279188d082ce9c427e2c35478cee2dde22b761ddfc63367ca463",
+      "bytes": 8406,
+      "sha256": "58ab23a7e381cfc89c69c32e2eeec42d9cd543a5b15fb77225ffa02921bdd58e",
       "component": "generated or integration support"
     },
     {
       "path": "README.md",
-      "bytes": 6668,
-      "sha256": "1665f47352fdc300cefc265aea9b3f1bf6a9cec19003f501e43a8d5aaf5580c1",
+      "bytes": 7146,
+      "sha256": "af101ddb03bd4055852155a765493da41f68e4eb022f8f3414b6300bbea8f2a0",
       "component": "generated or integration support"
     },
     {
       "path": "WR2.md",
-      "bytes": 3455,
-      "sha256": "d25d88371be58fabcb4c18eb03d5fa039dad04b08f83383a4abf5a52d4f3c701",
+      "bytes": 4058,
+      "sha256": "6c67986b1e87c2d45e5cfbf6c7957751b93de8a5cddd1ec633a6ceba06c9f33b",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "WR2_QUICK_START.md",
+      "bytes": 2199,
+      "sha256": "e809433e39f536d094de0c2a05871809fdadb6079890ce08e18f58f5b0bde499",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "WR2_USER_GUIDE.md",
+      "bytes": 5552,
+      "sha256": "9a2550908091958591ec75094c1690486f461a1a23f86faa2ffccafd359241ca",
       "component": "generated or integration support"
     },
     {
@@ -159,14 +190,14 @@
     },
     {
       "path": "documentation.html",
-      "bytes": 49561,
-      "sha256": "b7b19d2c84c7777b87dbba534d909e32e3e1e9f27a5229c29da964f1009bea40",
+      "bytes": 65712,
+      "sha256": "151fc083fb90e8c629d90c801460c18df83405e6ccb4e1142f7fb11072f4d183",
       "component": "generated or integration support"
     },
     {
       "path": "index.html",
-      "bytes": 7589,
-      "sha256": "9157882c940221cb609d47830ffd759141803f51ea3132a4df4e2fe73b69d6bd",
+      "bytes": 7861,
+      "sha256": "b0f4f2b35c27e8b7d47fe8f727fbdfbcaf9167304dd412129232e85c94848c9a",
       "component": "generated or integration support"
     },
     {
@@ -184,43 +215,43 @@
     {
       "path": "session.js",
       "bytes": 3230,
-      "sha256": "10f4dbadcb52924f907a54bf97dc3a6994987f9bc7007ec850aa0f28e0967208",
+      "sha256": "c2946c4e564c93b05e06799edbb1c5a611053ebd4b40f17f2100e406f10e82d5",
       "component": "generated or integration support"
     },
     {
       "path": "style.css",
-      "bytes": 12706,
-      "sha256": "dae56f0bb402e7f910b7568452b1d70e78c88213ec0c5a27f77e3fb15627372f",
+      "bytes": 12833,
+      "sha256": "730bacdda0cac0294cfaf7d7a6a25f5ef982f34e9f7bf414a9ee9a7d7eb8c719",
       "component": "generated or integration support"
     },
     {
       "path": "tests/browser.mjs",
-      "bytes": 15215,
-      "sha256": "ff12b558ce5f093910f73c1fea967d75eba86320f31c7459542c53810d56377f",
+      "bytes": 19321,
+      "sha256": "6d1fb1d004743c15a9650bed323cdd262ddfc54aa239c71a2958010a8c4c3fbf",
       "component": "generated or integration support"
     },
     {
       "path": "tests/core.test.mjs",
-      "bytes": 10373,
-      "sha256": "e4739abbe780764a169407847b56e5d6f3cdf02a293bb2925b1bf278b5350dc5",
+      "bytes": 10763,
+      "sha256": "62b5895911de7f2e89b8ea113e3ee721d03d1efcfec852f50886aa32dbd43ec4",
       "component": "generated or integration support"
     },
     {
       "path": "tools/export-wr2-payloads.py",
-      "bytes": 3181,
-      "sha256": "3d4c7eb38397ac91add5fd2a16abf8ff616f9967f4ecb7bc11e0cc268dbd399f",
+      "bytes": 3277,
+      "sha256": "fce98657a13271675ab0d15b0e2a33be805373cbc6555fbddc67f3965ea8b915",
       "component": "generated or integration support"
     },
     {
       "path": "tools/render-docs.py",
-      "bytes": 3332,
-      "sha256": "264288234babfc0a13bd22977074ba226f02d50b1bc6b66defd5baa2001c04fc",
+      "bytes": 3419,
+      "sha256": "fe09c7fc46f7b00cfb5dddb177e36e65e8e05abbd7c96f562a12ceaa1d2e2d5d",
       "component": "generated or integration support"
     },
     {
       "path": "tools/wr2-source-inventory.py",
-      "bytes": 7559,
-      "sha256": "f2896a4629563fccedd9e6decf5f2034560bc3728725a4129c6483aba85d973c",
+      "bytes": 8687,
+      "sha256": "e061446bc84e7af5a21accfeb4884de6bfe4f18f467fdc418e809e44d5b1a749",
       "component": "generated or integration support"
     },
     {
@@ -237,14 +268,14 @@
     },
     {
       "path": "wr2-patcher.js",
-      "bytes": 5312,
-      "sha256": "1ad61aca530d1617ab213ccc3f556123d49298e17e28dc51dd0781c8af28d4de",
+      "bytes": 6317,
+      "sha256": "0d3123cc51362bdfed71bd0750495b62ea45652b2f69b09cc1b937a267fd996c",
       "component": "generated or integration support"
     },
     {
       "path": "wr2/generated/payloads.js",
-      "bytes": 86261,
-      "sha256": "8e8bcb9d910b78184044a7a26b491ab608d5c409e50752fd08da64e8342152eb",
+      "bytes": 89270,
+      "sha256": "40c03532097ff510ee7f580aa2c7aefd2a6be3bdf6248c49a00e31c326a53338",
       "component": "generated project payload/guard metadata"
     },
     {
@@ -578,6 +609,36 @@
       "component": "S12C cross-project Instrument Import"
     },
     {
+      "path": "wr2/payload-src/s13d/hooks.S",
+      "bytes": 1053,
+      "sha256": "e959eb997dfae5432be5b0ed7ecb4e4cc0475b9cca380768d2939eb98c82b076",
+      "component": "S13D hardware-calibrated white pad LED brightness overlay"
+    },
+    {
+      "path": "wr2/payload-src/s13d/leds.c",
+      "bytes": 7620,
+      "sha256": "9cb89a46f26b9f221f8dd7be1b4db09e2bd9cf8ee1517522f3bdfc95d583d5b1",
+      "component": "S13D hardware-calibrated white pad LED brightness overlay"
+    },
+    {
+      "path": "wr2/payload-src/s13d/levels.h",
+      "bytes": 467,
+      "sha256": "f08611fbe85163d725a8b57de9d0478d3577aa9e60fc3662872d43bfaacb353d",
+      "component": "S13D hardware-calibrated white pad LED brightness overlay"
+    },
+    {
+      "path": "wr2/payload-src/s13d/payload.ld",
+      "bytes": 356,
+      "sha256": "4de06c0ed20415cd7d6e121fd0e639f49ebc7792cdf296523c2c8478f9c206cc",
+      "component": "S13D hardware-calibrated white pad LED brightness overlay"
+    },
+    {
+      "path": "wr2/payload-src/s13d/settings.json",
+      "bytes": 493,
+      "sha256": "2dbacf3c9f1d1088547117be6c66259bc3ca8fd0b45e32286b1f882f706af1eb",
+      "component": "S13D hardware-calibrated white pad LED brightness overlay"
+    },
+    {
       "path": "wr2/payload-src/ui/group_add.c",
       "bytes": 9844,
       "sha256": "3f3f02605eb295cb392019c9c02b189439f0d6ff9e095ef72d2dd00eb96bbad0",
@@ -632,5 +693,5 @@
       "component": "retained WR01 compatibility extension"
     }
   ],
-  "file_count": 86
+  "file_count": 93
 }
