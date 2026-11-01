@@ -28,8 +28,10 @@ This independent project is not affiliated with Polyend. Read the
    then select the file under **Config → Firmware** and follow device prompts.
    Use reliable power and do not interrupt the update. The website never
    flashes a device or edits your SD card.
-6. Confirm **1.2.0-CT2 / Build 1504**, then test a copied project. Check the
-   conditions and Fill modes you use before committing important work.
+6. Confirm Config shows **1.2.0-CT2** (or the combined **1.2.0-CT2+WR2** label),
+   then test a copied project. The displayed build marker **1504** is inherited
+   from original Polyend firmware 1.2.0; it is not a Psygoo build number. Check
+   the conditions and Fill modes you use before committing important work.
 
 Manual reference: [Polyend Tracker+ manual, firmware update/recovery](https://polyend-website.fra1.digitaloceanspaces.com/wp-content/uploads/2024/05/08111709/Polyend-TrackerPlus-Manual-1v1v0c.pdf#page=318).
 To return to official firmware, use its normal update procedure when available,
@@ -38,10 +40,11 @@ or read [recovery](RECOVERY.md). Restoring firmware does not migrate projects.
 ## Final CT2 hardware smoke check (manual)
 
 Keep backups and a working recovery image. After manually installing CT2,
-confirm Config shows **1.2.0-CT2 / Build 1504**, normal boot, Record note entry
-and Play/Stop. Track 1 row 01: note + 1S. Track 2: note + NE on row 03, PR on
-row 05, !PR on row 07. First pass NE/PR play; later passes !PR plays. Swap NE
-for !NE and confirm PR follows that inverted result. Repeat with Micro-move
-and either FX column, then a short NE chain, save/reload and one Fill operation
-per mode in both FX columns. This is a smoke check of the label-only variant;
-it does not replace the stated hardware coverage limits.
+confirm Config shows **1.2.0-CT2** and the inherited Polyend build marker 1504,
+normal boot, Record note entry and Play/Stop. Track 1 row 01: note + 1S.
+Track 2: note + NE on row 03, PR on row 05, !PR on row 07. First pass NE/PR
+play; later passes !PR plays. Swap NE for !NE and confirm PR follows that
+inverted result. Repeat with Micro-move and either FX column, then a short NE
+chain, save/reload and one Fill operation per mode in both FX columns. This is
+a smoke check of the label-only variant; it does not replace the stated hardware
+coverage limits.

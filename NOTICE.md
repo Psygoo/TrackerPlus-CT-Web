@@ -6,7 +6,8 @@ CT2 continues Psygoo's original roadmap using and extending that implementation.
 The concept did not originate in Modular-Trackular.
 
 CT2 contains the hardware-confirmed H13 NE/!NE → PRE correction and a version-only
-rename to 1.2.0-CT2 / Build 1504. `src/ne_pre` contains the MIT project assembly
+rename to 1.2.0-CT2. The displayed Build 1504 marker is inherited from original
+Polyend firmware 1.2.0; it is not a Psygoo build number. `src/ne_pre` contains the MIT project assembly
 and linker layout for the 34-byte correction. The source-only builder compiles
 it and reconstructs the final CT2 template without opening firmware. Three stock
 replay slots totaling 14 bytes remain zero; only the user's verified original

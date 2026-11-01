@@ -38,9 +38,13 @@ try {
       await wr2Help.click();
       assert.equal(await page.locator('#feature-wr2').isChecked(), false, 'description click does not toggle WR2');
       assert.equal(await page.locator('#download').isDisabled(), true);
-      assert.match(await page.title(), /CT2/);
+      assert.equal(await page.title(), 'Tracker+ Conditional Trigs + Slice Weighted Random');
+      assert.equal(await page.locator('#title').textContent(), 'Tracker+ Conditional Trigs + Slice Weighted Random');
+      assert.equal(await page.locator('.tagline').textContent(), 'Less repetition. More natural variation.');
+      assert.equal(await page.locator('.hero-description').textContent(), 'Bring your patterns to life by varying which notes are played and which sample slices are heard. Create more organic, evolving performances.');
+      assert.doesNotMatch(await page.locator('.hero').innerText(), /Build 1504|1\.2\.0-CT2/);
       assert.match(await page.locator('.version').textContent(), /v0\.2\.1-CT2/);
-      assert.match(await page.locator('.firmware-line').textContent(), /1\.2\.0-CT2.*1504/);
+      assert.equal(await page.locator('.firmware-line').textContent(), 'Unofficial firmware · CT2 / CT2+WR2');
       assert.match(await page.locator('.download-note').textContent(), /TrackerPlus_CT2\.ptf/);
       assert.match(await page.locator('.warning').textContent(), /NE → PRE correction/);
       assert.match((await page.locator('#workflow').innerText()).replace(/\s+/g, ' '), /Select.*Verify.*Patch.*Download/);
@@ -56,7 +60,8 @@ try {
       assert.equal(await page.locator('.condition-help a').getAttribute('href'), './documentation.html#conditions');
       await page.keyboard.press('Enter');
       assert.equal(await page.locator('.condition-help').evaluate(el => el.open), false);
-      assert.equal((await page.locator('footer').innerText()).trim(), 'Psygoo · Independent firmware mod · 1.2.0-CT2 · Build 1504');
+      assert.equal((await page.locator('footer').innerText()).trim(), 'Psygoo · Independent firmware mod');
+      assert.doesNotMatch(await page.locator('footer').innerText(), /Build 1504|1\.2\.0-CT2/);
       assert.equal(await page.locator('footer a').getAttribute('href'), 'https://github.com/Psygoo/TrackerPlus-CT-Web');
       for (let i = 0; i < 8; i++) {
         await page.keyboard.press('Tab');
@@ -118,9 +123,11 @@ try {
       assert((await page.evaluate(() => window.cspViolations)).includes('connect-src'));
       violations.push('deliberate connect-src probe blocked');
       await context.unroute('**/*');
-      for (const width of [320, 375, 768, 1280]) {
+      for (const width of [320, 375, 480, 600, 768, 1280]) {
         await page.setViewportSize({ width, height: 900 });
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `horizontal overflow at ${width}`);
+        const headingBox = await page.locator('#title').boundingBox();
+        assert(headingBox.x >= 0 && headingBox.x + headingBox.width <= width, `hero title fits viewport at ${width}`);
         if (process.env.EVIDENCE_DIR) {
           await mkdir(process.env.EVIDENCE_DIR, { recursive: true });
           await page.screenshot({ path: `${process.env.EVIDENCE_DIR}/${engine}-${width}.png`, fullPage: true });
@@ -167,7 +174,7 @@ try {
         assert.equal(await page.locator('#hash').isHidden(), true);
         combined = 'exact production-candidate output and selection invalidation pass';
       }
-      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, combined_production_candidate_output: combined, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 768, 1280], keyboard_focus: 'visible', errors });
+      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, combined_production_candidate_output: combined, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 480, 600, 768, 1280], keyboard_focus: 'visible', errors });
     } finally { await browser.close(); }
   }
   assert(requests.every(req => ['GET', 'HEAD'].includes(req.method) && req.contentLength === '0'));

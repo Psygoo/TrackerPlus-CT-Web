@@ -129,14 +129,14 @@
     },
     {
       "path": "NOTICE.md",
-      "bytes": 8273,
-      "sha256": "a6f07666436ce4b828e6de6c61b9c8f3b5bad4c7733e6afcc1c77d9f128b0745",
+      "bytes": 8376,
+      "sha256": "2bd27536d013279188d082ce9c427e2c35478cee2dde22b761ddfc63367ca463",
       "component": "generated or integration support"
     },
     {
       "path": "README.md",
-      "bytes": 6136,
-      "sha256": "3cb96cc09b10bdc873f893df73cef9d84b6874f5efcd4f25c02dd16b463431fb",
+      "bytes": 6668,
+      "sha256": "1665f47352fdc300cefc265aea9b3f1bf6a9cec19003f501e43a8d5aaf5580c1",
       "component": "generated or integration support"
     },
     {
@@ -159,14 +159,14 @@
     },
     {
       "path": "documentation.html",
-      "bytes": 48444,
-      "sha256": "626803f84269f5773deffade08b2d306cb41062eca34c69b44730dbae075a52a",
+      "bytes": 49561,
+      "sha256": "b7b19d2c84c7777b87dbba534d909e32e3e1e9f27a5229c29da964f1009bea40",
       "component": "generated or integration support"
     },
     {
       "path": "index.html",
-      "bytes": 7364,
-      "sha256": "fa70a16d93aa2d06811531faa158920facf5f26dce8895b59c11a8e5c6201686",
+      "bytes": 7589,
+      "sha256": "9157882c940221cb609d47830ffd759141803f51ea3132a4df4e2fe73b69d6bd",
       "component": "generated or integration support"
     },
     {
@@ -189,14 +189,14 @@
     },
     {
       "path": "style.css",
-      "bytes": 12317,
-      "sha256": "4bedd61fe043e6acc4b4971614d17de258a87e5527844e63d761dd7089d3f845",
+      "bytes": 12706,
+      "sha256": "dae56f0bb402e7f910b7568452b1d70e78c88213ec0c5a27f77e3fb15627372f",
       "component": "generated or integration support"
     },
     {
       "path": "tests/browser.mjs",
-      "bytes": 14330,
-      "sha256": "f4da220fb695946155d9cac6225011ac3709d239c7dc517f19400bb3510a1fcd",
+      "bytes": 15215,
+      "sha256": "ff12b558ce5f093910f73c1fea967d75eba86320f31c7459542c53810d56377f",
       "component": "generated or integration support"
     },
     {
@@ -213,8 +213,8 @@
     },
     {
       "path": "tools/render-docs.py",
-      "bytes": 3335,
-      "sha256": "ca679bd6b1556d1f0a012c37e84f2a7aec89fdb590cbd68282b418bb74f5a4c5",
+      "bytes": 3332,
+      "sha256": "264288234babfc0a13bd22977074ba226f02d50b1bc6b66defd5baa2001c04fc",
       "component": "generated or integration support"
     },
     {

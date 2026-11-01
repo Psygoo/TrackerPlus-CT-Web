@@ -1,10 +1,20 @@
-# Tracker+ Conditional Trigs — CT2
+# Tracker+ Conditional Trigs + Slice Weighted Random
+
+**Less repetition. More natural variation.**
+
+Bring your patterns to life by varying which notes are played and which sample
+slices are heard. Create more organic, evolving performances. CT2 varies which
+notes and events play; WR2 varies which sample slices play. Together they offer
+variation-based musical humanization through performance choices.
 
 An independent, unofficial modification for **Polyend Tracker+ (2024 plus model)**,
 using original firmware **1.2.0**. Not affiliated with, endorsed by or supported
 by Polyend. Not for Tracker Mini or the original Tracker.
 
-Public firmware identifier: **1.2.0-CT2 / Build 1504**. Release: **v0.2.1-CT2**.
+The modified firmware keeps the existing displayed identity **1.2.0-CT2**. The
+displayed Polyend build marker **1504** is inherited from original firmware
+1.2.0 and is not a Psygoo build number. The CT2 release identifier remains
+**v0.2.1-CT2**.
 Use the [public web patcher](https://psygoo.github.io/TrackerPlus-CT-Web/) to
 generate your firmware locally from the supported original input.
 
