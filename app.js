@@ -7,9 +7,6 @@ const drop = document.querySelector('#drop');
 const download = document.querySelector('#download');
 const ct2Feature = document.querySelector('#feature-ct2');
 const wr2Feature = document.querySelector('#feature-wr2');
-const localHost = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
-const devWR2 = localHost && new URLSearchParams(location.search).get('devWr2') === '1';
-if (devWR2) { wr2Feature.disabled = false; wr2Feature.nextSibling.textContent = ' local development'; }
 const status = document.querySelector('#status');
 const stepLabel = document.querySelector('#step-label');
 let worker, pending = new Map(), downloadURL = null, ready = false;
@@ -42,8 +39,8 @@ const session = new FirmwareSession((input, selection, jobId, onState, registerC
   if (!ready) { reject(new Error('The local patcher is not ready. Reload this page.')); return; }
   const abort = () => { worker.postMessage({ type: 'cancel', jobId }); pending.delete(jobId); reject(new Error('Generation cancelled because the selection changed.')); };
   pending.set(jobId, { resolve, reject, onState }); registerCancel(abort);
-  worker.postMessage({ jobId, selection: { ...selection, devWR2 }, input }, [input]);
-}), update, { allowWR2: devWR2 });
+  worker.postMessage({ jobId, selection, input }, [input]);
+}), update, { allowWR2: true });
 document.querySelector('#output-hash').textContent = OUTPUT_SHA256;
 const syncOutputIdentity = () => { const out = outputFor(session.selection); document.querySelector('#output-hash').textContent = out.sha256; document.querySelector('.download-note').textContent = `Filename: ${out.name}`; };
 wr2Feature.addEventListener('change', () => { session.setSelection({ ct2: true, wr2: wr2Feature.checked }); syncOutputIdentity(); });

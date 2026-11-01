@@ -34,14 +34,13 @@ CT6 is preserved at [archive/ct6-before-h12](https://github.com/Psygoo/TrackerPl
 
 ## Weighted Random 2
 
-Weighted Random 2 (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. Local CT2 and combined CT2+WR2 generation passed exact-output browser checks in Chromium and Firefox. WebKit was not tested because required Linux system libraries are unavailable in the development environment. Public WR2 downloads remain disabled pending release approval. See [WR2 instructions](WR2.md). CT2 remains the default and only public output.
+Weighted Random 2 (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. This local production candidate keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or CT2+WR2 output in Chromium and Firefox. The candidate has not been deployed; the current public site remains CT2-only until separate publication approval. WebKit was not tested because required Linux system libraries are unavailable in the development environment. See [WR2 instructions](WR2.md).
 
 ## Make firmware locally
 
 Supply your own unmodified PTF from the [official Tracker+ downloads](https://polyend.com/downloads/tracker-plus-downloads/).
 The patcher runs in browser memory and never uploads firmware. It supplies no
-Polyend firmware and installs nothing. Only an exact verified output enables
-Download, named **TrackerPlus_CT2.ptf**.
+Polyend firmware and installs nothing. Only an exact verified output enables Download. With WR2 unchecked, the output is **TrackerPlus_CT2.ptf**; with WR2 checked, it is **TrackerPlus_CT2_WR2.ptf**.
 
 | File | SHA-256 |
 |---|---|

@@ -4,8 +4,9 @@
     "repository": "Psygoo/TrackerPlus-CT-Web",
     "branch": "codex/ct2-wr2-integration",
     "base_commit": "ecf53fc0aef676de9557688076ae3e71baa898d9",
-    "snapshot_status": "local, uncommitted release-review snapshot",
-    "anchor": "PUBLIC_FILES.json hashes this inventory; a reviewed Psygoo repository commit will anchor both."
+    "source_commit": "c476ac5b67baa6b18a6627c6f2850a138eabbbb1",
+    "snapshot_status": "committed Psygoo source baseline with local production release-candidate changes",
+    "anchor": "The source baseline is anchored by source_commit; PUBLIC_FILES.json hashes this regenerated candidate inventory."
   },
   "authorship_and_licensing": {
     "conditional_trigs": "Psygoo originated the Conditional Trigs concept, roadmap and CT6 implementation. Existing external MIT browser/patcher reuse remains attributed in NOTICE.md and LICENSE.",
@@ -134,20 +135,20 @@
     },
     {
       "path": "README.md",
-      "bytes": 6038,
-      "sha256": "8fe7bbdbc27b2fca9b127751e886ee9a631d4f3704096f55c64f7ebd22bb3fcc",
+      "bytes": 6193,
+      "sha256": "ecd0a5f4d9171af4d6a31611609b698debb5162265c1f75d4a7c88f4e6e0afd2",
       "component": "generated or integration support"
     },
     {
       "path": "WR2.md",
-      "bytes": 3206,
-      "sha256": "87c994b78e9c75344a40748ffcab2539bc061c8dac9d79b620713ed0937c1eab",
+      "bytes": 3412,
+      "sha256": "f24e2be9c4d1383cbfb8f3202843d26c711a05fd5bdf456a450ccb6037e9a032",
       "component": "generated or integration support"
     },
     {
       "path": "app.js",
-      "bytes": 5592,
-      "sha256": "e332e7b64a71c0fbe6458b7a120c722b8de6a086059f0209cf515e96e6ea4e44",
+      "bytes": 5289,
+      "sha256": "fe2507ef37ce739edf274d3ef46a301bede13ed43ad55fcb385b847e68aebd9f",
       "component": "generated or integration support"
     },
     {
@@ -158,14 +159,14 @@
     },
     {
       "path": "documentation.html",
-      "bytes": 48084,
-      "sha256": "9ae549c2167ff6291729e991ea26c0eb4686dbee08fdbe09479f4b00a9e31d7f",
+      "bytes": 48458,
+      "sha256": "88f5ca2707f22a39ac2ff602a5a0e6edd95d2cb73f6f2988ce0dbe76c182ee51",
       "component": "generated or integration support"
     },
     {
       "path": "index.html",
-      "bytes": 7035,
-      "sha256": "1f04c5b5d0444c5f1eac0a999f79f8ef69150798d4cf8322f9fcde96e7ca5d71",
+      "bytes": 7031,
+      "sha256": "db048caa9da056ed7dedc0806a1f534d68bca93c697d0f06e26df34ef63c7e9a",
       "component": "generated or integration support"
     },
     {
@@ -188,14 +189,14 @@
     },
     {
       "path": "tests/browser.mjs",
-      "bytes": 12624,
-      "sha256": "62266e1d5d945866563de42ff8b3f4f6dda3c1c71348128191a2625bf263eb40",
+      "bytes": 12648,
+      "sha256": "51f3d068c75e117cb93dd96ebaadc1e56b43c6ea26a1d9f1048d200c1462103a",
       "component": "generated or integration support"
     },
     {
       "path": "tests/core.test.mjs",
-      "bytes": 10290,
-      "sha256": "8a23d8f68d55b6e3b856b51249c7b6a65fa09f2fbc0a60a54dca92b83c481e45",
+      "bytes": 10373,
+      "sha256": "e4739abbe780764a169407847b56e5d6f3cdf02a293bb2925b1bf278b5350dc5",
       "component": "generated or integration support"
     },
     {
@@ -212,14 +213,14 @@
     },
     {
       "path": "tools/wr2-source-inventory.py",
-      "bytes": 7412,
-      "sha256": "162fec0027876aaa1573876571e5922a597d24ee7adc5b81dd3a4cf30dc23986",
+      "bytes": 7537,
+      "sha256": "879e7266731052e38bf339b3cbe72fe24e922d0944e8c28b0002acc55bd168c3",
       "component": "generated or integration support"
     },
     {
       "path": "worker-core.js",
-      "bytes": 578,
-      "sha256": "4361dd46c9cd1ee722b6433c26a8b806a5ec31761e71fc1a7d6e27913d556ac4",
+      "bytes": 464,
+      "sha256": "87bf3e2ee4fb69f0342fbd9f546d07e74159c6adc59c3956f8415a578c975327",
       "component": "generated or integration support"
     },
     {

@@ -30,7 +30,7 @@ try {
       assert.equal(await page.locator('#feature-ct2').isChecked(), true);
       assert.equal(await page.locator('#feature-ct2').isDisabled(), true, 'CT2 is mandatory');
       assert.equal(await page.locator('#feature-wr2').isChecked(), false);
-      assert.equal(await page.locator('#feature-wr2').isDisabled(), true, 'WR2 stays release-disabled by default');
+      assert.equal(await page.locator('#feature-wr2').isDisabled(), false, 'WR2 is selectable in the production candidate');
       assert.equal(await page.locator('#download').isDisabled(), true);
       assert.match(await page.title(), /CT2/);
       assert.match(await page.locator('.version').textContent(), /v0\.2\.1-CT2/);
@@ -134,9 +134,9 @@ try {
       assert(network.every(req => req.url.startsWith(url) && req.method === 'GET' && req.body === null));
       let combined = 'not run';
       if (combinedExpected) {
-        await page.goto(url + '?devWr2=1');
+        await page.goto(url);
         await page.waitForFunction(() => !document.querySelector('#choose').disabled);
-        assert.equal(await page.locator('#feature-wr2').isDisabled(), false, 'localhost development flag enables WR2');
+        assert.equal(await page.locator('#feature-wr2').isDisabled(), false, 'WR2 stays selectable without a development flag');
         await page.locator('#feature-wr2').check();
         assert.match(await page.locator('.download-note').textContent(), /TrackerPlus_CT2_WR2\.ptf/);
         const combinedLoaded = network.length;
@@ -152,9 +152,9 @@ try {
         await page.locator('#feature-wr2').uncheck();
         assert.equal(await page.locator('#download').isDisabled(), true, 'selection change invalidates a previous result');
         assert.equal(await page.locator('#hash').isHidden(), true);
-        combined = 'exact local-development output and selection invalidation pass';
+        combined = 'exact production-candidate output and selection invalidation pass';
       }
-      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, combined_dev_output: combined, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 768, 1280], keyboard_focus: 'visible', errors });
+      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, combined_production_candidate_output: combined, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 768, 1280], keyboard_focus: 'visible', errors });
     } finally { await browser.close(); }
   }
   assert(requests.every(req => ['GET', 'HEAD'].includes(req.method) && req.contentLength === '0'));

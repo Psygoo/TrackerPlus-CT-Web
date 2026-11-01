@@ -80,6 +80,9 @@ test('feature output names are CT2-mandatory and WR2-only is rejected', async ()
   const session = new FirmwareSession(async () => new Uint8Array(), () => {});
   assert.throws(() => session.setSelection({ ct2: false, wr2: true }));
   assert.throws(() => session.setSelection({ ct2: true, wr2: true }));
+  const candidateSession = new FirmwareSession(async () => new Uint8Array(), () => {}, { allowWR2: true });
+  candidateSession.setSelection({ ct2: true, wr2: true });
+  assert.deepEqual(candidateSession.selection, { ct2: true, wr2: true });
 });
 test('selection changes cancel and invalidate an in-flight worker job', async () => {
   const { FirmwareSession } = await import('../session.js');
@@ -121,11 +124,10 @@ test('combined engine rejects wrong stock before applying any WR2 operations', a
   await assert.rejects(patchCombinedFirmware(new Uint8Array([1,2,3])), /Unsupported original/);
 });
 
-test('worker dispatch enforces release gate and rejects WR2-only selection', async () => {
+test('worker dispatch supports the CT2+WR2 candidate and rejects WR2-only selection', async () => {
   const { runSelectedFirmware } = await import('../worker-core.js');
-  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: false, wr2: true, devWR2: true } }), /CT2 is required/);
-  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: true, wr2: true } }), /disabled in this release/);
-  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: true, wr2: true, devWR2: true } }), /Unsupported original/);
+  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: false, wr2: true } }), /CT2 is required/);
+  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: true, wr2: true } }), /Unsupported original/);
 });
 
 test('module worker suppresses a cancelled stale reply and reports the current job', async () => {

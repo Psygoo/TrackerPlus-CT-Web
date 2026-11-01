@@ -1,6 +1,6 @@
 # Weighted Random 2 (WR2)
 
-WR2 adds weighted selection for groups of Beat Slice samples. This feature is not enabled in the Web Patcher release yet. The instructions describe the existing S12C implementation; do not install an experimental combined output.
+WR2 adds weighted selection for groups of Beat Slice samples. This local production release candidate keeps CT2 mandatory and checked and makes WR2 optional and unchecked. It generates the verified CT2+WR2 image directly from original firmware 1.2.0. The candidate has not been deployed; the current public site remains CT2-only pending separate publication approval.
 
 ## Groups and playback
 
@@ -24,4 +24,4 @@ CT2 supplies conditional triggers; WR2 supplies weighted slice playback. CT2-onl
 
 Keep an official recovery file and a complete SD/project backup. WR2 sidecar publication is not an atomic transaction over every project file. An interrupted Save can leave the previous group authority unavailable. Recovery is not guaranteed; follow [the recovery guide](RECOVERY.md).
 
-WR2 downloads remain disabled in the public Web Patcher pending source and release review. Local development can exercise the verified combined generator on localhost.
+In this release candidate, select Weighted Random — WR2 before choosing the original firmware to generate the combined image. The public GitHub Pages site remains unchanged until this candidate receives separate publication approval.
