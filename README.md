@@ -34,7 +34,7 @@ CT6 is preserved at [archive/ct6-before-h12](https://github.com/Psygoo/TrackerPl
 
 ## Slice Weighted Random (WR2)
 
-Slice Weighted Random (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. This local production candidate keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or CT2+WR2 output in Chromium and Firefox. The candidate has not been deployed; the current public site remains CT2-only until separate publication approval. WebKit was not tested because required Linux system libraries are unavailable in the development environment. See [WR2 instructions](WR2.md).
+Slice Weighted Random (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. The Web Patcher keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or CT2+WR2 output locally in the browser. Both paths pass exact-output checks in Chromium and Firefox. WebKit was not tested because required Linux system libraries are unavailable in the development environment. See [WR2 instructions](WR2.md).
 
 ## Make firmware locally
 

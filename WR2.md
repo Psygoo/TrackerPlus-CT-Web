@@ -1,6 +1,6 @@
 # Slice Weighted Random (WR2)
 
-WR2 adds weighted selection for groups of Beat Slice samples. Each master-slice trigger makes a weighted probability draw across its group; this is not round-robin playback and does not guarantee a fixed sequence. This local production release candidate keeps CT2 mandatory and checked and makes WR2 optional and unchecked. It generates the verified CT2+WR2 image directly from original firmware 1.2.0. The candidate has not been deployed; the current public site remains CT2-only pending separate publication approval.
+WR2 adds weighted selection for groups of Beat Slice samples. Each master-slice trigger makes a weighted probability draw across its group; this is not round-robin playback and does not guarantee a fixed sequence. The Web Patcher keeps CT2 mandatory and checked and makes WR2 optional and unchecked. With WR2 selected, it generates the verified CT2+WR2 image directly from your original firmware 1.2.0.
 
 ## Groups and playback
 
@@ -24,4 +24,4 @@ CT2 supplies conditional triggers; WR2 supplies weighted slice playback. CT2-onl
 
 Keep an official recovery file and a complete SD/project backup. WR2 sidecar publication is not an atomic transaction over every project file. An interrupted Save can leave the previous group authority unavailable. Recovery is not guaranteed; follow [the recovery guide](RECOVERY.md).
 
-In this release candidate, select Slice Weighted Random (WR2) before choosing the original firmware to generate the combined image. The public GitHub Pages site remains unchanged until this candidate receives separate publication approval.
+In the Web Patcher, leave Slice Weighted Random (WR2) unchecked to generate CT2, or check it to generate CT2+WR2. Then choose your verified original firmware 1.2.0 file. The output name and verification hash match the selected combination.

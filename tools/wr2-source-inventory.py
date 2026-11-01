@@ -32,9 +32,9 @@ INVENTORY = {
         'repository': 'Psygoo/TrackerPlus-CT-Web',
         'branch': 'codex/ct2-wr2-integration',
         'base_commit': TARGET_BASE,
-        'source_commit': 'c476ac5b67baa6b18a6627c6f2850a138eabbbb1',
-        'snapshot_status': 'committed Psygoo source baseline with local production release-candidate changes',
-        'anchor': 'The source baseline is anchored by source_commit; PUBLIC_FILES.json hashes this regenerated candidate inventory.',
+        'source_commit': '5ca2a7790b20de69883ae52df85a8ccafae5926b',
+        'snapshot_status': 'approved public release source snapshot derived from the committed Psygoo baseline',
+        'anchor': 'PUBLIC_FILES.json hashes this inventory; the containing Psygoo repository commit anchors the reviewed release snapshot.',
     },
     'authorship_and_licensing': {
         'conditional_trigs': 'Psygoo originated the Conditional Trigs concept, roadmap and CT6 implementation. Existing external MIT browser/patcher reuse remains attributed in NOTICE.md and LICENSE.',

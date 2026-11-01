@@ -4,9 +4,9 @@
     "repository": "Psygoo/TrackerPlus-CT-Web",
     "branch": "codex/ct2-wr2-integration",
     "base_commit": "ecf53fc0aef676de9557688076ae3e71baa898d9",
-    "source_commit": "c476ac5b67baa6b18a6627c6f2850a138eabbbb1",
-    "snapshot_status": "committed Psygoo source baseline with local production release-candidate changes",
-    "anchor": "The source baseline is anchored by source_commit; PUBLIC_FILES.json hashes this regenerated candidate inventory."
+    "source_commit": "5ca2a7790b20de69883ae52df85a8ccafae5926b",
+    "snapshot_status": "approved public release source snapshot derived from the committed Psygoo baseline",
+    "anchor": "PUBLIC_FILES.json hashes this inventory; the containing Psygoo repository commit anchors the reviewed release snapshot."
   },
   "authorship_and_licensing": {
     "conditional_trigs": "Psygoo originated the Conditional Trigs concept, roadmap and CT6 implementation. Existing external MIT browser/patcher reuse remains attributed in NOTICE.md and LICENSE.",
@@ -135,14 +135,14 @@
     },
     {
       "path": "README.md",
-      "bytes": 6207,
-      "sha256": "4d8e4a89b4bdf4916a6ea388522b3cc848a616f47808359a670c8f49993ca990",
+      "bytes": 6136,
+      "sha256": "3cb96cc09b10bdc873f893df73cef9d84b6874f5efcd4f25c02dd16b463431fb",
       "component": "generated or integration support"
     },
     {
       "path": "WR2.md",
-      "bytes": 3572,
-      "sha256": "937e99a7720e661fe8a270b3e9f32e34a06a8ab4986ac3ea92f8cc9a866af214",
+      "bytes": 3455,
+      "sha256": "d25d88371be58fabcb4c18eb03d5fa039dad04b08f83383a4abf5a52d4f3c701",
       "component": "generated or integration support"
     },
     {
@@ -159,8 +159,8 @@
     },
     {
       "path": "documentation.html",
-      "bytes": 48632,
-      "sha256": "0ff7d59fe5e5db7722b0ae48666aeb45dca1772f892d3b6eb77ac74dca15cea9",
+      "bytes": 48444,
+      "sha256": "626803f84269f5773deffade08b2d306cb41062eca34c69b44730dbae075a52a",
       "component": "generated or integration support"
     },
     {
@@ -219,8 +219,8 @@
     },
     {
       "path": "tools/wr2-source-inventory.py",
-      "bytes": 7550,
-      "sha256": "8ef192c6b838fce5ea5a46a52e4eeb7eec92dab7553c87afbe038c00d99e55fc",
+      "bytes": 7559,
+      "sha256": "f2896a4629563fccedd9e6decf5f2034560bc3728725a4129c6483aba85d973c",
       "component": "generated or integration support"
     },
     {
