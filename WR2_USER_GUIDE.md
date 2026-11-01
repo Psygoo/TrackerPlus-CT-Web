@@ -1,6 +1,4 @@
-# Slice Weighted Random (WR2)
-
-## User Guide — Polyend Tracker+
+# WR2 Details
 
 ## 1. Introduction
 

@@ -4,8 +4,8 @@
     "repository": "Psygoo/TrackerPlus-CT-Web",
     "branch": "codex/ct2-wr2-integration",
     "base_commit": "ecf53fc0aef676de9557688076ae3e71baa898d9",
-    "source_commit": "b88d72ab6d7d668e5db1e0749e9a263380f8b7ee",
-    "snapshot_status": "local S13D integration candidate derived from the recovered committed Psygoo source; not yet committed or deployed",
+    "source_commit": "9f3323bb24953a69d1d43ccb415eadd5bed86b1f",
+    "snapshot_status": "local documentation-structure candidate based on the published S13D source; firmware code and payloads are unchanged",
     "anchor": "PUBLIC_FILES.json hashes this inventory; the containing Psygoo repository commit anchors the reviewed release snapshot."
   },
   "authorship_and_licensing": {
@@ -136,8 +136,8 @@
   "files": [
     {
       "path": "COMPATIBILITY.md",
-      "bytes": 2463,
-      "sha256": "6c8031300599c48f2da09a008a74a47ddcfe120f79b5cacd2cf12211f7cd9fb3",
+      "bytes": 2464,
+      "sha256": "cf60a0f8eab437f28388addb108a410a0cc4fd7fff330b08155cbc066ec88679",
       "component": "generated or integration support"
     },
     {
@@ -154,26 +154,26 @@
     },
     {
       "path": "README.md",
-      "bytes": 7146,
-      "sha256": "af101ddb03bd4055852155a765493da41f68e4eb022f8f3414b6300bbea8f2a0",
+      "bytes": 7278,
+      "sha256": "bf94c1f66a423edd824afcff6e45f7424e6d268b5e5a27b9dc24887e1371ce94",
       "component": "generated or integration support"
     },
     {
       "path": "WR2.md",
-      "bytes": 4058,
-      "sha256": "6c67986b1e87c2d45e5cfbf6c7957751b93de8a5cddd1ec633a6ceba06c9f33b",
+      "bytes": 1428,
+      "sha256": "4eaa1e16679f3343a140ffd5a7692c0804bd840a6e2cceff0e88a2b3b9ff4189",
       "component": "generated or integration support"
     },
     {
       "path": "WR2_QUICK_START.md",
-      "bytes": 2199,
-      "sha256": "e809433e39f536d094de0c2a05871809fdadb6079890ce08e18f58f5b0bde499",
+      "bytes": 1496,
+      "sha256": "a71ce5633ae59076f3be070984de2c340caf4a2633ff525930ab7f1acfc630b3",
       "component": "generated or integration support"
     },
     {
       "path": "WR2_USER_GUIDE.md",
-      "bytes": 5552,
-      "sha256": "9a2550908091958591ec75094c1690486f461a1a23f86faa2ffccafd359241ca",
+      "bytes": 5500,
+      "sha256": "2bed80b719247ad8add2f8d5eeff82a5c9c0b2b03b6a263be74a110aafaca10a",
       "component": "generated or integration support"
     },
     {
@@ -190,14 +190,14 @@
     },
     {
       "path": "documentation.html",
-      "bytes": 65712,
-      "sha256": "151fc083fb90e8c629d90c801460c18df83405e6ccb4e1142f7fb11072f4d183",
+      "bytes": 60869,
+      "sha256": "97dc51650f0de2cd2d99010a8a391f11bc6e2bd1ab2e9bdb2a49ffc2f6c4af7e",
       "component": "generated or integration support"
     },
     {
       "path": "index.html",
-      "bytes": 7861,
-      "sha256": "b0f4f2b35c27e8b7d47fe8f727fbdfbcaf9167304dd412129232e85c94848c9a",
+      "bytes": 7827,
+      "sha256": "285d36172d97a81dd066e7bbb9fce123ddee61c0fbeb06c467e18c39ba334625",
       "component": "generated or integration support"
     },
     {
@@ -210,6 +210,12 @@
       "path": "patcher.js",
       "bytes": 7841,
       "sha256": "5db41e87d9d50f5d31c512a3eec08a4e2e219896f1885d6068f1cce5ee2c8380",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "quick-start.html",
+      "bytes": 3190,
+      "sha256": "ce37a719e38c9b9f4ab0e693a8bbb00cbecc4f6a34e6935681c56e6cfe6a87e0",
       "component": "generated or integration support"
     },
     {
@@ -226,8 +232,8 @@
     },
     {
       "path": "tests/browser.mjs",
-      "bytes": 19321,
-      "sha256": "6d1fb1d004743c15a9650bed323cdd262ddfc54aa239c71a2958010a8c4c3fbf",
+      "bytes": 21703,
+      "sha256": "755efac00c4c5617590600df4f6ea44fa12de4b38187a194ff2e54c94decd554",
       "component": "generated or integration support"
     },
     {
@@ -244,14 +250,14 @@
     },
     {
       "path": "tools/render-docs.py",
-      "bytes": 3419,
-      "sha256": "fe09c7fc46f7b00cfb5dddb177e36e65e8e05abbd7c96f562a12ceaa1d2e2d5d",
+      "bytes": 5599,
+      "sha256": "1942e9768088be7c945f15d05008cc138eb99819990a869c4649be0a47e6bc21",
       "component": "generated or integration support"
     },
     {
       "path": "tools/wr2-source-inventory.py",
-      "bytes": 8687,
-      "sha256": "e061446bc84e7af5a21accfeb4884de6bfe4f18f467fdc418e809e44d5b1a749",
+      "bytes": 8709,
+      "sha256": "b77dc74e314b9abf44e85cfed6944092c1ac3b32feadaed1087059fecdff9b02",
       "component": "generated or integration support"
     },
     {
@@ -693,5 +699,5 @@
       "component": "retained WR01 compatibility extension"
     }
   ],
-  "file_count": 93
+  "file_count": 94
 }

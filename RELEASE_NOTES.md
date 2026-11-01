@@ -50,5 +50,5 @@ and extending that implementation. Original MIT notices and historical
 The Web Patcher's optional WR2 selection generates the exact owner-confirmed,
 hardware-tested S13D image from the user's original official Tracker+ 1.2.0 PTF.
 CT2-only generation remains byte-identical to its existing reference. S12C is
-preserved as the recovery reference. See the [WR2 Quick Start Guide](WR2_QUICK_START.md)
+preserved as the recovery reference. See the [CT2 + WR2 Quick Start](WR2_QUICK_START.md)
 for controls, white pad LED feedback, project saving, and backup guidance.

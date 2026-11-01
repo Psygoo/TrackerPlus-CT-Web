@@ -41,4 +41,4 @@ recoverable. The default website targets CT2; older source snapshots stay availa
 
 ## Weighted Random 2
 
-WR2 is an optional output in the public patcher. The combined output is the owner-confirmed, hardware-tested S13D firmware; stock and CT2-only firmware do not implement WR2 playback. WR2 group and companion sidecars require compatible WR2 firmware; back up the full project and Workspace. See the [WR2 Quick Start Guide](WR2_QUICK_START.md) and [detailed WR2 instructions](WR2.md).
+WR2 is an optional output in the public patcher. The combined output is the owner-confirmed, hardware-tested S13D firmware; stock and CT2-only firmware do not implement WR2 playback. WR2 group and companion sidecars require compatible WR2 firmware; back up the full project and Workspace. Start with the [CT2 + WR2 Quick Start](WR2_QUICK_START.md) or consult the full documentation.

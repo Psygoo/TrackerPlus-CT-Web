@@ -1,24 +1,37 @@
-# WR2 Quick Start Guide
+# CT2 + WR2 Quick Start
 
-## Make a slice group
+## CT2 — Chance
 
-1. Open **Sample Playback**, choose **Beat Slice** mode, then press **MORE** until Page 3 appears.
-2. Select an unassigned slice and press **Trig** to create a group. That slice is the group master.
-3. Select another slice and press **Add** to add it to the group. Repeat for more slices.
-4. To change a member's chance, select it, press **Weight**, and turn the jog encoder. The group weights are adjusted to total 100%.
-5. Press **Trig** again to leave group editing.
-6. To remove a member, select it and press **Remove**. Removing the master deletes the whole group.
+In FX1 or FX2, select **Chance (C)** and turn the jog encoder to choose a percentage or condition.
 
-## Play and see groups
+| Setting | Function |
+|---|---|
+| **0–100** | Playback probability |
+| **1:2–8:8** | Play on pass A of a B-pass cycle |
+| **PR / !PR** | Follow / invert the previous eligible Chance result on the same track |
+| **NE / !NE** | Follow / invert the last conditional-note result on the previous track |
+| **1S / !1S** | First pass only / subsequent passes |
 
-Triggering a group's master makes a weighted random choice among that group's slices. The weights describe chances over repeated triggers; playback is not round-robin and does not promise a fixed order. Triggering a member directly plays that slice.
+## WR2 — Slice Weighted Random
 
-Physical pad LEDs are **white only**. At maximum brightness the group master is brightest; active-group members are medium-high, slices in other groups are medium-low while editing, and unassigned slices are low. Pads without a slice are off. The perceived brightness also depends on the device's global pad-brightness setting.
+1. **Open:** Sample Playback → Beat Slice → MORE → Page 3.
+2. **Create:** Select an unassigned slice → **Trig** (becomes master).
+3. **Add:** Select another unassigned slice → **Add**.
+4. **Weight:** Select a member → **Weight** → jog encoder.
+5. **Finish:** Press **Trig**.
+6. **Edit:** Select a master or member → **Trig**.
+7. **Remove:** Select a member → **Remove**. Removing the master deletes the group.
+8. **Play:** Trigger the master for weighted random playback (not round-robin).
+9. **Save:** Save the project to preserve the groups.
 
-Red/orange markers on the screen's waveform and the white pad LEDs show the same note-to-slice and group relationships in different ways. Red/orange describes the on-screen markers only; physical pad LEDs remain white.
+### Pad LEDs
 
-## Save and protect your work
+| Brightness | Meaning |
+|---|---|
+| **Maximum** | Group master |
+| **Medium-high** | Active group members |
+| **Medium-low** | Other groups |
+| **Low** | Unassigned slices |
+| **Off** | No corresponding slice |
 
-Normal project Save and Save As store group data in `project/wr2_groups.wr2`. Instrument Copy transfers groups when the source has WR2 data. Cross-project Instrument Import can carry groups when the source project has compatible WR2 metadata; without valid metadata, native Import continues without inferred groups. Import Sample into an existing instrument retains its WR2 groups.
-
-Use compatible CT2+WR2 firmware to edit and preserve WR2 data. Stock or CT2-only firmware does not support WR2 playback or group editing. Before updating firmware or moving projects, keep an official recovery file and back up the **entire SD card**, including projects and Workspace. Recovery after a failed save or update is not guaranteed.
+Brightness depends on the global LED brightness setting. Red/orange on-screen markers represent the same slice/group relationships using colours instead of brightness.
