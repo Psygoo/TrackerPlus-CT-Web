@@ -50,7 +50,10 @@
       <fieldset class="features" aria-label="Firmware features">
         <legend>Features</legend>
         <label><input id="feature-ct2" type="checkbox" checked disabled> Conditional Trigs — CT2 <span class="required">required</span></label>
-        <label><input id="feature-wr2" type="checkbox"> Weighted Random — WR2 <span class="required">optional</span></label>
+        <div class="feature-option">
+          <label for="feature-wr2"><input id="feature-wr2" type="checkbox" aria-describedby="wr2-help"> Slice Weighted Random (WR2) <span class="required">optional</span></label>
+          <p id="wr2-help" class="feature-description">In Beat Slice mode, group slices and assign each one a playback probability. Trigger the master slice to randomly play one of the group's slices according to its weight.</p>
+        </div>
       </fieldset>
 
       <div id="drop" class="dropzone" aria-busy="false" aria-describedby="file-help file-warning">

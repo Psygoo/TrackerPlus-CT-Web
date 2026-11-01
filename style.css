@@ -118,3 +118,6 @@ body[data-state="error"] .status-icon { color: #f0a99d; border-color: #b76b60; }
 .features input { accent-color: var(--accent, #d34b3f); }
 .features input:disabled { opacity: .72; }
 .features .required { margin-left: auto; opacity: .68; font-size: .8rem; }
+.features .feature-option { margin: .35rem 0 .55rem; }
+.features .feature-option label { margin: 0; }
+.features .feature-description { margin: .2rem 0 0 1.4rem; max-width: 56rem; color: var(--muted); font-size: .84rem; line-height: 1.45; }

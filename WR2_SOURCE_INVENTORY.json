@@ -135,14 +135,14 @@
     },
     {
       "path": "README.md",
-      "bytes": 6193,
-      "sha256": "ecd0a5f4d9171af4d6a31611609b698debb5162265c1f75d4a7c88f4e6e0afd2",
+      "bytes": 6207,
+      "sha256": "4d8e4a89b4bdf4916a6ea388522b3cc848a616f47808359a670c8f49993ca990",
       "component": "generated or integration support"
     },
     {
       "path": "WR2.md",
-      "bytes": 3412,
-      "sha256": "f24e2be9c4d1383cbfb8f3202843d26c711a05fd5bdf456a450ccb6037e9a032",
+      "bytes": 3572,
+      "sha256": "937e99a7720e661fe8a270b3e9f32e34a06a8ab4986ac3ea92f8cc9a866af214",
       "component": "generated or integration support"
     },
     {
@@ -159,14 +159,14 @@
     },
     {
       "path": "documentation.html",
-      "bytes": 48458,
-      "sha256": "88f5ca2707f22a39ac2ff602a5a0e6edd95d2cb73f6f2988ce0dbe76c182ee51",
+      "bytes": 48632,
+      "sha256": "0ff7d59fe5e5db7722b0ae48666aeb45dca1772f892d3b6eb77ac74dca15cea9",
       "component": "generated or integration support"
     },
     {
       "path": "index.html",
-      "bytes": 7031,
-      "sha256": "db048caa9da056ed7dedc0806a1f534d68bca93c697d0f06e26df34ef63c7e9a",
+      "bytes": 7364,
+      "sha256": "fa70a16d93aa2d06811531faa158920facf5f26dce8895b59c11a8e5c6201686",
       "component": "generated or integration support"
     },
     {
@@ -188,9 +188,15 @@
       "component": "generated or integration support"
     },
     {
+      "path": "style.css",
+      "bytes": 12317,
+      "sha256": "4bedd61fe043e6acc4b4971614d17de258a87e5527844e63d761dd7089d3f845",
+      "component": "generated or integration support"
+    },
+    {
       "path": "tests/browser.mjs",
-      "bytes": 12648,
-      "sha256": "51f3d068c75e117cb93dd96ebaadc1e56b43c6ea26a1d9f1048d200c1462103a",
+      "bytes": 13302,
+      "sha256": "f48338c7c76e395bf765de89c62287c0a21c0c8f4024ed7a35458a8e5f39c2a3",
       "component": "generated or integration support"
     },
     {
@@ -213,8 +219,8 @@
     },
     {
       "path": "tools/wr2-source-inventory.py",
-      "bytes": 7537,
-      "sha256": "879e7266731052e38bf339b3cbe72fe24e922d0944e8c28b0002acc55bd168c3",
+      "bytes": 7550,
+      "sha256": "8ef192c6b838fce5ea5a46a52e4eeb7eec92dab7553c87afbe038c00d99e55fc",
       "component": "generated or integration support"
     },
     {
@@ -626,5 +632,5 @@
       "component": "retained WR01 compatibility extension"
     }
   ],
-  "file_count": 85
+  "file_count": 86
 }

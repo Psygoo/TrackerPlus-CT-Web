@@ -31,6 +31,12 @@ try {
       assert.equal(await page.locator('#feature-ct2').isDisabled(), true, 'CT2 is mandatory');
       assert.equal(await page.locator('#feature-wr2').isChecked(), false);
       assert.equal(await page.locator('#feature-wr2').isDisabled(), false, 'WR2 is selectable in the production candidate');
+      assert.match(await page.locator('label[for=feature-wr2]').textContent(), /Slice Weighted Random \(WR2\)/);
+      const wr2Help = page.locator('#wr2-help');
+      assert.equal(await wr2Help.textContent(), "In Beat Slice mode, group slices and assign each one a playback probability. Trigger the master slice to randomly play one of the group's slices according to its weight.");
+      assert.equal(await wr2Help.evaluate(el => el.closest('label')), null, 'description stays outside the checkbox label');
+      await wr2Help.click();
+      assert.equal(await page.locator('#feature-wr2').isChecked(), false, 'description click does not toggle WR2');
       assert.equal(await page.locator('#download').isDisabled(), true);
       assert.match(await page.title(), /CT2/);
       assert.match(await page.locator('.version').textContent(), /v0\.2\.1-CT2/);

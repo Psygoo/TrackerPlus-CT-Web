@@ -8,7 +8,7 @@ OUT = ROOT / 'WR2_SOURCE_INVENTORY.json'
 PAYLOAD_SOURCE = ROOT / 'wr2/payload-src'
 FILES = [
     'LICENSE', 'NOTICE.md', 'README.md', 'COMPATIBILITY.md', 'WR2.md', 'documentation.html',
-    'index.html', 'app.js', 'worker.js', 'worker-core.js', 'session.js',
+    'index.html', 'style.css', 'app.js', 'worker.js', 'worker-core.js', 'session.js',
     'patcher.js', 'ct2-program.js', 'wr2-patcher.js',
     'tools/export-wr2-payloads.py', 'tools/wr2-source-inventory.py', 'tools/render-docs.py',
     'tests/core.test.mjs', 'tests/browser.mjs', 'package.json',
