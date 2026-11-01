@@ -45,8 +45,16 @@
     </section>
 
     <section class="patch-card" aria-labelledby="patch-title">
-      <div class="card-heading"><h2 id="patch-title">Create your CT2 firmware</h2><span class="version">v0.2.1-CT2</span></div>
-      <p class="intro-copy">Select the supported original firmware file to generate a verified CT2 copy in your browser.</p>
+      <div class="card-heading"><h2 id="patch-title">Create your custom firmware</h2><span class="version">v0.2.1-CT2</span></div>
+      <p class="intro-copy">Select the supported original firmware file to generate a verified CT2 or CT2+WR2 copy in your browser.</p>
+      <fieldset class="features" aria-label="Firmware features">
+        <legend>Features</legend>
+        <label><input id="feature-ct2" type="checkbox" checked disabled> Conditional Trigs — CT2 <span class="required">required</span></label>
+        <div class="feature-option">
+          <label for="feature-wr2"><input id="feature-wr2" type="checkbox" aria-describedby="wr2-help"> Slice Weighted Random (WR2) <span class="required">optional</span></label>
+          <p id="wr2-help" class="feature-description">In Beat Slice mode, group slices and assign each one a playback probability. Trigger the master slice to randomly play one of the group's slices according to its weight.</p>
+        </div>
+      </fieldset>
 
       <div id="drop" class="dropzone" aria-busy="false" aria-describedby="file-help file-warning">
         <h3>Select your original Polyend Tracker+ 1.2.0 firmware file (.ptf)</h3>

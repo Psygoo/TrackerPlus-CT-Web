@@ -32,12 +32,15 @@ H12 did not update PRE after NE/!NE. Its release, source and tag remain
 available for reference/recovery; the default web patcher now targets CT2.
 CT6 is preserved at [archive/ct6-before-h12](https://github.com/Psygoo/TrackerPlus-CT-Web/tree/archive/ct6-before-h12).
 
+## Slice Weighted Random (WR2)
+
+Slice Weighted Random (WR2) is an optional feature for Beat Slice groups, weights, project persistence, Copy and Instrument Import. The Web Patcher keeps CT2 mandatory and checked, with WR2 optional and unchecked, and generates either exact CT2 or CT2+WR2 output locally in the browser. Both paths pass exact-output checks in Chromium and Firefox. WebKit was not tested because required Linux system libraries are unavailable in the development environment. See [WR2 instructions](WR2.md).
+
 ## Make firmware locally
 
 Supply your own unmodified PTF from the [official Tracker+ downloads](https://polyend.com/downloads/tracker-plus-downloads/).
 The patcher runs in browser memory and never uploads firmware. It supplies no
-Polyend firmware and installs nothing. Only an exact verified output enables
-Download, named **TrackerPlus_CT2.ptf**.
+Polyend firmware and installs nothing. Only an exact verified output enables Download. With WR2 unchecked, the output is **TrackerPlus_CT2.ptf**; with WR2 checked, it is **TrackerPlus_CT2_WR2.ptf**.
 
 | File | SHA-256 |
 |---|---|

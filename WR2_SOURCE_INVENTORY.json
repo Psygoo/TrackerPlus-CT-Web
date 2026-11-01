@@ -1,0 +1,636 @@
+{
+  "format": "psygoo-wr2-source-inventory-v1",
+  "target": {
+    "repository": "Psygoo/TrackerPlus-CT-Web",
+    "branch": "codex/ct2-wr2-integration",
+    "base_commit": "ecf53fc0aef676de9557688076ae3e71baa898d9",
+    "source_commit": "5ca2a7790b20de69883ae52df85a8ccafae5926b",
+    "snapshot_status": "approved public release source snapshot derived from the committed Psygoo baseline",
+    "anchor": "PUBLIC_FILES.json hashes this inventory; the containing Psygoo repository commit anchors the reviewed release snapshot."
+  },
+  "authorship_and_licensing": {
+    "conditional_trigs": "Psygoo originated the Conditional Trigs concept, roadmap and CT6 implementation. Existing external MIT browser/patcher reuse remains attributed in NOTICE.md and LICENSE.",
+    "wr2": "Original Psygoo WR2 project work across WR01, Stage 9, S11B, S12A, S12B and S12C, per project-owner attribution. The local Modular-Trackular workspace is a technical-reference/evidence location; its path and untracked state do not establish external authorship.",
+    "generated_payloads": "Compilation output of the inventoried WR2 project sources plus symbol/settings metadata. Not a complete firmware image and contains no copied stock/native bytes.",
+    "redistribution_review": "The repository MIT license is retained. No conflicting license notice or imported third-party source file was found in the inventoried WR2 sources. Polyend reference sources used during research are not included.",
+    "unresolved_files": []
+  },
+  "source_lineage": [
+    {
+      "component": "retained WR01 compatibility extension",
+      "path_prefix": "wr2/payload-src/wr1/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
+      "component": "Stage 9 playback and group-editing UI",
+      "path_prefix": "wr2/payload-src/ui/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
+      "component": "Stage 9 multi-instrument addressing correction",
+      "path_prefix": "wr2/payload-src/address/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
+      "component": "S11B project persistence baseline",
+      "path_prefix": "wr2/payload-src/s11b/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
+      "component": "S12A Instrument Copy and replacement fence",
+      "path_prefix": "wr2/payload-src/s12a/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
+      "component": "S12B companion banks and PCM binding",
+      "path_prefix": "wr2/payload-src/s12b/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
+      "component": "S12C cross-project Instrument Import",
+      "path_prefix": "wr2/payload-src/s12c/",
+      "attribution": "Psygoo WR2 project work"
+    },
+    {
+      "component": "browser generator and build tooling",
+      "paths": [
+        "wr2-patcher.js",
+        "worker-core.js",
+        "tools/export-wr2-payloads.py"
+      ],
+      "attribution": "Psygoo CT2/WR2 Web Patcher integration"
+    }
+  ],
+  "revision_identifiers": {
+    "target_base_commit": "ecf53fc0aef676de9557688076ae3e71baa898d9",
+    "ct2_release_commit": "4d95ba1149b8548efe0379ce7f836faa90c8308c",
+    "reused_ct6_browser_patcher_commit": "dfb5cd4bdfe3f8bd1c68c4c998c2d44365a596ad",
+    "external_reference_workspace_head": "b7cb5ec86e855c922aab699f3deea2fb8e244bc6",
+    "wr2_stage_commits": null,
+    "wr2_stage_commit_note": "Stage directories are local staged project work not tracked by that external workspace commit. Their sources are instead pinned by this inventory and by the S12C acceptance input manifest."
+  },
+  "verified_output_identities": {
+    "stock_input_sha256": "d4616304f33d6d0b56516c658f34fa22517c1dd1630021c1ca89afca7b618ccd",
+    "ct2_encoded_sha256": "baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20",
+    "ct2_decoded_image_sha256": "e7fdba8c3bdbb26f1a9500fabfc556b71c818bad0f027fb0b84e27c5718788be",
+    "ct2_wr2_encoded_sha256": "06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445",
+    "ct2_wr2_decoded_image_sha256": "931acd25fe374c678456e590346447311047678d6d934055cd49d5e1d6df8659"
+  },
+  "reference_evidence": [
+    {
+      "artifact": "Phase 1 direct-stock source recipe",
+      "path": "private phase1 source package/build.py (not exported)",
+      "sha256": "8655898dff03f50a1377f82df0a6bb1d8c6bcc2d4439ffe55b601e9817880b97",
+      "role": "Defines the direct-stock stage composition used by the browser port."
+    },
+    {
+      "artifact": "S12C stage builder",
+      "path": "Modular-Trackular experiment STAGE12C_INSTRUMENT_IMPORT/build.py",
+      "sha256": "353dd66487e33413ced19f04954aaba31920a2461bd318a09747925dfb51ff87",
+      "role": "Pins S12C source input hashes in its acceptance data."
+    },
+    {
+      "artifact": "S12C software acceptance manifest",
+      "path": "Modular-Trackular experiment STAGE12C_INSTRUMENT_IMPORT/results/acceptance.json",
+      "sha256": "a9c60e69e5146e278e9b55366a24e1dd23892224bcc51bcb0984e2199a6a6a29",
+      "role": "38/38 software gates and exact S12C overlay/source-input evidence."
+    },
+    {
+      "artifact": "S12C stage report",
+      "path": "Modular-Trackular experiment STAGE12C_INSTRUMENT_IMPORT/REPORT.md",
+      "sha256": "184f9b0d0a07be9a06a90f150a8b0066f77477ad127655869f052eed2d29a23c",
+      "role": "Describes S12C code lineage, test scope and limits."
+    },
+    {
+      "artifact": "S12D physical acceptance/performance report",
+      "path": "Modular-Trackular experiment STAGE12D_IMPORT_PERFORMANCE_DIAGNOSIS/REPORT.md",
+      "sha256": "8d0fb339322d74f9776d359d43e26d5247644fda37f5db660585cb45fb42bcdc",
+      "role": "Records owner-reported success of all eight S12C physical acceptance scenarios and their evidence limits."
+    },
+    {
+      "artifact": "MIT license comparison",
+      "path": "LICENSE in target and external reference workspace",
+      "sha256": "080a0c2c2f4481f060f9ee3486137d9e7512a78cfbabecb31300cc275b837f97",
+      "role": "The license texts match byte-for-byte; the original notice is preserved."
+    }
+  ],
+  "files": [
+    {
+      "path": "COMPATIBILITY.md",
+      "bytes": 2320,
+      "sha256": "416bc012cd5510d6e59244cbea205e1f1abf3602bac1b3e8ea994565385fc3c9",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1087,
+      "sha256": "080a0c2c2f4481f060f9ee3486137d9e7512a78cfbabecb31300cc275b837f97",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 8273,
+      "sha256": "a6f07666436ce4b828e6de6c61b9c8f3b5bad4c7733e6afcc1c77d9f128b0745",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6136,
+      "sha256": "3cb96cc09b10bdc873f893df73cef9d84b6874f5efcd4f25c02dd16b463431fb",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "WR2.md",
+      "bytes": 3455,
+      "sha256": "d25d88371be58fabcb4c18eb03d5fa039dad04b08f83383a4abf5a52d4f3c701",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "app.js",
+      "bytes": 5232,
+      "sha256": "ce5099d7b8e5c9ff7a955c1e899ebf3149081b1d9a2460924083f63e5b6ca49e",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "ct2-program.js",
+      "bytes": 20560,
+      "sha256": "d49bfea019601e4721a69313346c6eb214e757db1c6a5de580012c33cdfc3bbd",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "documentation.html",
+      "bytes": 48444,
+      "sha256": "626803f84269f5773deffade08b2d306cb41062eca34c69b44730dbae075a52a",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "index.html",
+      "bytes": 7364,
+      "sha256": "fa70a16d93aa2d06811531faa158920facf5f26dce8895b59c11a8e5c6201686",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "package.json",
+      "bytes": 639,
+      "sha256": "21f921bf8eaefc23b15b2c57d80f56d1fd134f0afa0f6caf0e0aea381edf7493",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "patcher.js",
+      "bytes": 7841,
+      "sha256": "5db41e87d9d50f5d31c512a3eec08a4e2e219896f1885d6068f1cce5ee2c8380",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "session.js",
+      "bytes": 3230,
+      "sha256": "10f4dbadcb52924f907a54bf97dc3a6994987f9bc7007ec850aa0f28e0967208",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "style.css",
+      "bytes": 12317,
+      "sha256": "4bedd61fe043e6acc4b4971614d17de258a87e5527844e63d761dd7089d3f845",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "tests/browser.mjs",
+      "bytes": 14330,
+      "sha256": "f4da220fb695946155d9cac6225011ac3709d239c7dc517f19400bb3510a1fcd",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "tests/core.test.mjs",
+      "bytes": 10373,
+      "sha256": "e4739abbe780764a169407847b56e5d6f3cdf02a293bb2925b1bf278b5350dc5",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "tools/export-wr2-payloads.py",
+      "bytes": 3181,
+      "sha256": "3d4c7eb38397ac91add5fd2a16abf8ff616f9967f4ecb7bc11e0cc268dbd399f",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "tools/render-docs.py",
+      "bytes": 3335,
+      "sha256": "ca679bd6b1556d1f0a012c37e84f2a7aec89fdb590cbd68282b418bb74f5a4c5",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "tools/wr2-source-inventory.py",
+      "bytes": 7559,
+      "sha256": "f2896a4629563fccedd9e6decf5f2034560bc3728725a4129c6483aba85d973c",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "worker-core.js",
+      "bytes": 464,
+      "sha256": "87bf3e2ee4fb69f0342fbd9f546d07e74159c6adc59c3956f8415a578c975327",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "worker.js",
+      "bytes": 785,
+      "sha256": "517f59cb4250b58912047ba91530b6d4b798d54bc3b9c369cd0237716e709ccb",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "wr2-patcher.js",
+      "bytes": 5312,
+      "sha256": "1ad61aca530d1617ab213ccc3f556123d49298e17e28dc51dd0781c8af28d4de",
+      "component": "generated or integration support"
+    },
+    {
+      "path": "wr2/generated/payloads.js",
+      "bytes": 86261,
+      "sha256": "8e8bcb9d910b78184044a7a26b491ab608d5c409e50752fd08da64e8342152eb",
+      "component": "generated project payload/guard metadata"
+    },
+    {
+      "path": "wr2/generated/stock-guards.js",
+      "bytes": 4270,
+      "sha256": "73d773655ace7f8c3b740e243ba5252531c90c1fd26fa4c69a513036efed5789",
+      "component": "generated project payload/guard metadata"
+    },
+    {
+      "path": "wr2/payload-src/address/patch.S",
+      "bytes": 756,
+      "sha256": "c7159a7e1c9bc04066b53d03b9bd0f18f0cf9f56d0076d87b073c91cae603e53",
+      "component": "Stage 9 multi-instrument addressing correction"
+    },
+    {
+      "path": "wr2/payload-src/address/patch.ld",
+      "bytes": 258,
+      "sha256": "059019f18d6db8304d9ac6ab429d5750bd781731e49b083eb0e2f706b42d0f5a",
+      "component": "Stage 9 multi-instrument addressing correction"
+    },
+    {
+      "path": "wr2/payload-src/address/playback.c",
+      "bytes": 4477,
+      "sha256": "a685a6bc28e27ef3346ee972652f935c1bb7dbfa8a9dff9d00944d93ebc4c551",
+      "component": "Stage 9 multi-instrument addressing correction"
+    },
+    {
+      "path": "wr2/payload-src/s11b/codec.c",
+      "bytes": 3013,
+      "sha256": "09ef6473188cc4a5943cc1b3a6b0f4b0a557122d73c1f4a03672d71cee6d0ab5",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s11b/hooks.S",
+      "bytes": 530,
+      "sha256": "2b4edab4a80022e69259cb44c5f3d8bb5a042d5f439b03117ad70376111f8b1e",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s11b/memory.c",
+      "bytes": 153,
+      "sha256": "c22f99dd26d1350cbc24e88d210ae441a0c0ab7dc9146419c597d7439a6b0454",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s11b/payload.ld",
+      "bytes": 389,
+      "sha256": "c2aff8fb7ff74c4d952fa58d6302eec9bef6394a9546649686c7fd5505111e03",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s11b/persistence.c",
+      "bytes": 6865,
+      "sha256": "74394e18bd7ffac607156869c97d6cdbde5b04a08b787d2987be9f3b0b071cc4",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s11b/ram.c",
+      "bytes": 2019,
+      "sha256": "219a94c907b0758e84949bc7623cc20ec09f882d39ed9c489ac34b1b229f8f0b",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s11b/settings.json",
+      "bytes": 622,
+      "sha256": "19e438a0aa800ebb3835843f832533c7d4496c308ba641307662585ed22b59ad",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s11b/wr2_project.h",
+      "bytes": 798,
+      "sha256": "427918c94e8edbb061cde433d64cfd024580499aac2c1c504318d0124a8d120b",
+      "component": "S11B project persistence baseline"
+    },
+    {
+      "path": "wr2/payload-src/s12a/codec.c",
+      "bytes": 3013,
+      "sha256": "09ef6473188cc4a5943cc1b3a6b0f4b0a557122d73c1f4a03672d71cee6d0ab5",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/copy.c",
+      "bytes": 8179,
+      "sha256": "a5fc203c52529b8598127572a496e7aa8e816cea2a652225ed619bbbb6b53647",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/hooks.S",
+      "bytes": 929,
+      "sha256": "cf7b6037485467043789deb656bce5d1a6b82a5ef0cf055f7789ba6e3f5ef91b",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/io.c",
+      "bytes": 1365,
+      "sha256": "c441b0463f943d1a719eb750fc761a14c99e72ddfb5a6b99d0df11fd3e83259c",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/memory.c",
+      "bytes": 153,
+      "sha256": "c22f99dd26d1350cbc24e88d210ae441a0c0ab7dc9146419c597d7439a6b0454",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/payload.ld",
+      "bytes": 389,
+      "sha256": "129043aecb63f15f86227401cd12d23e2f2a55595e45cf3f6e21a95c32147a63",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/persistence.c",
+      "bytes": 6186,
+      "sha256": "807f489ac26a83dcf3e731cdaf9c326f4f87bdb98518735b666dfd2a9bd9ff8e",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/ram.c",
+      "bytes": 2762,
+      "sha256": "0056a24b796f55e8699e28ec8cf88613115b223b162fd707960817e50f83b860",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/s12.h",
+      "bytes": 835,
+      "sha256": "1fe694b1696e8fc89a8c8132b0d66d382734991d81a154270f86bbcc43e773e4",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/settings.json",
+      "bytes": 1015,
+      "sha256": "8493c7a3e4a201ad799110952f886b91c95c54fa7cfff0f1a0be4874cf5ab09d",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12a/wr2_project.h",
+      "bytes": 798,
+      "sha256": "427918c94e8edbb061cde433d64cfd024580499aac2c1c504318d0124a8d120b",
+      "component": "S12A Instrument Copy and replacement fence"
+    },
+    {
+      "path": "wr2/payload-src/s12b/codec.c",
+      "bytes": 3013,
+      "sha256": "09ef6473188cc4a5943cc1b3a6b0f4b0a557122d73c1f4a03672d71cee6d0ab5",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/companion.c",
+      "bytes": 11780,
+      "sha256": "95148b95c028a19f1e80a6814f3b2a4f4310603d35390518de957042931d08b8",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/companion.h",
+      "bytes": 1506,
+      "sha256": "0d28784fc7a1aba65178a0d27022c657c4e4577aba06f864823cccd5b54c14b0",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/copy.c",
+      "bytes": 8483,
+      "sha256": "3c1ea4b48cc94953f9177ee243fec2e0477803bc83690d4d2d559e3f48a4e33a",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/hooks.S",
+      "bytes": 1355,
+      "sha256": "a122c0f258ea37f40fc3e1a8063c57917a5927cb6dfc0114530bf79d682ce5ff",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/io.c",
+      "bytes": 1365,
+      "sha256": "c441b0463f943d1a719eb750fc761a14c99e72ddfb5a6b99d0df11fd3e83259c",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/memory.c",
+      "bytes": 284,
+      "sha256": "5192a9a34bb62224be4a8bed9c2a6c6886d6a467064b873831e1c7599b70dbed",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/payload.ld",
+      "bytes": 389,
+      "sha256": "1ca7363c44915897d17ab36e524f5a8339181fa3cab1d4bb65e2f4000813cab6",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/persistence.c",
+      "bytes": 6715,
+      "sha256": "44159c30aab45a53b73b3e628db78136c09e00f70dd16d98f15d947f931dbca5",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/ram.c",
+      "bytes": 2762,
+      "sha256": "0056a24b796f55e8699e28ec8cf88613115b223b162fd707960817e50f83b860",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/s12.h",
+      "bytes": 835,
+      "sha256": "1fe694b1696e8fc89a8c8132b0d66d382734991d81a154270f86bbcc43e773e4",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/settings.json",
+      "bytes": 1050,
+      "sha256": "6c24b115645d88d6a0122389f9ce444f2ae5c77cb64baf294028a1ee5bcc817c",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/sha256.c",
+      "bytes": 3632,
+      "sha256": "2d61e6a860f700b4c8343f05c715a12588495fea60fd1d432f314fe3e5d31931",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/sha256.h",
+      "bytes": 391,
+      "sha256": "efe718a0011ff20d1576501b61d10ebbd70c533538149e38e743d948247bd3c1",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12b/wr2_project.h",
+      "bytes": 798,
+      "sha256": "427918c94e8edbb061cde433d64cfd024580499aac2c1c504318d0124a8d120b",
+      "component": "S12B companion banks and PCM binding"
+    },
+    {
+      "path": "wr2/payload-src/s12c/codec.c",
+      "bytes": 3013,
+      "sha256": "09ef6473188cc4a5943cc1b3a6b0f4b0a557122d73c1f4a03672d71cee6d0ab5",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/companion.c",
+      "bytes": 12091,
+      "sha256": "e2ca67d83f24fdf77372b754c413b8f9616423a5be5579baadac8b773bd591ad",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/companion.h",
+      "bytes": 1506,
+      "sha256": "0d28784fc7a1aba65178a0d27022c657c4e4577aba06f864823cccd5b54c14b0",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/copy.c",
+      "bytes": 8863,
+      "sha256": "67b2752c72016ba293c903c886deb066f200557dae10886da03e1ade768e9d46",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/hooks.S",
+      "bytes": 1863,
+      "sha256": "c1df5e551c3e9e4145ccd8d61eedc29096dfba420e41aac3e0e5806274f672ae",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/import.c",
+      "bytes": 14435,
+      "sha256": "c88d7e9763401a8c7bb410e3520ddb84ce5523a33b94663a57190fd8b0b0e582",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/import.h",
+      "bytes": 757,
+      "sha256": "f3de19a3920ee57f81e9eb188defddf6c60231f6406b52f8e304fca8273a669d",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/io.c",
+      "bytes": 1365,
+      "sha256": "c441b0463f943d1a719eb750fc761a14c99e72ddfb5a6b99d0df11fd3e83259c",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/memory.c",
+      "bytes": 284,
+      "sha256": "5192a9a34bb62224be4a8bed9c2a6c6886d6a467064b873831e1c7599b70dbed",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/payload.ld",
+      "bytes": 389,
+      "sha256": "c8fd0a07db85c479a7ea43eb5daba498d2ad5c662b7978a9ec7e45c598162909",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/persistence.c",
+      "bytes": 6745,
+      "sha256": "f68c850c6f6c0d6078ebd817e6ce9f2d9cef19b856a2f6da8fe2ad520526b9e4",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/ram.c",
+      "bytes": 2762,
+      "sha256": "0056a24b796f55e8699e28ec8cf88613115b223b162fd707960817e50f83b860",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/s12.h",
+      "bytes": 835,
+      "sha256": "1fe694b1696e8fc89a8c8132b0d66d382734991d81a154270f86bbcc43e773e4",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/settings.json",
+      "bytes": 1820,
+      "sha256": "dd592d57a12931a6b81412189d41ad0dea15a552e9fe04ca844799ab4baf3c3c",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/sha256.c",
+      "bytes": 3632,
+      "sha256": "2d61e6a860f700b4c8343f05c715a12588495fea60fd1d432f314fe3e5d31931",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/sha256.h",
+      "bytes": 391,
+      "sha256": "efe718a0011ff20d1576501b61d10ebbd70c533538149e38e743d948247bd3c1",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/s12c/wr2_project.h",
+      "bytes": 798,
+      "sha256": "427918c94e8edbb061cde433d64cfd024580499aac2c1c504318d0124a8d120b",
+      "component": "S12C cross-project Instrument Import"
+    },
+    {
+      "path": "wr2/payload-src/ui/group_add.c",
+      "bytes": 9844,
+      "sha256": "3f3f02605eb295cb392019c9c02b189439f0d6ff9e095ef72d2dd00eb96bbad0",
+      "component": "Stage 9 playback and group-editing UI"
+    },
+    {
+      "path": "wr2/payload-src/ui/link.ld",
+      "bytes": 609,
+      "sha256": "9c15b3d05e32665ac3bfb3f52ac10cb11a19fe6e9cca7591ad5bc6af4500d00e",
+      "component": "Stage 9 playback and group-editing UI"
+    },
+    {
+      "path": "wr2/payload-src/ui/playback.c",
+      "bytes": 4794,
+      "sha256": "ef3e3dcb51b921672c526b59844266b06590ad42612461c160df062ecd1647da",
+      "component": "Stage 9 playback and group-editing UI"
+    },
+    {
+      "path": "wr2/payload-src/ui/playback_gateway.S",
+      "bytes": 549,
+      "sha256": "eb4ece33fceb25e14fe70673825ae268fbfede56c69544e49379732b5f84d890",
+      "component": "Stage 9 playback and group-editing UI"
+    },
+    {
+      "path": "wr2/payload-src/ui/ui_page.S",
+      "bytes": 37407,
+      "sha256": "34e01b145abd109ce103e6c05af0519268d30b9ed56bdfdb74f53ea06bcd072d",
+      "component": "Stage 9 playback and group-editing UI"
+    },
+    {
+      "path": "wr2/payload-src/ui/weight.c",
+      "bytes": 8003,
+      "sha256": "4870a6c94e12ffde0224eedfae2522107bf22f1285f721c8451a4bfa38d7bd2d",
+      "component": "Stage 9 playback and group-editing UI"
+    },
+    {
+      "path": "wr2/payload-src/wr1/gateway.S",
+      "bytes": 525,
+      "sha256": "b2be1e2dce66c8ed6ebe96b471fd629fb62343cd5a45be105c35532b486c5004",
+      "component": "retained WR01 compatibility extension"
+    },
+    {
+      "path": "wr2/payload-src/wr1/link.ld",
+      "bytes": 596,
+      "sha256": "3ccf5d69698bbf1734cc38574c7f43108b61b96c5d0c4127bfd662c212c32c19",
+      "component": "retained WR01 compatibility extension"
+    },
+    {
+      "path": "wr2/payload-src/wr1/weighted_random.c",
+      "bytes": 2410,
+      "sha256": "4720c8a0e130eb7ac3823c7790502ed22fb9855ae0903cf24ef6d7153217e4c5",
+      "component": "retained WR01 compatibility extension"
+    }
+  ],
+  "file_count": 86
+}

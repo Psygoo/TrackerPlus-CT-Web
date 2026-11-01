@@ -1,0 +1,52 @@
+{
+  "CODE": 1612441504,
+  "SOURCES": [
+    "hooks.S",
+    "codec.c",
+    "ram.c",
+    "persistence.c",
+    "memory.c",
+    "copy.c",
+    "io.c"
+  ],
+  "payload_sha256": "8e0a659967a08e69e524e7a48cb78420e2b866b559d96954a0d3cbd773dadd6d",
+  "payload_bytes": 4668,
+  "hooks": [
+    {
+      "address": 1610810270,
+      "symbol": "wr2_boot_hook",
+      "kind": "BL",
+      "target": 1612441504
+    },
+    {
+      "address": 1611310928,
+      "symbol": "wr2_fileop_step",
+      "kind": "BL",
+      "target": 1612443988
+    },
+    {
+      "address": 1611758732,
+      "symbol": "wr2_new_hook",
+      "kind": "B.W",
+      "target": 1612441520
+    },
+    {
+      "address": 1611416952,
+      "symbol": "s12_copier",
+      "kind": "B.W",
+      "target": 1612445580
+    },
+    {
+      "address": 1611261700,
+      "symbol": "s12_close_hook",
+      "kind": "B.W",
+      "target": 1612441560
+    },
+    {
+      "address": 1612220344,
+      "symbol": "anchor",
+      "kind": "heap-origin",
+      "target": 537066600
+    }
+  ]
+}

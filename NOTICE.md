@@ -75,3 +75,16 @@ Reused components:
 The firmware input, generated PTF, original instruction windows, dumps, SD contents and raw local test artifacts are excluded. Hook metadata contains addresses and SHA-256 fingerprints, not the original firmware windows; the patcher obtains those windows from the user's input. Payload source generates our patch code and replays the small displaced instruction sequences required by the hooks; it does not embed stock functions or firmware dumps. The MIT license is not a license to Polyend's firmware. No claim is made here about redistribution rights for generated firmware.
 
 Browser Phase 1 additions port the existing MIT PTF/inline-hook logic and generate a source representation of the original MIT CT6 patch program without reading firmware. The fixed program includes only project patch code and the same small displaced-instruction replays already in the original emitter. All hook originals are still obtained from the user's input. No Polyend firmware license is granted. Playwright and playwright-core are Apache-2.0 development dependencies only; browser runtime assets have no third-party dependency. See [BROWSER.md](BROWSER.md) for the export and verification procedure.
+
+
+## Weighted Random 2 source attribution
+
+Psygoo's WR2 project work is developed across the retained WR01 code, Stage 9 playback/UI and multi-instrument correction, S11B persistence, S12A Copy, S12B companions, and S12C Import. The stage reports and builders identify this project lineage. These stages were stored in a local Modular-Trackular technical-reference workspace; that location and its untracked status do not establish authorship by Modular-Trackular contributors. No evidence in the inspected source/build history identifies the WR2 implementation as externally authored code, so this notice does not assign WR2 authorship to them.
+
+The existing MIT notice and terms for genuinely reused CT2 browser/patcher infrastructure remain preserved in `LICENSE` and the historical provenance above. The generated module under `wr2/generated/` is compiled from the WR2 sources and contains project payloads and symbols; stock guards are hashes only. WR2 calls native firmware services by address, but this repository includes no Polyend firmware, firmware dumps, disassembled native listings, or complete firmware images. Native replay bytes come exclusively from the verified user-supplied original firmware at runtime.
+
+Psygoo's original WR2 project source in this target is distributed under the repository's MIT terms; that does not change the copyright attribution for genuinely reused Modular-Trackular code.
+
+The exact public WR2 source snapshot is hashed in `WR2_SOURCE_INVENTORY.json`; `PUBLIC_FILES.json` hashes that inventory. Once committed, the Psygoo target repository provides the source revision anchor. No tracked Modular-Trackular commit exists for these local staged source directories, and the absence of such a commit is not evidence against Psygoo authorship or redistribution rights.
+
+This WR2 attribution does not transfer authorship of the Conditional Trigs concept, Psygoo's original CT6 implementation, or its roadmap. Those remain Psygoo's, as stated above.

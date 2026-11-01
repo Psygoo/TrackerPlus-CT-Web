@@ -9,7 +9,9 @@
     "test:browser": "node tests/browser.mjs",
     "dev": "node tools/serve.mjs",
     "build:check": "python3 tools/build-program.py --check",
-    "audit": "python3 tools/audit.py"
+    "audit": "python3 tools/audit.py",
+    "wr2:payloads:check": "python3 tools/export-wr2-payloads.py --compiler \"$ARM_GCC_BIN\" --check",
+    "wr2:inventory:check": "python3 tools/wr2-source-inventory.py --check"
   },
   "devDependencies": {
     "playwright": "1.64.1"

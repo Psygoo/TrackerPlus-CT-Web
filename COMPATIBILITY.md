@@ -37,3 +37,8 @@ Returning to stock or CT6 does not preserve CT2 condition meanings. Keep
 separate project copies for each firmware. Preserve CT6 source at repository
 commit `dfb5cd4bdfe3f8bd1c68c4c998c2d44365a596ad`; its original website must remain
 recoverable. The default website targets CT2; older source snapshots stay available.
+
+
+## Weighted Random 2
+
+WR2 is not enabled in the public patcher. Stock and CT2-only firmware do not implement WR2 playback. WR2 group and companion sidecars require compatible WR2 firmware; back up the full project and Workspace. See [WR2 instructions](WR2.md).

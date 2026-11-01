@@ -104,3 +104,20 @@ body[data-state="error"] .status-icon { color: #f0a99d; border-color: #b76b60; }
   .condition-help dl { grid-template-columns: 1fr; gap: 2px; padding: 12px; }.condition-help dd { margin: 0 0 8px; }.condition-help dd:last-child { margin-bottom: 0; }
   .workflow { margin-top: 20px; }.workflow li { font-size: 12px; }.workflow li span { width: 27px; height: 27px; }.workflow::before { top: 13px; }.support { align-items: flex-start; flex-direction: column; gap: 12px; }.warning p,.compatibility p { font-size: 14px; }
 }
+
+.features {
+  margin: 0 0 1rem;
+  padding: .65rem .8rem;
+  border: 1px solid var(--line, #d8d8d8);
+  border-radius: .6rem;
+  color: inherit;
+  font: inherit;
+}
+.features legend { padding: 0 .35rem; font-weight: 650; }
+.features label { display: flex; align-items: center; gap: .55rem; margin: .35rem 0; font-size: .92rem; }
+.features input { accent-color: var(--accent, #d34b3f); }
+.features input:disabled { opacity: .72; }
+.features .required { margin-left: auto; opacity: .68; font-size: .8rem; }
+.features .feature-option { margin: .35rem 0 .55rem; }
+.features .feature-option label { margin: 0; }
+.features .feature-description { margin: .2rem 0 0 1.4rem; max-width: 56rem; color: var(--muted); font-size: .84rem; line-height: 1.45; }
