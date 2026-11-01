@@ -1,7 +1,8 @@
 // MIT. Real browser path; fixtures remain outside the served/public tree.
 import assert from 'node:assert/strict';
-import { readFile, mkdir } from 'node:fs/promises';
-import { pathToFileURL } from 'node:url';
+import { readFile, mkdir, stat } from 'node:fs/promises';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+import { resolve, sep, extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { createServer } from '../tools/serve.mjs';
 import { OUTPUT_SHA256, OUTPUT_NAME } from '../patcher.js';
@@ -10,15 +11,36 @@ const stock = await readFile(process.env.STOCK_PTF), expected = await readFile(p
 const combinedExpected = process.env.CT2_WR2_PTF ? await readFile(process.env.CT2_WR2_PTF) : null;
 const moduleName = process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright';
 const playwright = await import(moduleName);
-const requests = [], server = createServer(req => requests.push(req));
-await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-const url = `http://127.0.0.1:${server.address().port}/TrackerPlus-CT-Web/`;
+const requests = [], virtualHttp = process.env.BROWSER_VIRTUAL_HTTP === '1';
+const server = virtualHttp ? null : createServer(req => requests.push(req));
+if (server) await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+const url = `http://127.0.0.1:${server?.address()?.port ?? 41739}/TrackerPlus-CT-Web/`;
+const projectRoot = fileURLToPath(new URL('../', import.meta.url));
+const contentTypes = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.md': 'text/plain; charset=utf-8' };
+async function routeLocalSite(route) {
+  const request = route.request(), targetUrl = new URL(request.url());
+  if (targetUrl.origin !== new URL(url).origin || !['GET', 'HEAD'].includes(request.method())) {
+    await route.abort(); return;
+  }
+  requests.push({ method: request.method(), url: request.url(), contentLength: request.headers()['content-length'] ?? '0' });
+  let name = decodeURIComponent(targetUrl.pathname).replace(/^\/TrackerPlus-CT-Web\/?/, '');
+  if (!name || name.endsWith('/')) name += 'index.html';
+  const target = resolve(projectRoot, '.' + (name.startsWith('/') ? name : `/${name}`));
+  if (!target.startsWith(projectRoot.endsWith(sep) ? projectRoot : projectRoot + sep)) { await route.fulfill({ status: 404, body: 'Not found' }); return; }
+  try {
+    if (!(await stat(target)).isFile()) throw Error('not a file');
+    const body = await readFile(target);
+    await route.fulfill({ status: 200, contentType: contentTypes[extname(target)] ?? 'text/plain', body: request.method() === 'HEAD' ? undefined : body, headers: { 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' } });
+  } catch { await route.fulfill({ status: 404, body: 'Not found' }); }
+}
 const results = [];
 try {
   for (const engine of (process.env.BROWSER_ENGINES ?? 'chromium,firefox,webkit').split(',')) {
-    const browser = await playwright[engine].launch({ headless: true });
+    const args = engine === 'chromium' && process.env.CHROMIUM_LAUNCH_ARGS ? process.env.CHROMIUM_LAUNCH_ARGS.split(/\s+/).filter(Boolean) : [];
+    const browser = await playwright[engine].launch({ headless: true, args });
     try {
       const context = await browser.newContext({ acceptDownloads: true, serviceWorkers: 'block' });
+      if (virtualHttp) await context.route('**/*', routeLocalSite);
       const network = [], errors = [], consoleErrors = [], violations = [];
       context.on('request', req => network.push({ url: req.url(), method: req.method(), body: req.postData() }));
       const page = await context.newPage();
@@ -35,6 +57,22 @@ try {
       const wr2Help = page.locator('#wr2-help');
       assert.equal(await wr2Help.textContent(), "In Beat Slice mode, group slices and assign each one a playback probability. Trigger the master slice to randomly play one of the group's slices according to its weight.");
       assert.equal(await wr2Help.evaluate(el => el.closest('label')), null, 'description stays outside the checkbox label');
+      assert.equal(await page.locator('.feature-guide').first().textContent(), 'WR2 Quick Start Guide ↗');
+      assert.equal(await page.locator('.feature-guide').first().getAttribute('href'), './documentation.html#wr2-quick-start');
+      assert.equal(await page.locator('.feature-guide').nth(1).textContent(), 'Full WR2 User Guide ↗');
+      assert.equal(await page.locator('.feature-guide').nth(1).getAttribute('href'), './documentation.html#wr2-user-guide');
+      await page.locator('.feature-guide').first().click();
+      assert(page.url().endsWith('/documentation.html#wr2-quick-start'));
+      assert(await page.locator('#wr2-quick-start h2').first().isVisible(), 'guide opens as a readable HTML documentation section');
+      await page.goto(url);
+      await page.locator('.feature-guide').nth(1).click();
+      assert(page.url().endsWith('/documentation.html#wr2-user-guide'));
+      assert.equal(await page.locator('#wr2-user-guide h2').first().textContent(), 'Slice Weighted Random (WR2)');
+      const fullGuide = await page.locator('#wr2-user-guide').innerText();
+      for (const phrase of ['MORE', 'Page 3', 'Trig', 'Add', 'Weight', 'jog encoder', 'Remove', '60%', 'red/orange', 'companion', 'entire SD card', 'maximum brightness', 'medium-high brightness', 'medium-low brightness', 'low brightness', 'pads with no corresponding slice']) assert(fullGuide.toLowerCase().includes(phrase.toLowerCase()), `missing full-guide content: ${phrase}`);
+      assert.equal(await page.locator('#wr2-user-guide table').count(), 1, 'LED brightness guide renders as a readable table');
+      assert.doesNotMatch(fullGuide, /PWM|255|31\s*\/\s*18/);
+      await page.goto(url);
       await wr2Help.click();
       assert.equal(await page.locator('#feature-wr2').isChecked(), false, 'description click does not toggle WR2');
       assert.equal(await page.locator('#download').isDisabled(), true);
@@ -123,6 +161,7 @@ try {
       assert((await page.evaluate(() => window.cspViolations)).includes('connect-src'));
       violations.push('deliberate connect-src probe blocked');
       await context.unroute('**/*');
+      if (virtualHttp) await context.route('**/*', routeLocalSite);
       for (const width of [320, 375, 480, 600, 768, 1280]) {
         await page.setViewportSize({ width, height: 900 });
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `horizontal overflow at ${width}`);
@@ -135,6 +174,10 @@ try {
       }
       await page.goto(url + 'documentation.html');
       assert(await page.locator('#compatibility').count());
+      assert(await page.locator('#wr2-quick-start').count());
+      const quickStart = await page.locator('#wr2-quick-start').innerText();
+      for (const phrase of ['MORE', 'Page 3', 'Trig', 'Add', 'Weight', 'jog encoder', 'Remove', 'weighted random', 'wr2_groups.wr2', 'entire SD card', 'white only', 'red/orange']) assert(quickStart.toLowerCase().includes(phrase.toLowerCase()), `missing quick-start content: ${phrase}`);
+      assert.doesNotMatch(quickStart, /PWM|255|31\s*\/\s*18/);
       assert(await page.locator('#credits').count());
       assert.match(await page.locator('#credits').textContent(), /Psygoo/);
       assert.match(await page.locator('#credits').textContent(), /FatRodzianko/);
@@ -162,11 +205,11 @@ try {
         await page.waitForFunction(() => document.body.dataset.state === 'success', { }, { timeout: 90000 });
         assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2_WR2\.ptf/, 'WR2 filename remains correct after generation');
         assert.equal(network.length, combinedLoaded, 'combined generation made no network requests');
-        assert.equal(await page.locator('#output-hash').textContent(), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
+        assert.equal(await page.locator('#output-hash').textContent(), '0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a');
         const event = page.waitForEvent('download'); await page.locator('#download').click();
         const download = await event; assert.equal(download.suggestedFilename(), 'TrackerPlus_CT2_WR2.ptf');
         const bytes = await readFile(await download.path());
-        assert.equal(createHash('sha256').update(bytes).digest('hex'), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
+        assert.equal(createHash('sha256').update(bytes).digest('hex'), '0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a');
         assert(bytes.equals(combinedExpected));
         await page.locator('#feature-wr2').uncheck();
         assert.match(await page.locator('.download-note').textContent(), /Filename: TrackerPlus_CT2\.ptf/, 'unchecking WR2 immediately restores the CT2 filename');
@@ -179,4 +222,4 @@ try {
   }
   assert(requests.every(req => ['GET', 'HEAD'].includes(req.method) && req.contentLength === '0'));
   console.log(JSON.stringify({ pass: true, output_sha256: OUTPUT_SHA256, server_received_firmware: false, results }, null, 2));
-} finally { await new Promise(resolve => server.close(resolve)); }
+} finally { if (server) await new Promise(resolve => server.close(resolve)); }

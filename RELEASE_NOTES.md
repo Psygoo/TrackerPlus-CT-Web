@@ -44,3 +44,11 @@ Origins and credits: **Psygoo** — original concept, roadmap and CT6.
 and technical infrastructure. **CT2** continues Psygoo's original roadmap using
 and extending that implementation. Original MIT notices and historical
 [NOTICE](NOTICE.md) remain preserved; MIT grants no Polyend firmware rights.
+
+## Optional CT2+WR2 output
+
+The Web Patcher's optional WR2 selection generates the exact owner-confirmed,
+hardware-tested S13D image from the user's original official Tracker+ 1.2.0 PTF.
+CT2-only generation remains byte-identical to its existing reference. S12C is
+preserved as the recovery reference. See the [WR2 Quick Start Guide](WR2_QUICK_START.md)
+for controls, white pad LED feedback, project saving, and backup guidance.

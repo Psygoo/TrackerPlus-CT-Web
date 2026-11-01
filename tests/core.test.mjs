@@ -74,7 +74,7 @@ test('feature output names are CT2-mandatory and WR2-only is rejected', async ()
     name: 'TrackerPlus_CT2.ptf', sha256: OUTPUT_SHA256,
   });
   assert.deepEqual(outputFor({ ct2: true, wr2: true }), {
-    name: 'TrackerPlus_CT2_WR2.ptf', sha256: '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445',
+    name: 'TrackerPlus_CT2_WR2.ptf', sha256: '0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a',
   });
   assert.throws(() => outputFor({ ct2: false, wr2: true }));
   const session = new FirmwareSession(async () => new Uint8Array(), () => {});
@@ -99,7 +99,7 @@ test('selection changes cancel and invalidate an in-flight worker job', async ()
   assert.equal(session.state, 'waiting');
 });
 
-test('direct stock JavaScript engines reproduce exact CT2 and S12C references', { skip: !(process.env.STOCK_PTF && process.env.CT2_PTF && process.env.CT2_WR2_PTF) }, async () => {
+test('direct stock JavaScript engines reproduce exact CT2 and S13D references', { skip: !(process.env.STOCK_PTF && process.env.CT2_PTF && process.env.CT2_WR2_PTF) }, async () => {
   const { patchCombinedFirmware } = await import('../wr2-patcher.js');
   const stock = new Uint8Array(await readFile(process.env.STOCK_PTF));
   const ct2 = new Uint8Array(await readFile(process.env.CT2_PTF));
@@ -111,7 +111,7 @@ test('direct stock JavaScript engines reproduce exact CT2 and S12C references', 
   assert.deepEqual(wr2Output, combined);
   assert.deepEqual(stock, before);
   assert.equal(await sha256(ct2Output), 'baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20');
-  assert.equal(await sha256(wr2Output), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
+  assert.equal(await sha256(wr2Output), '0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a');
   assert.deepEqual(parsePTF(ct2Output).image, parsePTF(ct2).image);
   assert.deepEqual(encodePTF(parsePTF(wr2Output)), wr2Output);
   assert.deepEqual(parsePTF(wr2Output).image, parsePTF(combined).image);
@@ -154,4 +154,11 @@ test('WR2 guards detect a changed complete stock window', async () => {
   const stock = parsePTF(input); const address = 0x600f3f2a;
   stock.image[address-stock.base] ^= 1;
   await assert.rejects(verifyWR2StockGuards(stock), /Stock patch window mismatch at 0x600f3f2a/);
+});
+
+test('S13D overlay sources compile to the reviewed payload identity', async () => {
+  const { default: payloads } = await import('../wr2/generated/payloads.js');
+  assert.equal(payloads.s13d.settings.CODE, 0x601c53d0);
+  assert.equal(payloads.s13d.settings.payload_bytes, 1040);
+  assert.equal(payloads.s13d.sha256, 'd8d599a126862a73c6fbc0e60aad2e6271ca7560432e2758505f733c45e57ac5');
 });

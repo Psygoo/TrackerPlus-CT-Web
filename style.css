@@ -122,3 +122,4 @@ body[data-state="error"] .status-icon { color: #f0a99d; border-color: #b76b60; }
 .features .feature-option { margin: .35rem 0 .55rem; }
 .features .feature-option label { margin: 0; }
 .features .feature-description { margin: .2rem 0 0 1.4rem; max-width: 56rem; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+.features .feature-guide { display: inline-block; margin: .3rem 0 0 1.4rem; font-size: .84rem; text-underline-offset: .18em; }

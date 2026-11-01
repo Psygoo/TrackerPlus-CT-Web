@@ -1,8 +1,9 @@
-// MIT. S12C direct-stock composition from project-owned payloads.
+// MIT. S13D direct-stock composition from project-owned payloads.
 import payloads from './wr2/generated/payloads.js';
 import guards from './wr2/generated/stock-guards.js';
 import { patchFirmware, parsePTF, encodePTF, STOCK_SHA256 } from './patcher.js';
-const EXPECTED='06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445';
+const S12C_RECOVERY='06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445';
+const EXPECTED='0bdc7dfc32f5c98ebf8a3146811a87dc9fbf8a60a324ad9edc1a64cea7609c1a';
 const CT2_HASH='baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20';
 const bytes=h=>Uint8Array.from(h.match(/../g)||[],x=>parseInt(x,16));
 const sha=async b=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',b)),x=>x.toString(16).padStart(2,'0')).join('');
@@ -42,5 +43,10 @@ export async function patchCombinedFirmware(input,onState=()=>{}){
  hook(0x600f3e34,24,'wr2_more_handler');hook(0x60107d60,6,'wr2_group_marker_color');hook(0x60107cb2,4,'wr2_group_marker_selected_palette2');hook(0x60107db6,4,'wr2_group_marker_selected_palette1');hook(0x600f7c54,4,'wr2_refresh_entry');hook(0x600f3f2a,8,'wr2_page3_pad_callback_gate');hook(0x600f8002,4,'wr2_refresh_epilogue');hook(0x600f5124,4,'wr2_after_stock_control_init');put(0x60032b3a,branch(0x60032b3a,sym('ui','wr2_mode5_gateway'),true));
  for(const [at,h] of [[0x601bdb94,'07f1180025b0bde8f08f'],[0x601bdc78,'07f1180200bf'],[0x601bdd0c,'00000000']])put(at,bytes(h));put(0x601bdb3e,bytes(payloads.address.hex));
  for(const name of ['s11b','s12a','s12b','s12c']){const p=payloads[name],cfg=p.settings,code=bytes(p.hex);if(await sha(code)!==cfg.payload_sha256)throw Error(`${name} payload hash mismatch`);const start=base+current.length,aligned=(start+3)&~3;if(aligned!==cfg.CODE)throw Error(`${name} payload address mismatch`);add(start,joined(new Uint8Array(cfg.CODE-start),code));for(const h of cfg.hooks){if(h.kind==='heap-origin'){put(h.address,Uint8Array.of(0x70,0xfc,0x02,0x20));continue;}const op=branch(h.address,p.symbols[h.symbol],h.kind==='BL');put(h.address,op);}}
- const final=encodePTF({...ct2,image:current,records:[...records,...ending]});if(await sha(final)!==EXPECTED){const out=parsePTF(final);const refHash='931acd25fe374c678456e590346447311047678d6d934055cd49d5e1d6df8659';throw Error(`Combined output hash mismatch: ${await sha(final)}; decoded ${await sha(out.image)}; expected decoded ${refHash}`);}return final;
+ const s12c=encodePTF({...ct2,image:current,records:[...records,...ending]});if(await sha(s12c)!==S12C_RECOVERY)throw Error(`S12C recovery image mismatch: ${await sha(s12c)}`);
+ const led=payloads.s13d,cfg=led.settings,code=bytes(led.hex);if(await sha(code)!==cfg.payload_sha256)throw Error('S13D LED payload hash mismatch.');
+ const ledStart=base+current.length,ledAligned=(ledStart+3)&~3;if(ledAligned!==cfg.CODE)throw Error('S13D LED payload address mismatch.');
+ for(const h of cfg.hooks){const off=h.address-base,before=current.slice(off,off+4);if(before.length!==4||Array.from(before,x=>x.toString(16).padStart(2,'0')).join('')!==h.before)throw Error(`S13D hook mismatch at 0x${h.address.toString(16)}.`);const target=led.symbols[h.symbol];if(!target)throw Error(`Missing S13D symbol ${h.symbol}.`);const op=h.kind==='branch'?branch(h.address,target,false):Uint8Array.of((target|1)&255,(target|1)>>>8&255,(target|1)>>>16&255,(target|1)>>>24&255);put(h.address,op);}
+ add(ledStart,joined(new Uint8Array(cfg.CODE-ledStart),code));
+ const final=encodePTF({...ct2,image:current,records:[...records,...ending]});if(await sha(final)!==EXPECTED){const out=parsePTF(final);throw Error(`S13D output mismatch: ${await sha(final)}; decoded ${await sha(out.image)}.`);}return final;
 }

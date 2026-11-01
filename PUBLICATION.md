@@ -30,3 +30,15 @@ CT2 reference/output identity, local Chromium/Firefox checks, firmware checks
 and final owner-reported CT2 hardware validation are complete. After deployment,
 verify the actual public site and generated hash before claiming success.
 Do not alter, withdraw or overwrite the old H12 release.
+
+## S13D integration candidate — review required
+
+The local S13D-based CT2+WR2 candidate has passed exact output, Chromium 156,
+Firefox 157, inventory, rendered documentation and manifest-locked clean export
+checks. It is not yet committed, pushed or deployed to `gh-pages`; final owner
+authorization is pending. Preserve the fast-forward-only workflow and rollback
+references. The fresh local rollback branch
+`backup/gh-pages-pre-s13d-20261101` points to the current live `gh-pages` tip
+`b7eece04375a61c537b0659d8c8cc154167722e5`. Before any deployment, publish and
+verify a remote backup ref to that exact tip. The local report and handoff are
+excluded from `PUBLIC_FILES.json`.

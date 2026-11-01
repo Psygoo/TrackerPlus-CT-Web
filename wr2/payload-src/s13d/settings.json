@@ -1,0 +1,11 @@
+{
+  "SOURCES": ["hooks.S", "leds.c"],
+  "CODE": 1612469200,
+  "payload_bytes": 1040,
+  "payload_sha256": "d8d599a126862a73c6fbc0e60aad2e6271ca7560432e2758505f733c45e57ac5",
+  "hooks": [
+    {"address": 1610842776, "before": "f11b0a60", "symbol": "s13b_pad_set_hook", "kind": "pointer"},
+    {"address": 1610884768, "before": "513e0f60", "symbol": "s13b_cleanup_hook", "kind": "pointer"},
+    {"address": 1612433328, "before": "0448bde8", "symbol": "s13b_refresh_tail", "kind": "branch"}
+  ]
+}
