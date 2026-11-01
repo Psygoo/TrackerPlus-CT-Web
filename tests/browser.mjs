@@ -7,6 +7,7 @@ import { createServer } from '../tools/serve.mjs';
 import { OUTPUT_SHA256, OUTPUT_NAME } from '../patcher.js';
 assert(process.env.STOCK_PTF && process.env.CT2_PTF, 'Set private STOCK_PTF and CT2_PTF fixture paths');
 const stock = await readFile(process.env.STOCK_PTF), expected = await readFile(process.env.CT2_PTF);
+const combinedExpected = process.env.CT2_WR2_PTF ? await readFile(process.env.CT2_WR2_PTF) : null;
 const moduleName = process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright';
 const playwright = await import(moduleName);
 const requests = [], server = createServer(req => requests.push(req));
@@ -26,6 +27,10 @@ try {
       await page.addInitScript(() => { window.cspViolations = []; document.addEventListener('securitypolicyviolation', e => window.cspViolations.push(e.violatedDirective)); });
       await page.goto(url);
       await page.waitForFunction(() => !document.querySelector('#choose').disabled);
+      assert.equal(await page.locator('#feature-ct2').isChecked(), true);
+      assert.equal(await page.locator('#feature-ct2').isDisabled(), true, 'CT2 is mandatory');
+      assert.equal(await page.locator('#feature-wr2').isChecked(), false);
+      assert.equal(await page.locator('#feature-wr2').isDisabled(), true, 'WR2 stays release-disabled by default');
       assert.equal(await page.locator('#download').isDisabled(), true);
       assert.match(await page.title(), /CT2/);
       assert.match(await page.locator('.version').textContent(), /v0\.2\.1-CT2/);
@@ -127,7 +132,29 @@ try {
       assert.deepEqual(errors, []);
       assert(consoleErrors.every(s => /connect-src|Content Security Policy|Content-Security-Policy|NetworkError|Load failed|Fetch API|Failed to fetch/i.test(s)), consoleErrors.join('\n'));
       assert(network.every(req => req.url.startsWith(url) && req.method === 'GET' && req.body === null));
-      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 768, 1280], keyboard_focus: 'visible', errors });
+      let combined = 'not run';
+      if (combinedExpected) {
+        await page.goto(url + '?devWr2=1');
+        await page.waitForFunction(() => !document.querySelector('#choose').disabled);
+        assert.equal(await page.locator('#feature-wr2').isDisabled(), false, 'localhost development flag enables WR2');
+        await page.locator('#feature-wr2').check();
+        assert.match(await page.locator('.download-note').textContent(), /TrackerPlus_CT2_WR2\.ptf/);
+        const combinedLoaded = network.length;
+        await page.locator('#firmware').setInputFiles({ name: 'TrackerPlus_1.2.0.ptf', mimeType: 'application/octet-stream', buffer: stock });
+        await page.waitForFunction(() => document.body.dataset.state === 'success', { }, { timeout: 90000 });
+        assert.equal(network.length, combinedLoaded, 'combined generation made no network requests');
+        assert.equal(await page.locator('#output-hash').textContent(), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
+        const event = page.waitForEvent('download'); await page.locator('#download').click();
+        const download = await event; assert.equal(download.suggestedFilename(), 'TrackerPlus_CT2_WR2.ptf');
+        const bytes = await readFile(await download.path());
+        assert.equal(createHash('sha256').update(bytes).digest('hex'), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
+        assert(bytes.equals(combinedExpected));
+        await page.locator('#feature-wr2').uncheck();
+        assert.equal(await page.locator('#download').isDisabled(), true, 'selection change invalidates a previous result');
+        assert.equal(await page.locator('#hash').isHidden(), true);
+        combined = 'exact local-development output and selection invalidation pass';
+      }
+      results.push({ engine, version: browser.version(), exact_ptf: true, repeated_downloads: 2, combined_dev_output: combined, processing_network_requests: 0, csp_upload_blocked: true, invalid_input_and_stale_output: 'pass', widths: [320, 375, 768, 1280], keyboard_focus: 'visible', errors });
     } finally { await browser.close(); }
   }
   assert(requests.every(req => ['GET', 'HEAD'].includes(req.method) && req.contentLength === '0'));

@@ -1,0 +1,32 @@
+{
+  "CODE": 1612438896,
+  "SOURCES": [
+    "hooks.S",
+    "codec.c",
+    "ram.c",
+    "persistence.c",
+    "memory.c"
+  ],
+  "payload_sha256": "cd463ee2a2e891ad2c9e32ac18e55e9a2406bd0c3f71695104188640f1eb7c6c",
+  "payload_bytes": 2606,
+  "hooks": [
+    {
+      "address": 1610810270,
+      "symbol": "wr2_boot_hook",
+      "kind": "BL",
+      "target": 1612438896
+    },
+    {
+      "address": 1611310928,
+      "symbol": "wr2_fileop_step",
+      "kind": "BL",
+      "target": 1612441286
+    },
+    {
+      "address": 1611758732,
+      "symbol": "wr2_new_hook",
+      "kind": "B.W",
+      "target": 1612438912
+    }
+  ]
+}

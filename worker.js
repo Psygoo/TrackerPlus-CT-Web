@@ -1,11 +1,17 @@
-// MIT. All imports finish before ready; firmware processing requires no requests.
-import { patchFirmware } from './patcher.js';
+// MIT. Each request is tagged so superseded jobs cannot publish a result.
+import { runSelectedFirmware } from './worker-core.js';
+let current = 0;
 self.onmessage = async ({ data }) => {
+  if (data?.type === 'cancel') { current = Math.max(current, data.jobId); return; }
+  const { jobId, selection, input } = data || {};
+  current = jobId;
   try {
-    const output = await patchFirmware(data, state => self.postMessage({ state }));
-    self.postMessage({ output }, [output.buffer]);
+    const output = await runSelectedFirmware({ input, selection, onState: state => {
+      if (jobId === current) self.postMessage({ jobId, state });
+    }});
+    if (jobId === current) self.postMessage({ jobId, output }, [output.buffer]);
   } catch (error) {
-    self.postMessage({ error: error instanceof Error ? error.message : 'Firmware processing failed.' });
+    if (jobId === current) self.postMessage({ jobId, error: error instanceof Error ? error.message : 'Firmware processing failed.' });
   }
 };
 self.postMessage({ ready: true });

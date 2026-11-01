@@ -62,8 +62,94 @@ test('private stock → patcher → exact CT2 reference from hardware-tested H13
   // Selection snapshot: caller mutation after invocation must not change the job.
   const mutable = stock.slice(), pending = patchFirmware(mutable); mutable.fill(0);
   assert.deepEqual(await pending, reference);
-  const session = new FirmwareSession(patchFirmware, () => {});
+  const session = new FirmwareSession((input, selection, job, state) => patchFirmware(input, state), () => {});
   const file = bytes => ({ name: 'input.ptf', size: bytes.length, arrayBuffer: async () => bytes.slice().buffer });
   await session.select([file(stock)]); assert.equal(session.state, 'success'); assert.deepEqual(session.output, reference);
   await session.select([file(damaged)]); assert.equal(session.state, 'error'); assert.equal(session.output, null);
+});
+
+test('feature output names are CT2-mandatory and WR2-only is rejected', async () => {
+  const { outputFor, FirmwareSession } = await import('../session.js');
+  assert.deepEqual(outputFor({ ct2: true, wr2: false }), {
+    name: 'TrackerPlus_CT2.ptf', sha256: OUTPUT_SHA256,
+  });
+  assert.deepEqual(outputFor({ ct2: true, wr2: true }), {
+    name: 'TrackerPlus_CT2_WR2.ptf', sha256: '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445',
+  });
+  assert.throws(() => outputFor({ ct2: false, wr2: true }));
+  const session = new FirmwareSession(async () => new Uint8Array(), () => {});
+  assert.throws(() => session.setSelection({ ct2: false, wr2: true }));
+  assert.throws(() => session.setSelection({ ct2: true, wr2: true }));
+});
+test('selection changes cancel and invalidate an in-flight worker job', async () => {
+  const { FirmwareSession } = await import('../session.js');
+  let resolve, cancelled = 0, updates = [];
+  const session = new FirmwareSession((input, selection, job, state, registerCancel) => new Promise(r => {
+    resolve = r; registerCancel(() => { cancelled++; });
+  }), state => updates.push(state));
+  const file = { name: 'stock.ptf', size: 1, arrayBuffer: async () => new ArrayBuffer(1) };
+  const running = session.select([file]);
+  await new Promise(r => setImmediate(r));
+  session.setSelection({ ct2: true, wr2: false });
+  resolve(new Uint8Array([1])); await running;
+  assert.equal(cancelled, 1); assert.equal(session.output, null); assert.equal(session.busy, false);
+  assert.equal(session.state, 'waiting');
+});
+
+test('direct stock JavaScript engines reproduce exact CT2 and S12C references', { skip: !(process.env.STOCK_PTF && process.env.CT2_PTF && process.env.CT2_WR2_PTF) }, async () => {
+  const { patchCombinedFirmware } = await import('../wr2-patcher.js');
+  const stock = new Uint8Array(await readFile(process.env.STOCK_PTF));
+  const ct2 = new Uint8Array(await readFile(process.env.CT2_PTF));
+  const combined = new Uint8Array(await readFile(process.env.CT2_WR2_PTF));
+  const before = stock.slice();
+  const ct2Output = await patchFirmware(stock);
+  const wr2Output = await patchCombinedFirmware(stock);
+  assert.deepEqual(ct2Output, ct2);
+  assert.deepEqual(wr2Output, combined);
+  assert.deepEqual(stock, before);
+  assert.equal(await sha256(ct2Output), 'baa93d46208c0f6ab2ca0c7507fb3c430703a3ceada582a780779844a0d03b20');
+  assert.equal(await sha256(wr2Output), '06adca54ff28ae704e92c4464a975f3c0e34f16d67a177db53157895be199445');
+  assert.deepEqual(parsePTF(ct2Output).image, parsePTF(ct2).image);
+  assert.deepEqual(encodePTF(parsePTF(wr2Output)), wr2Output);
+  assert.deepEqual(parsePTF(wr2Output).image, parsePTF(combined).image);
+  const { runSelectedFirmware } = await import('../worker-core.js');
+  assert.deepEqual(await runSelectedFirmware({ input: stock, selection: { ct2: true, wr2: false } }), ct2);
+  assert.deepEqual(await runSelectedFirmware({ input: stock, selection: { ct2: true, wr2: true, devWR2: true } }), combined);
+});
+test('combined engine rejects wrong stock before applying any WR2 operations', async () => {
+  const { patchCombinedFirmware } = await import('../wr2-patcher.js');
+  await assert.rejects(patchCombinedFirmware(new Uint8Array([1,2,3])), /Unsupported original/);
+});
+
+test('worker dispatch enforces release gate and rejects WR2-only selection', async () => {
+  const { runSelectedFirmware } = await import('../worker-core.js');
+  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: false, wr2: true, devWR2: true } }), /CT2 is required/);
+  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: true, wr2: true } }), /disabled in this release/);
+  await assert.rejects(runSelectedFirmware({ input: new Uint8Array(), selection: { ct2: true, wr2: true, devWR2: true } }), /Unsupported original/);
+});
+
+test('module worker suppresses a cancelled stale reply and reports the current job', async () => {
+  const messages = [];
+  globalThis.self = { postMessage: message => messages.push(message) };
+  await import(`../worker.js?worker-message-test=${Date.now()}`);
+  const handler = globalThis.self.onmessage;
+  assert.deepEqual(messages.shift(), { ready: true });
+  const stale = handler({ data: { jobId: 10, selection: { ct2: true, wr2: false }, input: new Uint8Array([1]) } });
+  await handler({ data: { type: 'cancel', jobId: 11 } });
+  await stale;
+  assert(messages.some(message => message.jobId === 10 && message.state === 'validating'));
+  assert.equal(messages.some(message => message.jobId === 10 && (message.output || message.error)), false);
+  await handler({ data: { jobId: 12, selection: { ct2: true, wr2: false }, input: new Uint8Array([1]) } });
+  assert(messages.some(message => message.jobId === 12 && /Unsupported firmware/.test(message.error ?? '')));
+  delete globalThis.self;
+});
+
+test('WR2 guards detect a changed complete stock window', async () => {
+  const { verifyWR2StockGuards } = await import('../wr2-patcher.js');
+  const { parsePTF } = await import('../patcher.js');
+  if (!process.env.STOCK_PTF) return;
+  const input = new Uint8Array(await readFile(process.env.STOCK_PTF));
+  const stock = parsePTF(input); const address = 0x600f3f2a;
+  stock.image[address-stock.base] ^= 1;
+  await assert.rejects(verifyWR2StockGuards(stock), /Stock patch window mismatch at 0x600f3f2a/);
 });

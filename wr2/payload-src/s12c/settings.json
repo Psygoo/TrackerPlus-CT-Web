@@ -1,0 +1,91 @@
+{
+  "CODE": 1612455496,
+  "SOURCES": [
+    "hooks.S",
+    "codec.c",
+    "ram.c",
+    "persistence.c",
+    "memory.c",
+    "copy.c",
+    "io.c",
+    "companion.c",
+    "sha256.c",
+    "import.c"
+  ],
+  "payload_sha256": "5f571613f4c769b7a3a93e084612d479381749b2471138593d8a380c94a45f9e",
+  "payload_bytes": 13702,
+  "hooks": [
+    {
+      "address": 1610810270,
+      "symbol": "wr2_boot_hook",
+      "kind": "BL",
+      "target": 1612455496
+    },
+    {
+      "address": 1611310928,
+      "symbol": "wr2_fileop_step",
+      "kind": "BL",
+      "target": 1612458204
+    },
+    {
+      "address": 1611758732,
+      "symbol": "wr2_new_hook",
+      "kind": "B.W",
+      "target": 1612455512
+    },
+    {
+      "address": 1611416952,
+      "symbol": "s12_copier",
+      "kind": "B.W",
+      "target": 1612459976
+    },
+    {
+      "address": 1611261700,
+      "symbol": "s12_close_hook",
+      "kind": "B.W",
+      "target": 1612455552
+    },
+    {
+      "address": 1611417156,
+      "symbol": "s12b_tap_hook",
+      "kind": "B.W",
+      "target": 1612455558
+    },
+    {
+      "address": 1611750306,
+      "symbol": "s12c_header_hook",
+      "kind": "BL",
+      "target": 1612455596
+    },
+    {
+      "address": 1611751096,
+      "symbol": "s12c_import_pcm",
+      "kind": "BL",
+      "target": 1612467348
+    },
+    {
+      "address": 1611749198,
+      "symbol": "s12c_pcm_read",
+      "kind": "BL",
+      "target": 1612467212
+    },
+    {
+      "address": 1611751022,
+      "symbol": "s12c_workspace_header",
+      "kind": "BL",
+      "target": 1612468156
+    },
+    {
+      "address": 1611751036,
+      "symbol": "s12c_workspace_write",
+      "kind": "BL",
+      "target": 1612468452
+    },
+    {
+      "address": 1611412686,
+      "symbol": "s12c_pcm_write",
+      "kind": "BL",
+      "target": 1612468268
+    }
+  ]
+}
